@@ -1,0 +1,25 @@
+---
+title: "Project Notebook"
+output: html_notebook
+---
+
+
+An important part of your project is your R Markdown process notebook. Your notebook details all your steps in developing your solution, including how you collected the data, alternative solutions you tried, describing machine learning algorithms/techniques you used, and the insights you got. It is strongly recommended to include many visualizations. Your process notebook should include the following topics:
+
+Overview and motivation: overview of the project goals and the motivation for it
+Related work: anything related, such as a paper, a website, a newspaper article or something else
+Initial questions:
+What questions are you trying to answer?
+How did these questions evolve over the course of the project?
+What new questions did you consider in the course of your analysis?
+Data: source, scraping method, cleanup, storage, etc.
+Exploratory data analysis:
+What visualizations did you use to look at your data in different ways?
+What are the different machine learning methods you considered?
+Justify the decisions you made, and show any major changes to your ideas.
+How did you reach these conclusions?
+Final analysis:
+What did you learn about the data?
+How did you answer the questions?
+How can you justify your answers?
+Make sure that your process notebook is a standalone document that fully describes your process and results

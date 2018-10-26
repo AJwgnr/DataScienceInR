@@ -1,0 +1,38 @@
+---
+title: "Data Science in R: Project Proposal"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+
+
+## Project title
+
+
+
+## Team
+Alexander Wagner
+Johannes Dammbacher
+
+## Background and motivation
+
+
+
+## Project objectives
+
+
+## Dataset
+Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
+
+
+## Design overview (algorithms and methods you plan to use)
+
+
+## Project Plan (Time plan including distribution of responsibilites and workload among team members written as weekly deadlines)
+
+
