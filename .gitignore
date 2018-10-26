@@ -1,6 +1,10 @@
 
 /res
 
+# Generated Markdown files
+*.html
+*.pdf
+
 # History files
 .Rhistory
 .Rapp.history

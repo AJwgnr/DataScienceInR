@@ -15,8 +15,6 @@ View(minecraft_pos_log_VP41_Tag1)
 #Preprocessing
 #TODO: Filter values or do NaN Processing
 
-
-
 #Data summary
 summary(minecraft_all_subjects)
 describe(minecraft_all_subjects)
