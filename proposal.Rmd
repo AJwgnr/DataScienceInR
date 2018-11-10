@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## Project title
-
+Analysis of trajectory data with relation to short and long term memory experiments.
 
 
 ## Team
@@ -36,6 +36,8 @@ Möglich Probleme:
 * Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, etc. ab)
 
 
+* Interaktivität der Anwendung?
+
 
 
 
@@ -43,9 +45,32 @@ Möglich Probleme:
 Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
 
 
+
+
 ## Design overview (algorithms and methods you plan to use)
+* Trajectory Analysis
+* Clustering algorithm
+
+* Fourier Analyse 
+
+Visualisierung
+* 3D Scatter Plot
+* Regression Models
+
 
 
 ## Project Plan (Time plan including distribution of responsibilites and workload among team members written as weekly deadlines)
 
+|       Week      |        Task        | Substasks | Responsible |
+|:---------------:|:------------------:|-----------|:-----------:|
+| 19.11. - 25.11. |                    |           |             |
+| 26.11. - 02.12. |                    |           |             |
+| 03.12. - 09.12. |                    |           |             |
+| 10.12. - 16.12. |                    |           |             |
+| 17.12. - 23.12. |                    |           |             |
+| 24.12. - 30.12. |                    |           |             |
+| 31.12. - 06.01. |                    |           |             |
+| 07.01. - 13.01. |                    |           |             |
+|                 | Submission         |           |             |
+| 25.01.          | Final Presentation |           |             |
 
