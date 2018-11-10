@@ -24,6 +24,19 @@ Johannes Dammbacher
 
 
 ## Project objectives
+* Prediktion des ADHS Typs auf Basis der Trajektorie
+* Einfluss des Neugierverhalten auf die Erkundung der Welt
+* Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
+* 
+
+
+Möglich Probleme:
+* Lediglich ~50 Instanzen (Personen) -> Aussagekraft der Ergebnisse
+* Wie kann man unterschiedliche Trajektorien miteinander vergleichen (Unterschiedliche Länge, Räume)
+* Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, etc. ab)
+
+
+
 
 
 ## Dataset
