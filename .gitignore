@@ -1,5 +1,8 @@
-
-/res
+# exclude dirs 
+literatur/*
+!res/
+res/*
+!res/person_data/Minecraft-Variables.txt
 
 # Generated Markdown files
 *.html
