@@ -2,7 +2,7 @@
 literatur/*
 !res/
 res/*
-!res/person_data/Minecraft-Variables.txt
+!res/person_data/
 
 # Generated Markdown files
 *.html
