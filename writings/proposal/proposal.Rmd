@@ -1,0 +1,129 @@
+---
+title: "Data Science in R: Project Proposal"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Project title
+Analysis of trajectory data with relation to short and long term memory experiments. (Passt das so?)
+
+# Team
+The team consists of two master students, namely:
+
+1. Johannes Dammbacher
+2. Alexander Wagner (217884)
+
+# Repository 
+Github Repository: (Nachfragen ob Github oder auch Gitlab)
+
+# Background and motivation/ Dataset (Beschreibung des Versuches und wie die Daten aufgenommen wurden)
+* Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
+* ggf. 3D Scatter plot
+
+![optional caption text](images/minecraft_world1.png)
+![optional caption text](images/process.png)
+
+
+Test person information:
+
+|         Attribute         | Meaning |
+|:-------------------------:|---------|
+| CFT                       |         |
+| ADHD_Subtype              |         |
+| Age                       |         |
+| Sex                       |         |
+| Group                     |         |
+| Novelty                   |         |
+| TP_DirectRecall           |         |
+| FP_DirectRecall           |         |
+| TP_DelayedRecall          |         |
+| FP_DelayedRecall          |         |
+| Diff_Recall               |         |
+| firstVR                   |         |
+| VL_Change                 |         |
+| Differences_PartialNew    |         |
+| Room_Change               |         |
+| Gaming_Experience         |         |
+| Minecraft_Familiarity     |         |
+| Minecraft_Experience      |         |
+| VLMT_Dg1_5                |         |
+| VLMT_Dg7                  |         |
+| VLMT_Dg5minusDg7          |         |
+| VLMT_W_F                  |         |
+| NV_total_Combined_SBB_FBB |         |
+| NV_ExErr_Combined_SBB_FBB |         |
+| NV_Imp_Combined_SBB_FBB   |         |
+| NV_total_Raw_SBB          |         |
+| NV_ExplErr_Raw_SBB        |         |
+| NV_Impulsivität_Raw_SBB   |         |
+| VE_Day2                   |         |
+| Exclusion_Position_Data   |         |
+
+
+Movement Data:
+
+| Attribute | Meaning |
+|-----------|---------|
+| time      |         |
+| x         |         |
+| z         |         |
+| y         |         |
+
+
+
+
+# Objectives (Hier sollten wir auf unsere Ziele eingehen und vielleicht auch schon mal Ideen aufschreiben, was wir erwarten, damit wir am Ende vergleichen können, ob unsere Erwartungen erfüllt wurden )
+* Prediktion des ADHS Typs auf Basis der Trajektorie
+* Einfluss des Neugierverhalten auf die Erkundung der Welt
+* Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
+* 
+
+
+# Possible problems (Ich würde hier auch schon mal auf mögliche Probleme eingehen, damit wir das später im Zweifel sagen können :P)
+* Lediglich ~50 Instanzen (Personen) -> Aussagekraft der Ergebnisse
+* Wie kann man unterschiedliche Trajektorien miteinander vergleichen (Unterschiedliche Länge, Räume)
+* Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, etc. ab)
+* Interaktivität der Anwendung?
+
+
+
+
+# Design overview (algorithms and methods you plan to use)
+* Extract features from the trajectory data (Which features can be used?):
+  + time spent per room (determine longest and shortest stay per room and scale them from 0 to 1)
+  + time spent inside or outside
+  + overall time spent in the world
+
+
+* Trajectory Analysis
+* Clustering algorithm
+
+* Fourier Analyse 
+
+Visualization:
+* 3D Scatter Plot
+* Regression Models
+
+
+
+# Project plan (Ich denke es wäre gut, wenn wir hier schon möglichst genau sind)
+
+|       Week      |        Task        | Substasks | Responsible |
+|:---------------:|:------------------:|-----------|:-----------:|
+| 19.11. - 25.11. |                    |           |             |
+|                 |                    |           |             |
+| 26.11. - 02.12. |                    |           |             |
+| 03.12. - 09.12. |                    |           |             |
+| 10.12. - 16.12. |                    |           |             |
+| 17.12. - 23.12. |                    |           |             |
+| 24.12. - 30.12. |                    |           |             |
+| 31.12. - 06.01. |                    |           |             |
+| 07.01. - 13.01. |                    |           |             |
+|                 | Submission         |           |             |
+| 25.01.          | Final Presentation |           |             |
+
