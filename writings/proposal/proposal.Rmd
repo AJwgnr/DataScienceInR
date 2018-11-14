@@ -56,38 +56,38 @@ The dataset of the test persons contains variables such as sex, age and others a
 
 Test person information:
 
-|         Attribute         | Meaning |
-|:-------------------------:|---------|
-| CFT                       |         |
-| ADHD_Subtype              |         |
-| Age                       |         |
-| Sex                       |         |
-| Group                     |         |
-| Novelty                   |         |
-| TP_DirectRecall           |         |
-| FP_DirectRecall           |         |
-| TP_DelayedRecall          |         |
-| FP_DelayedRecall          |         |
-| Diff_Recall               |         |
-| firstVR                   |         |
-| VL_Change                 |         |
-| Differences_PartialNew    |         |
-| Room_Change               |         |
-| Gaming_Experience         |         |
-| Minecraft_Familiarity     |         |
-| Minecraft_Experience      |         |
-| VLMT_Dg1_5                |         |
-| VLMT_Dg7                  |         |
-| VLMT_Dg5minusDg7          |         |
-| VLMT_W_F                  |         |
-| NV_total_Combined_SBB_FBB |         |
-| NV_ExErr_Combined_SBB_FBB |         |
-| NV_Imp_Combined_SBB_FBB   |         |
-| NV_total_Raw_SBB          |         |
-| NV_ExplErr_Raw_SBB        |         |
-| NV_Impulsivität_Raw_SBB   |         |
-| VE_Day2                   |         |
-| Exclusion_Position_Data   |         |
+|         Attribute         |  Range  | Meaning |
+|:-------------------------:|---------|---------|
+| CFT                       |int +        |Intelligence Score         |
+| ADHD_Subtype              |[0;3]        |0: Control group,1-3 ADHD type        |
+| Age                       |int +         |Age in years         |
+| Sex                       |[1;2]         |         |
+| Group                     |[1;2]         |Control,ADHD group         |
+| Novelty                   |[0;3]         |Faimiliar/totally novel/partial novel     |
+| TP_DirectRecall           |[0;20]         |Words correctly recalled after learning          |
+| FP_DirectRecall           |[0;20]         |Words falsy recalled after learning         |
+| TP_DelayedRecall          |[0;20]         |Words correctly recalled after delay         |
+| FP_DelayedRecall          |[0;20]         |Words falsly recalled after delay         |
+| Diff_Recall               |[-20;0]        |Words forgotten over time         |
+| firstVR                   |[0;3]         |Virtual World ID for day one         |
+| VL_Change                 |[0;1]         |         |
+| Differences_PartialNew    |int +         |Detected changes in VL1.1         |
+| Room_Change               |[0;1]         |Change of experiment room         |
+| Gaming_Experience         |[0;3]         |Familarity with computer games         |
+| Minecraft_Familiarity     |[0;1]         | (almost 0 variance)         |
+| Minecraft_Experience      |[0;3]         |(more variance compared to above)         |
+| VLMT_Dg1_5                |int +         |Score in another memory test         |
+| VLMT_Dg7                  |int +         |Score in another memory test         |
+| VLMT_Dg5minusDg7          |int +         |Score in another memory test         |
+| VLMT_W_F                  |int +         |Score in another memory test         |
+| NV_total_Combined_SBB_FBB |int +         |Combined total score         |
+| NV_ExErr_Combined_SBB_FBB |int +         |Explorative Excitability         |
+| NV_Imp_Combined_SBB_FBB   |int +         |Impulsivity         |
+| NV_total_Raw_SBB          |int +         |Total score         |
+| NV_ExplErr_Raw_SBB        |int +         |Explorative Excitability         |
+| NV_Impulsivität_Raw_SBB   |int +         |Impulsivity         |
+| VE_Day2                   |[0;3]         |Virtual World ID for day two         |
+| Exclusion_Position_Data   |1,777,999         |Error status for trajectory logging         |
 
 
 Movement Data:
