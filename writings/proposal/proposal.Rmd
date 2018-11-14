@@ -121,34 +121,32 @@ Movement Data:
 
 
 # Design overview (Johannes)
-The project will consist of the following tasks:
+The design consists mainly of two parts. 
+Analysis and (interactive) visualisation.
+For the first part we will make use of algorithms and packages specialized for trajectory data, clustering and correspondence analysis as well as regression fitting.
+An important role is the distraction of features from the trajectory data. Since there is not much previous work available this contains defining, testing and implementing possible features such as:
 
-1. Data loading
-2. Data preprocessing
-3. Feature extraction:
+* time spent per room (determine longest and shortest stay per room and scale them from 0 to 1)
+* time spent inside or outside house (???)
+* overall time spent in the world
+* repeated visit of same the place/room
+* steadiness vs roughness of motion
+* spectral features derived using fft
 
-4. Data analysis:
-
-5. Visualization:
-
-
-
-
-* Extract features from the trajectory data (Which features can be used?):
-  + time spent per room (determine longest and shortest stay per room and scale them from 0 to 1)
-  + time spent inside or outside house (???)
-  + overall time spent in the world
-  + repeated visit of same the place/room
-
-
+For the feature description using the architecture of the virtual world (rooms etc.) a conversion from trajectory data with respect to an euclidean coordinate space must be converted to a graph like representation listing the order and time spent in rooms.
+After the derivation of trajectories features those will be used to predict or correlate to the test persons attributes retrieved by questionnaires.
+This tasks makes particular use of clustering algorithms and similar techniques guided by the following thoughts:
 
 * Clustering algorithm
 * Clustering into exploitative behavior 
-* Scatterplot Matrix, Correlation analysis
-* Spectral analysis of trajectory data (if not to complicated)
-* 3D Scatter Plot (for Trajectories)
-* Regression Models
-* Cluster visualisation
+
+The goal of the visual design is the interactive visualisation of the data set itself and the analysis resluts of the data set.
+To complete this task we will make use of the shiny library as much as possible with respect to the analysis of trajectory data.
+The trajectory date will be visualize using 3D scatter plots. We will provide a visual comparison method of several trajectories from different test persons. We seek an embedding of the architecture of the virtual world into the scatterplot visualisation.
+The retrieved trajectory features will be represented in tabel form together with the test persons attributes to provide an detailde overview.
+The table data will seperatly be displayed using a scatter plot matrix to allow analysis of correspondence an variance of the data. For the scatter polt matrix a way to filter groups (e.x. only test persons with ADHD) will be provided.
+
+
 
 
 
