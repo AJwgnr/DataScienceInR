@@ -9,8 +9,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Overview
 
-The proposed project aims on the analysis of a data set containing trajectory data of hum.
-
+This project amins to study and analysis a data set using R and interactive visualize the results to allow scientits to explore the data set on thir onw.
+Our data set contains experimental test data from studies about human lerning and explorative behavior of humans.
+Within the projects various statistcial techniequs such as culstergin and classificatan, regession and correlation analysis, decision trees and other have to be freely tested on the data set to retriev new information and gain insight.
+The techniques in use and the algorithemen developed should be designed to be as reusable as possible for similar or completly different future tasks.
 
 
 
@@ -55,9 +57,6 @@ The second data set contains variables such as sex, age and others as well as th
 
 
 ## Dataset
-Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
-
-
 
 
 ## Design overview (algorithms and methods you plan to use)
