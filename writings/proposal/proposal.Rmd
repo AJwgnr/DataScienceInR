@@ -126,10 +126,12 @@ The project will consist of the following steps:
 1. Data loading:
 2. Data preprocessing:
 3. Feature extraction:
-4. 
+
+4. Data analysis:
 5. Visualization:
-* 3D Scatter Plot
-* Regression Models
+
+
+
 
 
 
@@ -140,20 +142,13 @@ The project will consist of the following steps:
   + repeated visit of same the place/room
 
 
-* Trajectory Analysis
+
 * Clustering algorithm
-
-* Fourier Analyse 
-
-
 * Clustering into exploitative behavior 
 * Scatterplot Matrix, Correlation analysis
-* Regression Lines
 * Spectral analysis of trajectory data (if not to complicated)
-
 * 3D Scatter Plot (for Trajectories)
 * Regression Models
-* Scatterplot Matrix
 * Cluster visualisation
 
 
@@ -170,8 +165,8 @@ The project will consist of the following steps:
 | 26.11. - 02.12. |feature extraction  |           |             |
 | 03.12. - 09.12. |                    |           |             |
 | 10.12. - 16.12. |                    |           |             |
-| 17.12. - 23.12. |visualization        |           |             |
-| 24.12. - 30.12. |holiday            |           |             |
+| 17.12. - 23.12. | visualization        |           |             |
+| 24.12. - 30.12. | holiday            |           |             |
 | 31.12. - 06.01. | website creation    |           |             |
 | 07.01. - 13.01. | final correction    |           |             |
 |                 | Submission         |           |             |
