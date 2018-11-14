@@ -8,7 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-
 # Project title
 Analysis of trajectory data with relation to short and long term memory experiments. (Passt das so?)
 
@@ -19,14 +18,25 @@ The team consists of two master students, namely:
 2. Alexander Wagner (217884)
 
 # Repository 
-Github Repository: (Nachfragen ob Github oder auch Gitlab)
+Github Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
-# Background and motivation/ Dataset (Beschreibung des Versuches und wie die Daten aufgenommen wurden)
+
+# Experiment overview (Beschreibung des Versuches und wie die Daten aufgenommen wurden)
+data was created from experiment from ....
 * Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
-* ggf. 3D Scatter plot
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
+
+new data will be collected in the following months
+
+\newpage
+## Dataset
+
+* csv files (number of all files)
+* person information
+* each person has two trajectory files
+
 
 
 Test person information:
@@ -69,10 +79,10 @@ Movement Data:
 
 | Attribute | Meaning |
 |-----------|---------|
-| time      |         |
-| x         |         |
-| z         |         |
-| y         |         |
+| time      |time stamp in milliseconds         |
+| x         |x minecraft world coordinate         |
+| z         |z minecraft world coordinate          |
+| y         |y minecraft world coordinate         |
 
 
 
@@ -91,13 +101,23 @@ Movement Data:
 * Interaktivität der Anwendung?
 
 
-
-
 # Design overview (algorithms and methods you plan to use)
+The project will consists of the following steps:
+1. Data loading:
+2. Data preprocessing:
+3. Feature extraction:
+4. 
+5. Visualization:
+* 3D Scatter Plot
+* Regression Models
+
+
+
 * Extract features from the trajectory data (Which features can be used?):
   + time spent per room (determine longest and shortest stay per room and scale them from 0 to 1)
-  + time spent inside or outside
+  + time spent inside or outside house (???)
   + overall time spent in the world
+  + repeated visit of same the place/room
 
 
 * Trajectory Analysis
@@ -105,25 +125,25 @@ Movement Data:
 
 * Fourier Analyse 
 
-Visualization:
-* 3D Scatter Plot
-* Regression Models
 
 
 
+
+\newpage
 # Project plan (Ich denke es wäre gut, wenn wir hier schon möglichst genau sind)
 
 |       Week      |        Task        | Substasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
-| 19.11. - 25.11. |                    |           |             |
-|                 |                    |           |             |
-| 26.11. - 02.12. |                    |           |             |
+| 19.11. - 25.11. |data loading |functions for loading the csv files           |             |
+|                 |data preprocessing |removing NaN values           |             |
+|                 | |exclude broken data entries           |             |
+| 26.11. - 02.12. |feature extraction  |           |             |
 | 03.12. - 09.12. |                    |           |             |
 | 10.12. - 16.12. |                    |           |             |
-| 17.12. - 23.12. |                    |           |             |
-| 24.12. - 30.12. |                    |           |             |
-| 31.12. - 06.01. |                    |           |             |
-| 07.01. - 13.01. |                    |           |             |
+| 17.12. - 23.12. |visualization        |           |             |
+| 24.12. - 30.12. |holiday            |           |             |
+| 31.12. - 06.01. | website creation    |           |             |
+| 07.01. - 13.01. | final correction    |           |             |
 |                 | Submission         |           |             |
 | 25.01.          | Final Presentation |           |             |
 
