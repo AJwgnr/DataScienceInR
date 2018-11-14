@@ -18,6 +18,7 @@ Analysis of trajectory data with relation to short and long term memory experime
 ## Team
 Alexander Wagner
 Johannes Dammbacher
+Termin ausmachen
 
 ## Background and motivation
 
@@ -25,15 +26,16 @@ Johannes Dammbacher
 
 ## Project objectives
 * Prediktion des ADHS Typs auf Basis der Trajektorie
-* Einfluss des Neugierverhalten auf die Erkundung der Welt
 * Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
-* 
-
+* Einfluss des Neugierverhalten/Immersions auf das Lernverhalten
+* Einfluss der Neuheit einer Umgebung auf das Lernverhalten
+* Vergleich des Erkungunsverhaltens zwischen ADHD und Kontrollgruppe
+* Einfluss des Neugierverhalten/Immersions auf die Erkundung der Welt
 
 Möglich Probleme:
 * Lediglich ~50 Instanzen (Personen) -> Aussagekraft der Ergebnisse
 * Wie kann man unterschiedliche Trajektorien miteinander vergleichen (Unterschiedliche Länge, Räume)
-* Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, etc. ab)
+* Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, Unruhe, Zielstrebigkeit, Eckigkeit etc. ab)
 
 
 * Interaktivität der Anwendung?
@@ -50,12 +52,16 @@ Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Date
 ## Design overview (algorithms and methods you plan to use)
 * Trajectory Analysis
 * Clustering algorithm
+* Scatterplot Matrix, Correlation analysis
+* Regression Lines
 
-* Fourier Analyse 
+* Spektral Analyse 
 
 Visualisierung
-* 3D Scatter Plot
+* 3D Scatter Plot (for Trajectories)
 * Regression Models
+* Scatterplot Matrix
+* Cluster visualisation
 
 
 
@@ -63,8 +69,8 @@ Visualisierung
 
 |       Week      |        Task        | Substasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
-| 19.11. - 25.11. |                    |           |             |
-| 26.11. - 02.12. |                    |           |             |
+| 19.11. - 25.11. |Scatterplotmatrix   |           |             |
+| 26.11. - 02.12. |Clustering          |           |             |
 | 03.12. - 09.12. |                    |           |             |
 | 10.12. - 16.12. |                    |           |             |
 | 17.12. - 23.12. |                    |           |             |
