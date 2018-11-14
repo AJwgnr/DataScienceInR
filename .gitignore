@@ -1,8 +1,6 @@
 # exclude dirs 
 literatur/*
-!res/
 res/*
-!res/person_data/
 
 # Generated Markdown files
 *.html
