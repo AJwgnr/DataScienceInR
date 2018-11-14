@@ -3,8 +3,8 @@ library(readxl)
 library(psych)
 
 
-csv_movement_folder_path <- folder <- "./../res/position_data/" 
-csv_persons_folder_path <- ("./../res/person_data/minecraft_all_subjects.xlsx")
+csv_movement_folder_path <- folder <- "../res/position_data/" 
+csv_persons_folder_path <- ("../res/person_data/minecraft_all_subjects.xlsx")
 #lockBinding("csv_movement_folder_path", globalenv())
 #lockBinding("csv_persons_folder_path", globalenv())
 
