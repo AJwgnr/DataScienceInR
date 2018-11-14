@@ -12,15 +12,15 @@ Analysis of trajectory data of human movement in an virtual environment with rel
 
 
 # Overview
-This project aims to study and analyze a dataset using R and to interactively visualize the results to allow scientist to explore the dataset on their own.
-The dataset used in this project contains experimental test data from studies about human learning and explorative behavior of humans.
-Within this project various statistical techniques such as clustering and classification, regression and correlation analysis, decision trees and other have to be freely tested on the dataset to retrieve new information and to gain insight.
-
+This project aims to study and analyze a data set using R and to interactively visualize the results to allow scientists to explore the data set on their own.
+The data set used in this project contains experimental test data from studies about human learning and exploitative behavior of humans.
+Within this project various statistical techniques such as clustering and classification, regression and correlation analysis, decision trees and other have to be freely tested on the data set to retrieve new information and to gain insight.
+Re usability removed?
 
 # Team
 The team consists of two master students, namely:
 
-1. Johannes Dammbacher (206495)
+1. Johannes Dambacher (206495)
 2. Alexander Wagner (217884)
 
 # Repository 
@@ -33,7 +33,7 @@ For the experiment both children with ADHD and the control group had to attend t
 On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds (see one of the worlds in the image below).
 On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons (see the process overview in the image below).
 
-Further test persons will perform the experiment in the future and thus enlarge the dataset iteratively.
+Further test persons will perform the experiment in the future and thus enlarge the data set successive
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
@@ -41,15 +41,15 @@ Further test persons will perform the experiment in the future and thus enlarge 
 
 ## Dataset
 
-The overall recorded data set consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others. The dataset is divided into trajectory data and information about the test persons.
+The overall recorded data set consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others. The data set is divided into trajectory data and information about the test persons.
 The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
 The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
-The dataset of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used datasets are listed below.
+The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used data sets are listed below.
 
 **Summary:**
 
 * one csv file containing the information of the test persons (XX persons)
-* 130 csv files containing the trajectory information (each person has two trajectory files)
+* 130 csv files containing the trajectory information (for each person two trajectory files exist)
 
 
 Test person attributes:
@@ -61,17 +61,17 @@ Test person attributes:
 | Age                       |int +         |Age in years         |
 | Sex                       |[1;2]         |         |
 | Group                     |[1;2]         |Control,ADHD group         |
-| Novelty                   |[0;3]         |Faimiliar/totally novel/partial novel     |
+| Novelty                   |[0;3]         |Familiar/totally novel/partial novel     |
 | TP_DirectRecall           |[0;20]         |Words correctly recalled after learning          |
-| FP_DirectRecall           |[0;20]         |Words falsy recalled after learning         |
+| FP_DirectRecall           |[0;20]         |Words falsely recalled after learning         |
 | TP_DelayedRecall          |[0;20]         |Words correctly recalled after delay         |
-| FP_DelayedRecall          |[0;20]         |Words falsly recalled after delay         |
+| FP_DelayedRecall          |[0;20]         |Words falsely recalled after delay         |
 | Diff_Recall               |[-20;0]        |Words forgotten over time         |
 | firstVR                   |[0;3]         |Virtual World ID for day one         |
 | VL_Change                 |[0;1]         |         |
 | Differences_PartialNew    |int +         |Detected changes in VL1.1         |
 | Room_Change               |[0;1]         |Change of experiment room         |
-| Gaming_Experience         |[0;3]         |Familarity with computer games         |
+| Gaming_Experience         |[0;3]         |Familiarity with computer games         |
 | Minecraft_Familiarity     |[0;1]         | (almost 0 variance)         |
 | Minecraft_Experience      |[0;3]         |(more variance compared to above)         |
 | VLMT_Dg1_5                |int +         |Score in another memory test         |
@@ -121,7 +121,7 @@ Movement Data:
 
 
 # Design overview (algorithms and methods you plan to use)
-The project will consist of the following steps:
+The project will consist of the following tasks:
 
 1. Data loading:
 2. Data preprocessing:
