@@ -1,6 +1,6 @@
 # exclude dirs 
-literatur/*
-res/*
+literatur/
+res/
 
 # Generated Markdown files
 *.html
