@@ -9,34 +9,48 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Project title
-Analysis of trajectory data with relation to short and long term memory experiments. (Passt das so?)
+Analysis of trajectory data of human movement in an virtual environment with relation to short and long term memory experiments.
+
+
+# Overview
+
+This project amins to study and analysis a data set using R and interactive visualize the results to allow scientits to explore the data set on their own.
+Our data set contains experimental test data from studies about human lerning and explorative behavior of humans.
+Within the projects various statistcial techniequs such as culstergin and classificatan, regession and correlation analysis, decision trees and other have to be freely tested on the data set to retriev new information and gain insight.
+The techniques in use and the algorithemen developed should be designed to be as reusable as possible for similar or completly different future tasks.
+
+
 
 # Team
 The team consists of two master students, namely:
 
-1. Johannes Dammbacher
+1. Johannes Dammbacher (206495)
 2. Alexander Wagner (217884)
 
 # Repository 
-Github Repository: https://gitlab.com/vornamenachname/datascience_r.git
+GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
+## Background and motivation
 
-# Experiment overview (Beschreibung des Versuches und wie die Daten aufgenommen wurden)
-data was created from experiment from ....
-* Vielleicht hier einen kleinen Auschnitt zeigen und darauf eingehen, wie die Daten vorverarbeitet werden (oder auch auf den Datenschutz eingehen)
+The data was recorded during a study on the impact of exploring novelty onto the learning success of children. Another constraint was the distinction between children with ADHD and children without.
+For the experiment both children with ADHD and the control group had to attend the study on three different days.
+On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds.
+On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons.
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
-
-new data will be collected in the following months
-
 \newpage
+
 ## Dataset
+The data set recorded during the tests consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others.
+The trajectory data was retrieved by tracking the test persons movement within a 3d virtual Mincraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at the given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, outlier nor ambiguities or other measurement based bias.
+The time spent in the virtual world should range from 10 to 20 min where the test persons could freely stop exploring the world after 10 min. Some trajectory data sets contain less than 10 min of sample points. This was caused by accident, technical failure.
+The second data set contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/tow and several scores obtained using a questionnaire related to immersion, exploration behavior and similar.
 
 * csv files (number of all files)
 * person information
 * each person has two trajectory files
-
+* new data will be collected in the following months?
 
 
 Test person information:
@@ -79,26 +93,33 @@ Movement Data:
 
 | Attribute | Meaning |
 |-----------|---------|
-| time      |time stamp in milliseconds         |
-| x         |x minecraft world coordinate         |
-| z         |z minecraft world coordinate          |
-| y         |y minecraft world coordinate         |
+| time      |time stamp in milliseconds    |
+| x         |x-coordinate minecraft world  |
+| z         |z-coordinate minecraft world  |
+| y         |y-coordinate minecraft world  |
 
 
 
 
-# Objectives (Hier sollten wir auf unsere Ziele eingehen und vielleicht auch schon mal Ideen aufschreiben, was wir erwarten, damit wir am Ende vergleichen können, ob unsere Erwartungen erfüllt wurden )
+# Objectives 
 * Prediktion des ADHS Typs auf Basis der Trajektorie
 * Einfluss des Neugierverhalten auf die Erkundung der Welt
 * Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
-* 
+* Interactive visualization of the data set
+* Predicting the ADHD type on basis of the trajectory data
+* Impact of the novelty of the virtual world on day two on the learning success
+* Impact of novelty seeking and exploitative excitability on the learning success
+* Comparison/cluster analysis of the exploratory behavior of ADHD and control group
+* Impact of the novelty seeking and exploitative excitability on the trajectory/exploration behavior
 
 
-# Possible problems (Ich würde hier auch schon mal auf mögliche Probleme eingehen, damit wir das später im Zweifel sagen können :P)
-* Lediglich ~50 Instanzen (Personen) -> Aussagekraft der Ergebnisse
-* Wie kann man unterschiedliche Trajektorien miteinander vergleichen (Unterschiedliche Länge, Räume)
-* Abbildung der Trajektorie als Skalar über Funktion (funktione bildet beispielsweise Aufenthaltsdauer pro Raum, etc. ab)
-* Interaktivität der Anwendung?
+
+# Possible problems:
+* Only ~50 usable data entries for trajectory analysis -> difficult to prove statistic significant
+* Little comparable work on the comparison of trajectories
+* Little comparable work on the feature extraction from trajectories
+* Interactive data visualization and exploration
+
 
 
 # Design overview (algorithms and methods you plan to use)
@@ -126,11 +147,21 @@ The project will consists of the following steps:
 * Fourier Analyse 
 
 
+* Clustering into exploitative behavior 
+* Scatterplot Matrix, Correlation analysis
+* Regression Lines
+* Spectral analysis of trajectory data (if not to complicated)
+
+* 3D Scatter Plot (for Trajectories)
+* Regression Models
+* Scatterplot Matrix
+* Cluster visualisation
+
 
 
 
 \newpage
-# Project plan (Ich denke es wäre gut, wenn wir hier schon möglichst genau sind)
+# Project plan
 
 |       Week      |        Task        | Substasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
@@ -146,4 +177,8 @@ The project will consists of the following steps:
 | 07.01. - 13.01. | final correction    |           |             |
 |                 | Submission         |           |             |
 | 25.01.          | Final Presentation |           |             |
+
+
+
+
 
