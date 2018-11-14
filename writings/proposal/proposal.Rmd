@@ -13,7 +13,6 @@ Analysis of trajectory data of human movement in an virtual environment with rel
 
 
 # Overview
-
 This project amins to study and analysis a data set using R and interactive visualize the results to allow scientits to explore the data set on their own.
 Our data set contains experimental test data from studies about human lerning and explorative behavior of humans.
 Within the projects various statistcial techniequs such as culstergin and classificatan, regession and correlation analysis, decision trees and other have to be freely tested on the data set to retriev new information and gain insight.
@@ -34,23 +33,25 @@ GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
 The data was recorded during a study on the impact of exploring novelty onto the learning success of children. Another constraint was the distinction between children with ADHD and children without.
 For the experiment both children with ADHD and the control group had to attend the study on three different days.
-On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds.
-On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons.
+On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds (see one of the worlds in the image below).
+On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons (see the process overview in the image below).
+
+* new data will be collected in the following months?
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
 \newpage
 
 ## Dataset
-The data set recorded during the tests consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others.
-The trajectory data was retrieved by tracking the test persons movement within a 3d virtual Mincraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at the given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, outlier nor ambiguities or other measurement based bias.
-The time spent in the virtual world should range from 10 to 20 min where the test persons could freely stop exploring the world after 10 min. Some trajectory data sets contain less than 10 min of sample points. This was caused by accident, technical failure.
-The second data set contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/tow and several scores obtained using a questionnaire related to immersion, exploration behavior and similar.
+The overall recorded data set consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others. The dataset is divided into trajectory data and informations about the test persons.
+The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Mincraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at the given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, outlier nor ambiguities or other measurement based bias.
+The time spent in the virtual world should range from 10 to 20 min where the test persons could freely stop exploring the world after 10 min.
+The dataset of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of our dataset are listed below.
 
-* csv files (number of all files)
-* person information
-* each person has two trajectory files
-* new data will be collected in the following months?
+**Summary:**
+
+* one csv file containing the information of the test persons (XX persons)
+* 130 csv files containing the trajectory information (each person has two trajectory files)
 
 
 Test person information:
@@ -120,6 +121,7 @@ Movement Data:
 * Little comparable work on the feature extraction from trajectories
 * Interactive data visualization and exploration
 
+ Some trajectory data sets contain less than 10 min of sample points. This was caused by accident or technical failure.
 
 
 # Design overview (algorithms and methods you plan to use)
