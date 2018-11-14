@@ -7,17 +7,14 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # Project title
 Analysis of trajectory data of human movement in an virtual environment with relation to short and long term memory experiments.
 
 
 # Overview
-This project amins to study and analysis a data set using R and interactive visualize the results to allow scientits to explore the data set on their own.
-Our data set contains experimental test data from studies about human lerning and explorative behavior of humans.
-Within the projects various statistcial techniequs such as culstergin and classificatan, regession and correlation analysis, decision trees and other have to be freely tested on the data set to retriev new information and gain insight.
-The techniques in use and the algorithemen developed should be designed to be as reusable as possible for similar or completly different future tasks.
-
+This project aims to study and analyze a dataset using R and to interactively visualize the results to allow scientist to explore the dataset on their own.
+The dataset used in this project contains experimental test data from studies about human learning and explorative behavior of humans.
+Within this project various statistical techniques such as clustering and classification, regression and correlation analysis, decision trees and other have to be freely tested on the dataset to retrieve new information and to gain insight.
 
 
 # Team
@@ -29,24 +26,25 @@ The team consists of two master students, namely:
 # Repository 
 GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
-## Background and motivation
+# Background and motivation
 
 The data was recorded during a study on the impact of exploring novelty onto the learning success of children. Another constraint was the distinction between children with ADHD and children without.
 For the experiment both children with ADHD and the control group had to attend the study on three different days.
 On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds (see one of the worlds in the image below).
 On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons (see the process overview in the image below).
 
-* new data will be collected in the following months?
+Further test persons will perform the experiment in the future and thus enlarge the dataset iteratively.
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
 \newpage
 
 ## Dataset
-The overall recorded data set consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others. The dataset is divided into trajectory data and informations about the test persons.
-The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Mincraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at the given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, outlier nor ambiguities or other measurement based bias.
-The time spent in the virtual world should range from 10 to 20 min where the test persons could freely stop exploring the world after 10 min.
-The dataset of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of our dataset are listed below.
+
+The overall recorded data set consists of the trajectory data of the 66 test persons as well as several other variables such as sex, age and others. The dataset is divided into trajectory data and information about the test persons.
+The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
+The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
+The dataset of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used datasets are listed below.
 
 **Summary:**
 
@@ -54,7 +52,7 @@ The dataset of the test persons contains variables such as sex, age and others a
 * 130 csv files containing the trajectory information (each person has two trajectory files)
 
 
-Test person information:
+Test person attributes:
 
 |         Attribute         |  Range  | Meaning |
 |:-------------------------:|---------|---------|
@@ -100,39 +98,40 @@ Movement Data:
 | y         |y-coordinate minecraft world  |
 
 
-
-
 # Objectives 
-* Prediktion des ADHS Typs auf Basis der Trajektorie
+
 * Einfluss des Neugierverhalten auf die Erkundung der Welt
 * Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
 * Interactive visualization of the data set
 * Predicting the ADHD type on basis of the trajectory data
+
 * Impact of the novelty of the virtual world on day two on the learning success
-* Impact of novelty seeking and exploitative excitability on the learning success
+* Impact of **novelty** and **exploitative excitability** score on the learning success
 * Comparison/cluster analysis of the exploratory behavior of ADHD and control group
 * Impact of the novelty seeking and exploitative excitability on the trajectory/exploration behavior
 
 
 
 # Possible problems:
-* Only ~50 usable data entries for trajectory analysis -> difficult to prove statistic significant
-* Little comparable work on the comparison of trajectories
-* Little comparable work on the feature extraction from trajectories
-* Interactive data visualization and exploration
 
- Some trajectory data sets contain less than 10 min of sample points. This was caused by accident or technical failure.
+* Only a small dataset yet (can be hard to proof statistical significance)
+* Some trajectory datasets can not be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
+* Little comparable work on the feature extraction from trajectories
+* Little comparable work on the comparison of trajectories
 
 
 # Design overview (algorithms and methods you plan to use)
-The project will consists of the following steps:
+The project will consist of the following steps:
+
 1. Data loading:
 2. Data preprocessing:
 3. Feature extraction:
-4. 
+
+4. Data analysis:
 5. Visualization:
-* 3D Scatter Plot
-* Regression Models
+
+
+
 
 
 
@@ -143,20 +142,13 @@ The project will consists of the following steps:
   + repeated visit of same the place/room
 
 
-* Trajectory Analysis
+
 * Clustering algorithm
-
-* Fourier Analyse 
-
-
 * Clustering into exploitative behavior 
 * Scatterplot Matrix, Correlation analysis
-* Regression Lines
 * Spectral analysis of trajectory data (if not to complicated)
-
 * 3D Scatter Plot (for Trajectories)
 * Regression Models
-* Scatterplot Matrix
 * Cluster visualisation
 
 
@@ -165,7 +157,7 @@ The project will consists of the following steps:
 \newpage
 # Project plan
 
-|       Week      |        Task        | Substasks | Responsible |
+|       Week      |        Task        | Subtasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
 | 19.11. - 25.11. |data loading |functions for loading the csv files           |             |
 |                 |data preprocessing |removing NaN values           |             |
@@ -173,8 +165,8 @@ The project will consists of the following steps:
 | 26.11. - 02.12. |feature extraction  |           |             |
 | 03.12. - 09.12. |                    |           |             |
 | 10.12. - 16.12. |                    |           |             |
-| 17.12. - 23.12. |visualization        |           |             |
-| 24.12. - 30.12. |holiday            |           |             |
+| 17.12. - 23.12. | visualization        |           |             |
+| 24.12. - 30.12. | holiday            |           |             |
 | 31.12. - 06.01. | website creation    |           |             |
 | 07.01. - 13.01. | final correction    |           |             |
 |                 | Submission         |           |             |
