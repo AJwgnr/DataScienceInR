@@ -33,7 +33,7 @@ For the experiment both children with ADHD and the control group had to attend t
 On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 min exploring of three worlds (see one of the worlds in the image below).
 On day two the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons virtually explored another world for 10 to 20 min. The virtual worlds on day one and two were the same for some test persons and different for others. On day three simply the variables had to be recalled by the test persons (see the process overview in the image below).
 
-Further test persons will perform the experiment in the future and thus enlarge the data set successive
+Further test persons will perform the experiment in the future and thus enlarge the data set successive.
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
@@ -98,7 +98,7 @@ Movement Data:
 | y         |y-coordinate minecraft world  |
 
 
-# Objectives 
+# Objectives (Alex)
 
 * Einfluss des Neugierverhalten auf die Erkundung der Welt
 * Einfluss der Erkundung der Welt auf das Lernen (schwacher Reiz -> starker Reiz)
@@ -120,17 +120,16 @@ Movement Data:
 * Little comparable work on the comparison of trajectories
 
 
-# Design overview (algorithms and methods you plan to use)
+# Design overview (Johannes)
 The project will consist of the following tasks:
 
-1. Data loading:
-2. Data preprocessing:
+1. Data loading
+2. Data preprocessing
 3. Feature extraction:
 
 4. Data analysis:
+
 5. Visualization:
-
-
 
 
 
@@ -155,7 +154,7 @@ The project will consist of the following tasks:
 
 
 \newpage
-# Project plan
+# Project plan ()
 
 |       Week      |        Task        | Subtasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
