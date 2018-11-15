@@ -13,7 +13,7 @@ Analysis of trajectory data of human movement in an virtual environment with rel
 
 # Overview
 This project aims to study and analyze a data set using R and to interactively visualize the results to allow scientists to explore the data set on their own.
-The data set used in this project contains experimental test data from studies about human learning and exploitative behavior of humans.
+The data set used in this project contains experimental test data from studies about human learning and explorative behavior of humans.
 Within this project various statistical techniques such as clustering and classification, regression and correlation analysis, decision trees and other have to be freely tested on the data set to retrieve new information and to gain insight.
 
 
@@ -28,12 +28,10 @@ GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
 # Background and motivation
 
-The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consists of children having different types of ADHD and an control group.
-For the experiment both test groups (with ADHD and the control group) had to attend the study on three different days.
-On the first day the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of two worlds (see one of the worlds in the image below).
-On the second day the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons had again to explore a virtual world for 10 to 20 minutes. The virtual worlds on day one and two were the same for some test persons and different for others. On day three the vocabularies had to be recalled by the test persons (see the process overview in the image below). 
-
-Further test persons will perform the experiment in the future and thus enlarge the data set successive.
+The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
+For the experiment both groups (with ADHD and the control group) had to attend the study on three different days.
+On the first day, the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of two worlds (see one of the worlds in the image below).
+On the second day the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others. On day three the vocabularies had to be recalled by the test persons (see the process overview in the image below). Further test persons will perform the experiment in the future and thus enlarge the data set successively.
 
 ![optional caption text](images/minecraft_world1.png)
 ![optional caption text](images/process.png)
@@ -41,7 +39,7 @@ Further test persons will perform the experiment in the future and thus enlarge 
 
 # Dataset
 
-The overall recorded data set consists of the trajectory data of the 66 test persons in the virtual world as well as several other variables such as sex, age and others. The data set is divided into trajectory data and information about the test persons in separte csv files.
+The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. The data set is divided into trajectory data and informations of the test persons in separate csv files.
 The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
 The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
 The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used data sets are listed below.
@@ -104,17 +102,9 @@ We are trying to explore and answer the following questions:
 
 * Which features can be created from the trajectory data?
 * Can test persons not having ADHD memorize words better than persons having ADHD?
-* What is the impact of the novelty of the virtual world on the learning success on day two
-  + How did the number of remembered words change depending wether the test persons have seen an old or a new world before memorizing the vocabularies?
-  + Is there a difference for ADHD and non-ADHD persons?
-* What is the impact of the **novelty** and the **exploitative excitability** scores:
-  + on the learning success?
-  + on the exploration of the virtual world (e.g. duration)?
-  + on the trajectory?
-  
+* What is the impact of the novelty of the virtual world on the learning success on day two (How did the number of remembered words change depending wether the test persons have seen an old or a new world before memorizing the vocabularies? Is there a difference for ADHD and non-ADHD persons?)
+* What is the impact of the **novelty** and the **exploitative excitability** scores (On the learning success? On the exploration of the virtual world (e.g. duration)? On the trajectory?)
 * Can the ADHD type be predicted from the trajectory data (features)?
-
-
 * Which interactive visualization can be created for the dataset?
 
 
@@ -164,15 +154,29 @@ The table data will seperatly be displayed using a scatter plot matrix to allow 
 
 |       Week      |        Task        | Subtasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
-| 19.11. - 25.11. |data loading |functions for loading the csv files           |             |
+| 19.11. - 25.11. |data loading       |functions for loading the csv files           |             |
 |                 |data preprocessing |removing NaN values           |             |
-|                 | |exclude broken data entries           |             |
-| 26.11. - 02.12. |feature extraction  |           |             |
-| 03.12. - 09.12. |                    |           |             |
+|                 |                   |exclude broken trajectory data entries           |             |
+| 26.11. - 02.12. |feature extraction  |identify possible trajectory features |             |
+|                 |                     |extract features from trajectory                             |             |
+|                 |                     |scale and process features to make them suitable for algorithms   |             |
+| 03.12. - 09.12. |alogrithm                    |           |             |
+|                 |                    |           |             |
+|                 |                    |           |             |
+|                 |                    |           |             |
+|                 |                    |           |             |
 | 10.12. - 16.12. |                    |           |             |
 | 17.12. - 23.12. | visualization        |           |             |
+|                  |         |           |             |
+|                  |         |           |             |
+|                  |         |           |             |
+|                  |         |           |             |
 | 24.12. - 30.12. | holiday            |           |             |
 | 31.12. - 06.01. | website creation    |           |             |
+|                  |                    |           |             |
+|                  |                    |           |             |
+|                  |                    |           |             |
+|                  |                    |           |             |
 | 07.01. - 13.01. | final correction    |           |             |
 |                 | Submission         |           |             |
 | 25.01.          | Final Presentation |           |             |
