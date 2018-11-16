@@ -108,10 +108,6 @@ We are trying to explore and answer the following questions:
 * Which interactive visualization can be created for the dataset?
 
 
-
-
-
-
 # Possible problems:
 * Only a small dataset yet (can be hard to proof statistical significance)
 * Some trajectory datasets can not be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
@@ -123,30 +119,26 @@ We are trying to explore and answer the following questions:
 The design consists mainly of two parts:
 
 1. Data analysis and 
-2. (interactive) visualisation
+2. (interactive) visualization
 
-For the first part we will make use of algorithms and packages specialized for trajectory data, clustering and correspondence analysis as well as regression fitting.
+For the first part we will make use of algorithms and packages specialized for trajectory data, clustering and correlation analysis as well as regression fitting.
 An important role is the extraction of features from the trajectory data. Since there is not much related work available, this task contains defining, testing and implementing possible features such as:
 
-* time spent per room 
-* time spent inside or outside house 
-* overall time spent in the world
-* repeated visit of same the place/room
-* steadiness vs roughness of motion
-* spectral features derived using fft
+* Time spent per room 
+* Time spent inside or outside house 
+* Overall time spent in the world
+* Repeated visit of same the place/room
+* Steadiness vs roughness of motion
+* Spectral features derived using fast Fourier transform
 
-For the feature description using the architecture of the virtual world (rooms etc.) a conversion from trajectory data with respect to an euclidean coordinate space must be converted to a graph like representation listing the order and time spent in rooms.
-After the derivation of trajectories features those will be used to predict or correlate to the test persons attributes retrieved by questionnaires.
-This tasks makes particular use of clustering algorithms and similar techniques guided by the following thoughts:
+For the feature description using the architecture of the virtual world (rooms etc.) a conversion from trajectory data given in euclidean coordinates must be converted to a graph like representation listing the order and time spent in rooms.
+After the derivation of trajectorie features those will be used to predict or correlate to the test persons attributes retrieved by questionnaires. This tasks makes particular use of clustering algorithms.
 
-* Clustering algorithm
-* Clustering into exploitative behavior 
-
-The goal of the visual design is the interactive visualisation of the data set itself and the analysis resluts of the data set.
+The goal of the visual design is the interactive visualization of the data set itself and the analysis results of the data set.
 To complete this task we will make use of the shiny library as much as possible with respect to the analysis of trajectory data.
-The trajectory date will be visualize using 3D scatter plots. We will provide a visual comparison method of several trajectories from different test persons. We seek an embedding of the architecture of the virtual world into the scatterplot visualisation.
-The retrieved trajectory features will be represented in tabel form together with the test persons attributes to provide an detailde overview.
-The table data will seperatly be displayed using a scatter plot matrix to allow analysis of correspondence an variance of the data. For the scatter polt matrix a way to filter groups (e.g. only test persons with ADHD) will be provided.
+The trajectory date will be visualize using 3D scatter plots. We will provide a visual comparison method of several trajectories from different test persons. We seek an embedding of the architecture of the virtual world into the scatterplot visualization.
+The retrieved trajectory features will be represented in table form together with the test persons attributes to provide an detailed overview.
+The table data will be displayed separately using a scatter plot matrix to allow analysis of correspondence and variance of the data. For the scatter plot matrix a way to filter into groups (e.g. only test persons with ADHD) will be provided.
 
 
 
@@ -159,7 +151,7 @@ The table data will seperatly be displayed using a scatter plot matrix to allow 
 |                 |                   |exclude broken trajectory data entries           |             |
 | 26.11. - 02.12. |feature extraction  |identify possible trajectory features |             |
 |                 |                     |extract features from trajectory                             |             |
-|                 |                     |scale and process features to make them suitable for algorithms   |             |
+|                 |                     |scale and process features to make them suitable for algorithms|             |
 | 03.12. - 09.12. |alogrithm                    |           |             |
 |                 |                    |           |             |
 |                 |                    |           |             |
