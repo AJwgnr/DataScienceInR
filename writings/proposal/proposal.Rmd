@@ -13,7 +13,7 @@ Analysis of trajectory data of human movement in an virtual environment with rel
 
 # Overview
 This project aims to study and analyze a data set using R and to interactively visualize the results to allow scientists to explore the data set on their own.
-The data set used in this project contains experimental test data from studies about human learning and explorative behavior of humans.
+The data set used in this project contains experimental test data from studies about human learning and exploration behavior of humans.
 Within this project various statistical techniques such as clustering and classification, regression and correlation analysis, decision trees and other have to be freely tested on the data set to retrieve new information and to gain insight.
 
 
@@ -39,7 +39,7 @@ On the second day the test persons had to learn 20 new vocabularies and recall t
 
 # Dataset
 
-The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. The data set is divided into trajectory data and informations of the test persons in separate csv files.
+The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. The data set is divided into trajectory data and information of the test persons in separate csv files.
 The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world. The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time. Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
 The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
 The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used data sets are listed below.
@@ -48,6 +48,9 @@ The data set of the test persons contains variables such as sex, age and others 
 
 * one csv file containing the information of the test persons (XX persons)
 * 130 csv files containing the trajectory information (for each person two trajectory files exist)
+* **Attributes** and **features** refer to different things
+* Attributes describe the test persons values such as age, sex and the scores determined using questionnaires
+* Features describe the scalar representation of the trajectories computed from the trajectories using descriptor functions
 
 
 ## Test person table
@@ -102,15 +105,15 @@ We are trying to explore and answer the following questions:
 
 * Which features can be created from the trajectory data?
 * Can test persons not having ADHD memorize words better than persons having ADHD?
-* What is the impact of the novelty of the virtual world on the learning success on day two (How did the number of remembered words change depending wether the test persons have seen an old or a new world before memorizing the vocabularies? Is there a difference for ADHD and non-ADHD persons?)
+* What is the impact of the novelty of the virtual world on the learning success on day two (How did the number of remembered words change depending whether the test persons have seen an old or a new world before memorizing the vocabularies? Is there a difference for ADHD and non-ADHD persons?)
 * What is the impact of the **novelty** and the **exploitative excitability** scores (On the learning success? On the exploration of the virtual world (e.g. duration)? On the trajectory?)
 * Can the ADHD type be predicted from the trajectory data (features)?
-* Which interactive visualization can be created for the dataset?
+* Which interactive visualization can be created for the data set?
 
 
 # Possible problems:
-* Only a small dataset yet (can be hard to proof statistical significance)
-* Some trajectory datasets can not be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
+* Only a small data set yet (can be hard to proof statistical significance)
+* Some trajectory data sets can not be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
 * Little comparable work on the feature extraction from trajectories
 * Little comparable work on the comparison of trajectories
 
@@ -132,11 +135,11 @@ An important role is the extraction of features from the trajectory data. Since 
 * Spectral features derived using fast Fourier transform
 
 For the feature description using the architecture of the virtual world (rooms etc.) a conversion from trajectory data given in euclidean coordinates must be converted to a graph like representation listing the order and time spent in rooms.
-After the derivation of trajectorie features those will be used to predict or correlate to the test persons attributes retrieved by questionnaires. This tasks makes particular use of clustering algorithms.
+After the derivation of trajectory features those will be used to predict or correlate to the test persons attributes retrieved by questionnaires. This tasks makes particular use of clustering algorithms.
 
 The goal of the visual design is the interactive visualization of the data set itself and the analysis results of the data set.
 To complete this task we will make use of the shiny library as much as possible with respect to the analysis of trajectory data.
-The trajectory date will be visualize using 3D scatter plots. We will provide a visual comparison method of several trajectories from different test persons. We seek an embedding of the architecture of the virtual world into the scatterplot visualization.
+The trajectory date will be visualize using 3D scatter plots. We will provide a visual comparison method of several trajectories from different test persons. We seek an embedding of the architecture of the virtual world into the scatter plot visualization.
 The retrieved trajectory features will be represented in table form together with the test persons attributes to provide an detailed overview.
 The table data will be displayed separately using a scatter plot matrix to allow analysis of correspondence and variance of the data. For the scatter plot matrix a way to filter into groups (e.g. only test persons with ADHD) will be provided.
 
@@ -146,34 +149,57 @@ The table data will be displayed separately using a scatter plot matrix to allow
 
 |       Week      |        Task        | Subtasks | Responsible |
 |:---------------:|:------------------:|-----------|:-----------:|
-| 19.11. - 25.11. |data loading       |functions for loading the csv files           |             |
-|                 |data preprocessing |removing NaN values           |             |
-|                 |                   |exclude broken trajectory data entries           |             |
-| 26.11. - 02.12. |feature extraction  |identify possible trajectory features |             |
-|                 |                     |extract features from trajectory                             |             |
-|                 |                     |scale and process features to make them suitable for algorithms|             |
-| 03.12. - 09.12. |alogrithm                    |           |             |
-|                 |                    |           |             |
-|                 |                    |           |             |
-|                 |                    |           |             |
-|                 |                    |           |             |
-| 10.12. - 16.12. |                    |           |             |
-| 17.12. - 23.12. | visualization        |           |             |
+| 19.11. - 25.11. |Project consultation                    |           |Together with Uli|
+|                 |Data loading        |Functions for loading the csv files           |completed            |
+|                 |Data preprocessing  |Treat NaN values correctly           |Alex           |
+|                 |                    |Exclude broken trajectory data entries           |Alex             |
+|                 |                    |Understand test person attributes           |Johannes             |
+|                 |                    |Check data for completeness and correct failures           |Johannes             |
+|                 |Convert trajectories to room based graph|Extract geometry from Minecraft world           |Johannes             |
+|                  |         |Convert trajectory data to room based graph           |Johannes             |
+|                  |         |Refine data layout           |             |
+| 26.11. - 02.12. |Feature extraction  |Identify possible trajectory features |All             |
+|                 |                    |Extract features from trajectory                             |Split up             |
+|                 |                    |Scale and process features to make them suitable for algorithms|Split up             |
+|                 |Set up website framework|Use shiny           |Johannes             |
+|                 |                    |Adjust data loading and storing           |Johannes             |
+|                 |Create basic visualization|Table for attributes and features|Alex             |
+|                 |                    |Scatterplotmatrix for attributes and features           |Johannes             |
+|                 |                    |3D Scatter plot for trajectories           |Johannes             |
+| 03.12. - 09.12. |Update project plan |Readjust objectives|All             |
+|                 |Cluster analysis    |Cluster attributes            |Alex             |
+|                 |                    |Cluster features           |Alex             |
+|                 |                    |Analyse Clusters           |All             |
+|                 |                    |Compare feature and attribute clusters           |All             |
+|                 |Refine visualization|Support multiple trajectories           |Johannes             |
+|                 |                    |Include room geometry           |Johannes             |
+|                 |                    |Show graph based representation (2d?)           |Johannes             |
+|                 |                    |Color code trajectories           |Johannes             |
+| 10.12. - 16.12. |Refine inter activeness|Filter by groups (ADHD,Control,..)           |Alex            |
+|                 |Interactive cluster analysis|Clustering visualization           |Alex             |
+|                 |                    |Cluster selection           |             |
+|                 |                    |Cluster visualization           |             |
+|                 |                    |Cluster to group conversion           |             |
+| 17.12. - 23.12. |Mostly buffer time        |Debugging           |All             |
+|                  |         |           |Re-factoring             |Alex
+|                 |                    |Visual refinement           |Johannes             |
+|                  |Consultation with Valentin         |           |All             |
+| 24.12. - 30.12. |Holiday            |           |ONLY ALEX! YOU LAZY...            |
+| 31.12. - 06.01. |Website finalization    |           |Alex             |
+|                 |Data analysis write up                    |needs further refinement           |Split up             |
+|                 |Visual finalization                    |Style adaption           |Johannes             |
+|                  |         |Font layout and adjustments           |Johannes             |
+|                  |         |Tool-tips, Descriptions etc           |Alex             |
 |                  |         |           |             |
-|                  |         |           |             |
-|                  |         |           |             |
-|                  |         |           |             |
-| 24.12. - 30.12. | holiday            |           |             |
-| 31.12. - 06.01. | website creation    |           |             |
-|                  |                    |           |             |
-|                  |                    |           |             |
-|                  |                    |           |             |
-|                  |                    |           |             |
-| 07.01. - 13.01. | final correction    |           |             |
-|                 | Submission         |           |             |
-| 25.01.          | Final Presentation |           |             |
-
-
+|                 |Exhaustive testing|Find as many errors as possible           |All             |
+|                 |Final Debug |Fix as many errors as possible           |             |
+|                 |Implementation freeze                    |           |All             |
+| 07.01. - 13.01. |Final correction   |           |All             |
+|                  |Recording website         |show all the fancy stuff we did           |Alex             |
+|                 |Presentation                   |           |Split up           |
+| 16.01           |Submission         |           |             |
+|                 |Presentation preparation|           |All             |
+| 18.01 or 25.01. | Final Presentation |           |             |
 
 
 
