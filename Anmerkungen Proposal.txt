@@ -1,0 +1,14 @@
+Finales Dokument DataSciInR:
+- Auf bestehende Veröffentlichgungen eingehen
+- Fachbegriffe weiter erklären (novelty, excitability)
+- Unterscheidung zwischen Attributes und Features nicht so gut (-> besser trajectorie features and person features and quiestionaire anseers and scores)
+- novelty features -> Fehler in Feature in Proposal
+
+
+
+
+Webseite:
+Einleitungstext
+Markdown Dokument einbinden
+Interaktive Visualiserung möglich aber nicht verplichtend
+Video
