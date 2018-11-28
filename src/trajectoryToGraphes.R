@@ -7,9 +7,9 @@ library(ggplot2)
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
 csv_room_coordinates_path <-
-  ("../res/RoomsV1.0.csv")
+  ("../res/SortedRooms_V1.0.csv")
 csv_test_trajectories_path <-
-  ("../res/position_data/minecraft_pos_log_VP01_Tag1_neu.csv")
+  ("../res/position_data/minecraft_pos_log_VP03_Tag1_neu.csv")
 
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
@@ -49,8 +49,7 @@ for (rows in 1:nrow(rooms)) {
         trajectorie$y >= rooms[rows, y1] &
         trajectorie$y <= rooms[rows, y2] &
         # ToDo: Confirm right handlig of height
-        trajectorie$z < rooms[rows, z] + 4 &
-        trajectorie$z > rooms[rows, z] -1
+        trajectorie$z >= rooms[rows, z] - 1 # -1 for safety 
     )
   trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
 }
@@ -83,7 +82,7 @@ rooms = merge(
   all.x = TRUE
 )
 colnames(rooms)[colnames(rooms) == "x"] <- "TimeSpent"
-rooms[is.na(TimeSpent),"TimeSpent"]=0
+rooms[is.na(TimeSpent), "TimeSpent"] = 0
 
 g <- ggplot()
 g <- g + scale_x_continuous(name = "x")
@@ -106,10 +105,14 @@ g <-
                 mapping = aes(x = x, y = -y),
                 alpha = 0.5)#,color=as.factor(Room)
 # highlight room visits < n sec
-n <- 1
-shortVisits = trajectorie[rleid %in% roomGraph[TimeSpent < 1]$rleid]
-#g <-
-  g + geom_point(data = trajectorie[Room <1000 &
-                                      z > z1filter & z < z2filter], mapping = aes(x = x, y =
-                                                                                    -y, color = "red"))
+n <- -1
+# shortVisits = trajectorie[rleid %in% roomGraph[TimeSpent < 1]$rleid]
+if (nrow(trajectorie[Room == n]) != 0) {
+  g <-
+    g + geom_point(data = trajectorie[Room == n &
+                                        z > z1filter &
+                                        z < z2filter],
+                   mapping = aes(x = x, y =
+                                   -y, color = "red"))
+}
 print(g)
