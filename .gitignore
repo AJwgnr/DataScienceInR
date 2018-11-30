@@ -1,6 +1,7 @@
 # exclude dirs 
 literatur/
-res/
+res/*
+!res/SortedRooms_V1.0.csv
 
 # Generated Markdown files
 *.html
