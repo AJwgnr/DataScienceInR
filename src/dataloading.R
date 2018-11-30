@@ -1,13 +1,14 @@
 #library(readr)
 library(readxl)
 library(data.table)
+library(stringr)
 
 
 csv_trajectories_folder_path  <- "../res/position_data/"
 csv_persons_folder_path <-
   ("../res/person_data/minecraft_all_subjects.xlsx")
 csv_room_coordinates_path <-
-  ("../res/RoomsV1.0.csv")
+  ("../res/SortedRooms_V1.0.csv")
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
 
@@ -46,7 +47,7 @@ for (i in 1:length(file_list)) {
       3
   ))
   if (day == 1 & as.numeric(persons[VP == tpID]$firstVR) == 1) {
-    assig(traj2graph( ) # ToDo: fix me harder!
+    #assig(traj2graph( ) # ToDo: fix me harder!
   } else if (day == 2  &
              as.numeric(persons[VP == tpID]$VE_Day2) == 1) {
     #get(file_list[i]) # pass me to a function and give me the right world as well!
