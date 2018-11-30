@@ -9,7 +9,7 @@ library(ggplot2)
 csv_room_coordinates_path <-
   ("../res/SortedRooms_V1.0.csv")
 csv_test_trajectories_path <-
-  ("../res/position_data/minecraft_pos_log_VP03_Tag1_neu.csv")
+  ("../res/position_data/DEBUGFILENODATA.csv")
 
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
@@ -67,8 +67,8 @@ print(toc)
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
 #########################################################################################################################
-z1filter = 0# set z1filter to -10 to get all levels
-z2filter = 10# set z1filter to 10 to get all levels
+z1filter = -30# set z1filter to -10 to get all levels
+z2filter = 20# set z1filter to 10 to get all levels
 
 # integrate time spent per room into
 rooms = merge(
@@ -96,15 +96,15 @@ g <- g + geom_rect(
     xmax = x2,
     ymin = -y1,
     ymax = -y2,
-    fill = TimeSpent
+    fill = as.factor(id)
   ),
   color = "black",
   alpha = 0.5
 )
 g <-
   g + geom_path(data = trajectorie[z > z1filter & z < z2filter],
-                mapping = aes(x = x, y = -y),
-                alpha = 0.5)#,color=as.factor(Room)
+                mapping = aes(x = x, y = -y,color=as.factor(rleid)),
+                alpha = 0.5)#
 # highlight room visits < n sec
 n <- -1
 # shortVisits = trajectorie[rleid %in% roomGraph[TimeSpent < 1]$rleid]
@@ -116,5 +116,7 @@ if (nrow(trajectorie[Room == n & z > z1filter &
                                         z < z2filter],
                    mapping = aes(x = x, y =
                                    -y, color = "red"))
+}else{
+  print('No invalid positions detected')
 }
 print(g)
