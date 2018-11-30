@@ -49,7 +49,7 @@ for (rows in 1:nrow(rooms)) {
         trajectorie$y >= rooms[rows, y1] &
         trajectorie$y <= rooms[rows, y2] &
         # ToDo: Confirm right handlig of height
-        trajectorie$z >= rooms[rows, z] - 1 # -1 for safety 
+        trajectorie$z >= rooms[rows, z] - 1 # -1 for safety
     )
   trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
 }
@@ -67,8 +67,8 @@ print(toc)
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
 #########################################################################################################################
-z1filter = -100# set z1filter to -100 to get all levels
-z2filter = 100# set z1filter to 100 to get all levels
+z1filter = 0# set z1filter to -10 to get all levels
+z2filter = 10# set z1filter to 10 to get all levels
 
 # integrate time spent per room into
 rooms = merge(
@@ -108,7 +108,8 @@ g <-
 # highlight room visits < n sec
 n <- -1
 # shortVisits = trajectorie[rleid %in% roomGraph[TimeSpent < 1]$rleid]
-if (nrow(trajectorie[Room == n]) != 0) {
+if (nrow(trajectorie[Room == n & z > z1filter &
+                     z < z2filter]) != 0 ) {
   g <-
     g + geom_point(data = trajectorie[Room == n &
                                         z > z1filter &
