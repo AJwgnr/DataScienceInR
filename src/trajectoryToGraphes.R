@@ -58,10 +58,11 @@ print(toc)
 tic <- Sys.time()
 # Summarize into roomGraph
 trajectorie$rleid = rleid(trajectorie$Room)
-roomGraph = unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, rleid), trajectorie$rleid])
+roomGraph = unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, rleid), trajectorie$rleid]) # 0.1 sec spentd per trajectory row/timestemp
 toc <- Sys.time() - tic
 
 print(toc)
+
 
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
