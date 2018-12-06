@@ -7,9 +7,9 @@ library(ggplot2)
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
 csv_room_coordinates_path <-
-  ("../res/SortedRooms_V1.0.csv")
+  ("../res/SortedRooms_V2.0.csv")
 csv_test_trajectories_path <-
-  ("../res/position_data/DEBUGFILENODATA.csv")
+  ("../res/position_data/DEBUGFILENODATA_V2.csv")
 
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
@@ -32,12 +32,24 @@ for (row in 1:nrow(rooms)) {
   }
 }
 
-# Convert Minecraft Coordinates to Python Coordinates
-rooms$z  = rooms$z  - 72
-rooms$x1 = rooms$x1 - 249
-rooms$x2 = rooms$x2 - 249
-rooms$y1 = rooms$y1 - 227
-rooms$y2 = rooms$y2 - 227
+# Convert Minecraft Coordinates to Python Coordinates V1.0
+#############
+### V 1.0 ###
+#############
+# rooms$z  = rooms$z  - 72
+# rooms$x1 = rooms$x1 - 249
+# rooms$x2 = rooms$x2 - 249
+# rooms$y1 = rooms$y1 - 227
+# rooms$y2 = rooms$y2 - 227
+#############
+### V 2.0 ###
+#############
+rooms$z  = rooms$z  - 64
+rooms$x1 = rooms$x1 - 64
+rooms$x2 = rooms$x2 - 64
+rooms$y1 = rooms$y1 - 188
+rooms$y2 = rooms$y2 - 188
+############
 
 trajectorie$Room = -1
 tic <- Sys.time()
@@ -49,9 +61,10 @@ for (rows in 1:nrow(rooms)) {
         trajectorie$y >= rooms[rows, y1] &
         trajectorie$y <= rooms[rows, y2] &
         # ToDo: Confirm right handlig of height
-        trajectorie$z >= rooms[rows, z] - 1 # -1 for safety
+        trajectorie$z >= rooms[rows, z] - 1# &trajectorie$z <= rooms[rows, z] + 4
     )
   trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
+  trajectorie[condition == TRUE, "RoomHeight"] = rooms[rows, "z"]
 }
 toc <- Sys.time() - tic
 print(toc)
@@ -67,8 +80,10 @@ print(toc)
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
 #########################################################################################################################
-z1filter = -30# set z1filter to -10 to get all levels
-z2filter = 20# set z1filter to 10 to get all levels
+z1filter =  26# set z1filter to -10 to get all levels
+z2filter = 100# set z1filter to 40 to get all levels
+
+#### HIGHLIGHT stuff with a z coordinate not consitent to the z level!
 
 # integrate time spent per room into
 rooms = merge(
@@ -95,15 +110,18 @@ g <- g + geom_rect(
     xmin = x1,
     xmax = x2,
     ymin = -y1,
-    ymax = -y2,
-    fill = as.factor(id)
+    ymax = -y2,fill = as.factor(z)
   ),
   color = "black",
   alpha = 0.5
 )
+
+g <- g + geom_text(data=rooms[z > z1filter & z < z2filter], aes(x=x1+(x2-x1)/2, y=(y1+(y2-y1)/2)*(-1), label=id), size=4)
+
 g <-
   g + geom_path(data = trajectorie[z > z1filter & z < z2filter],
-                mapping = aes(x = x, y = -y,color=as.factor(rleid)),
+                mapping = aes(x = x, y = -y,color=as.factor(RoomHeight)
+                              ),
                 alpha = 0.5)#
 # highlight room visits < n sec
 n <- -1
@@ -119,4 +137,7 @@ if (nrow(trajectorie[Room == n & z > z1filter &
 }else{
   print('No invalid positions detected')
 }
+
+# <- g + scale_colour_gradient(limits=c(z1filter,z2filter))
+
 print(g)
