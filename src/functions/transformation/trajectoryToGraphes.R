@@ -80,7 +80,7 @@ print(toc)
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
 #########################################################################################################################
-z1filter =  26# set z1filter to -10 to get all levels
+z1filter =  -10# set z1filter to -10 to get all levels
 z2filter = 100# set z1filter to 40 to get all levels
 
 #### HIGHLIGHT stuff with a z coordinate not consitent to the z level!
