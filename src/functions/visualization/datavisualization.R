@@ -14,9 +14,6 @@
 
 # Plots basic information about the dataset
 createSimpleDataOverview <- function(dataset){
-  
-  
-  
-  
+  View(dataset)
 }
 

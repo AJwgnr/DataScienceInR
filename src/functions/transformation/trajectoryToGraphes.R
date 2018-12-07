@@ -1,6 +1,3 @@
-library(data.table)
-library(dplyr)
-library(ggplot2)
 # This file convertes trajectories to room based graphes
 # x,y,z,time -> roomeId,roomeName,timeSpent (on this single entry(multiple entries stored seperately))
 

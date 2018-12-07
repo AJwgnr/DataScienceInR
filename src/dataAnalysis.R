@@ -1,4 +1,9 @@
 #Import needed Libraries
+library(dtplyr)
+library(readxl)
+library(data.table)
+library(stringr)
+library(ggplot2)
 
 
 #Source the 
@@ -17,14 +22,15 @@ trajectorie = loadTrajectorieDataset()
 
 
 #TODO plot information about the dataset
-createSimpleDataOverview()
-
+createSimpleDataOverview(persons)
 
 
 # Preprocessed person dataset (Describe Preprocessing here!!!)
 preprocessed_persons = preprocessedPersonData(persons)
+createSimpleDataOverview(preprocessed_persons)
+
 #TODO plot information about the preprocessed dataset
-createSimpleDataOverview()
+#createSimpleDataOverview(preprocessed_persons)
 
 
 
