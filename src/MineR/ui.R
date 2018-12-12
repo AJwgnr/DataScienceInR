@@ -52,16 +52,51 @@ ds_sidebar = dashboardSidebar(
 )
 
 ds_body = dashboardBody(tabItems(
-  tabItem(
-    tabName = "introduction",
-    h2("Introduction"),
-    tags$video(
-      id = "video2",
-      type = "video/mp4",
-      src = "SampleVideo_1280x720_5mb.mp4",
-      controls = "controls"
-    )
-  ),
+  tabItem(tabName = "introduction",
+          h2("Introduction"),
+          fluidRow(
+            width = 12,
+            tabBox(
+              title = "First tabBox",
+              # The id lets us use input$tabset1 on the server to find the current tab
+              id = "tabset1",
+              height = "250px",
+              width = 12,
+              tabPanel(
+                "Tab1",
+                tags$video(
+                  id = "video2",
+                  type = "video/mp4",
+                  src = "VR1.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "Tab2",
+                tags$video(
+                  id = "video2",
+                  type = "video/mp4",
+                  src = "VR1.1.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "Tab3",
+                tags$video(
+                  id = "video2",
+                  type = "video/mp4",
+                  src = "VR2.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              )
+            )
+          )),
   tabItem(tabName = "rawData",
           h2("The data - raw"),
           fluidRow(
@@ -70,7 +105,8 @@ ds_body = dashboardBody(tabItems(
               # The id lets us use input$tabset1 on the server to find the current tab
               id = "tabset1",
               height = "250px",
-              tabPanel("Tab1", "First tab content"),
+              tabPanel("Tab1",
+                       renderDataTable("fooblaaa")),
               tabPanel("Tab2", "Second tab content")
             ),
             tabBox(
@@ -78,7 +114,8 @@ ds_body = dashboardBody(tabItems(
               side = "right",
               height = "250px",
               tabPanel("Tab1", "Tab content 1"),
-              tabPanel("Tab2", "Tab content 2")
+              tabPanel("Tab2", 
+                       rglwidgetOutput("trj3d"))
             )
           )),
   tabItem(tabName = "visualization",
