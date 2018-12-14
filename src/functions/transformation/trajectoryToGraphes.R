@@ -1,6 +1,10 @@
 # This file convertes trajectories to room based graphes
 # x,y,z,time -> roomeId,roomeName,timeSpent (on this single entry(multiple entries stored seperately))
 
+library("ggplot2")
+library("plotly")
+library("data.table")
+
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
 csv_room_coordinates_path <-
@@ -97,6 +101,54 @@ rooms = merge(
 colnames(rooms)[colnames(rooms) == "x"] <- "TimeSpent"
 rooms[is.na(TimeSpent), "TimeSpent"] = 0
 
+#### USE PLOTLY:
+
+p <- plot_ly (trajectorie[z > z1filter & z < z2filter],
+              type = "scatter3d",
+              x = ~x,
+              y = -trajectorie[z > z1filter & z < z2filter,y],
+              z = ~z,
+              line = list(width = 6, color = ~z, reverscale = FALSE),
+              mode = 'lines')
+
+# fuck rooms all apart! nobody needs shitty infity rooms...
+rooms = rooms[-1] # to hell with it!
+
+p <- plot_ly(rooms,
+        type = "mesh3d",
+        opacity=0.50,
+        x = c(rooms$x1,rooms$x2,rooms$x1,rooms$x2),
+        y = c(rooms$y1,rooms$y1,rooms$y2,rooms$y2),
+        z = c(rooms$z,rooms$z,rooms$z,rooms$z),
+        i = c(0:88,0:88),
+        j = c(89:177,178:266),
+        k = c(267:355,267:355)
+)
+p <- plot_ly(rooms,
+             type = "mesh3d",
+             opacity=0.50,
+             x = c(rooms$x1,rooms$x2,rooms$x1,rooms$x2),
+             y = c(rooms$y1,rooms$y1,rooms$y2,rooms$y2),
+             z = c(rooms$z,rooms$z,rooms$z,rooms$z),
+             i = c(0:(nrow(rooms)-1),0:(nrow(rooms)-1)),
+             j = c(nrow(rooms):(2*nrow(rooms)-1),(2*nrow(rooms)):266),
+             k = c((3*nrow(rooms)):(4*nrow(rooms)-1),(3*nrow(rooms)):(4*nrow(rooms)-1))
+)
+
+p <- plot_ly() %>% add_trace(trajectorie[z > z1filter & z < z2filter],
+                             type = "scatter3d",
+                             x = ~x,
+                             y = -trajectorie[z > z1filter & z < z2filter,y],
+                             z = ~z,
+                             line = list(width = 6, color = ~z, reverscale = FALSE),
+                             mode = 'lines')
+
+print(p)
+
+
+
+###### USE GGPLOT:
+
 g <- ggplot()
 g <- g + scale_x_continuous(name = "x")
 g <- g + scale_y_continuous(name = "y")
@@ -107,34 +159,49 @@ g <- g + geom_rect(
     xmin = x1,
     xmax = x2,
     ymin = -y1,
-    ymax = -y2,fill = as.factor(z)
+    ymax = -y2,
+    fill = as.factor(z)
   ),
   color = "black",
   alpha = 0.5
 )
 
-g <- g + geom_text(data=rooms[z > z1filter & z < z2filter], aes(x=x1+(x2-x1)/2, y=(y1+(y2-y1)/2)*(-1), label=id), size=4)
+g <-
+  g + geom_text(data = rooms[z > z1filter &
+                               z < z2filter],
+                aes(
+                  x = x1 + (x2 - x1) / 2,
+                  y = (y1 + (y2 - y1) / 2) * (-1),
+                  label = id
+                ),
+                size = 4)
 
 g <-
-  g + geom_path(data = trajectorie[z > z1filter & z < z2filter],
-                mapping = aes(x = x, y = -y,color=as.factor(RoomHeight)
-                              ),
-                alpha = 0.5)#
+  g + geom_path(
+    data = trajectorie[z > z1filter & z < z2filter],
+    mapping = aes(
+      x = x,
+      y = -y,
+      color = as.factor(RoomHeight)
+    ),
+    alpha = 0.5
+  )#
 # highlight room visits < n sec
 n <- -1
 # shortVisits = trajectorie[rleid %in% roomGraph[TimeSpent < 1]$rleid]
 if (nrow(trajectorie[Room == n & z > z1filter &
-                     z < z2filter]) != 0 ) {
+                     z < z2filter]) != 0) {
   g <-
     g + geom_point(data = trajectorie[Room == n &
                                         z > z1filter &
                                         z < z2filter],
                    mapping = aes(x = x, y =
                                    -y, color = "red"))
-}else{
+} else{
   print('No invalid positions detected')
 }
 
 # <- g + scale_colour_gradient(limits=c(z1filter,z2filter))
 
 print(g)
+
