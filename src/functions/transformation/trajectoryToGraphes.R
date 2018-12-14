@@ -103,45 +103,52 @@ rooms[is.na(TimeSpent), "TimeSpent"] = 0
 
 #### USE PLOTLY:
 
-p <- plot_ly (trajectorie[z > z1filter & z < z2filter],
-              type = "scatter3d",
-              x = ~x,
-              y = -trajectorie[z > z1filter & z < z2filter,y],
-              z = ~z,
-              line = list(width = 6, color = ~z, reverscale = FALSE),
-              mode = 'lines')
+p <- plot_ly (
+  trajectorie[z > z1filter & z < z2filter],
+  type = "scatter3d",
+  x = ~ x,
+  y = -trajectorie[z > z1filter & z < z2filter, y],
+  z = ~ z,
+  line = list(
+    width = 6,
+    color = ~ z,
+    reverscale = FALSE
+  ),
+  mode = 'lines'
+)
 
-# fuck rooms all apart! nobody needs shitty infity rooms...
+# nobody needs infit rooms...
 rooms = rooms[-1] # to hell with it!
 
-p <- plot_ly(rooms,
-        type = "mesh3d",
-        opacity=0.50,
-        x = c(rooms$x1,rooms$x2,rooms$x1,rooms$x2),
-        y = c(rooms$y1,rooms$y1,rooms$y2,rooms$y2),
-        z = c(rooms$z,rooms$z,rooms$z,rooms$z),
-        i = c(0:88,0:88),
-        j = c(89:177,178:266),
-        k = c(267:355,267:355)
-)
-p <- plot_ly(rooms,
-             type = "mesh3d",
-             opacity=0.50,
-             x = c(rooms$x1,rooms$x2,rooms$x1,rooms$x2),
-             y = c(rooms$y1,rooms$y1,rooms$y2,rooms$y2),
-             z = c(rooms$z,rooms$z,rooms$z,rooms$z),
-             i = c(0:(nrow(rooms)-1),0:(nrow(rooms)-1)),
-             j = c(nrow(rooms):(2*nrow(rooms)-1),(2*nrow(rooms)):266),
-             k = c((3*nrow(rooms)):(4*nrow(rooms)-1),(3*nrow(rooms)):(4*nrow(rooms)-1))
-)
-
-p <- plot_ly() %>% add_trace(trajectorie[z > z1filter & z < z2filter],
-                             type = "scatter3d",
-                             x = ~x,
-                             y = -trajectorie[z > z1filter & z < z2filter,y],
-                             z = ~z,
-                             line = list(width = 6, color = ~z, reverscale = FALSE),
-                             mode = 'lines')
+p <-
+  plot_ly() %>% add_trace(
+    data = trajectorie[z > z1filter & z < z2filter],
+    type = "scatter3d",
+    x = ~ x,
+    y = -trajectorie[z > z1filter &
+                       z < z2filter, y],
+    z = ~ z,
+    line = list(
+      width = 6,
+      color = ~ z,
+      reverscale = FALSE
+    ),
+    mode = 'lines'
+  ) %>%
+  add_trace(
+    data = rooms,
+    type = "mesh3d",
+    opacity = 0.50,
+    x = c(rooms$x1, rooms$x2, rooms$x1, rooms$x2),
+    y = c(-rooms$y1, -rooms$y1, -rooms$y2, -rooms$y2),
+    z = c(rooms$z, rooms$z, rooms$z, rooms$z),
+    i = c(0:(nrow(rooms) - 1), 0:(nrow(rooms) -
+                                    1)),
+    j = c(nrow(rooms):(2 * nrow(rooms) - 1), (2 *
+                                                nrow(rooms)):266),
+    k = c((3 * nrow(rooms)):(4 * nrow(rooms) - 1), (3 *
+                                                      nrow(rooms)):(4 * nrow(rooms) - 1))
+  )
 
 print(p)
 
@@ -204,4 +211,3 @@ if (nrow(trajectorie[Room == n & z > z1filter &
 # <- g + scale_colour_gradient(limits=c(z1filter,z2filter))
 
 print(g)
-
