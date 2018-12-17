@@ -11,6 +11,11 @@
 
 library(shiny)
 library(shinydashboard)
+library("rgl")
+library("car")
+library("data.table")
+
+# pkg: dygraphs sounds good
 
 ds_header = dashboardHeader(title = "MineR",
                             dropdownMenu(
