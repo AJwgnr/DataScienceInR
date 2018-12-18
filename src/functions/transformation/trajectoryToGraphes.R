@@ -8,9 +8,9 @@ library("data.table")
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
 csv_room_coordinates_path <-
-  ("../res/SortedRooms_V2.0.csv")
+  ("../res/SortedRooms_V1.0.csv")
 csv_test_trajectories_path <-
-  ("../res/position_data/DEBUGFILENODATA_V2.csv")
+  ("../res/position_data/DEBUGFILENODATA_V1.csv")
 
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
@@ -37,19 +37,19 @@ for (row in 1:nrow(rooms)) {
 #############
 ### V 1.0 ###
 #############
-# rooms$z  = rooms$z  - 72
-# rooms$x1 = rooms$x1 - 249
-# rooms$x2 = rooms$x2 - 249
-# rooms$y1 = rooms$y1 - 227
-# rooms$y2 = rooms$y2 - 227
+rooms$z  = rooms$z  - 72
+rooms$x1 = rooms$x1 - 249
+rooms$x2 = rooms$x2 - 249
+rooms$y1 = rooms$y1 - 227
+rooms$y2 = rooms$y2 - 227
 #############
 ### V 2.0 ###
 #############
-rooms$z  = rooms$z  - 64
-rooms$x1 = rooms$x1 - 64
-rooms$x2 = rooms$x2 - 64
-rooms$y1 = rooms$y1 - 188
-rooms$y2 = rooms$y2 - 188
+# rooms$z  = rooms$z  - 64
+# rooms$x1 = rooms$x1 - 64
+# rooms$x2 = rooms$x2 - 64
+# rooms$y1 = rooms$y1 - 188
+# rooms$y2 = rooms$y2 - 188
 ############
 
 trajectorie$Room = -1
@@ -78,11 +78,12 @@ toc <- Sys.time() - tic
 print(toc)
 
 
+
 #########################################################################################################################
 ###Visualisatzion                                                                                                     ###
 #########################################################################################################################
-z1filter =  -10# set z1filter to -10 to get all levels
-z2filter = 100# set z1filter to 40 to get all levels
+z1filter =  -100# set z1filter to -10 to get all levels
+z2filter = 500# set z1filter to 40 to get all levels
 
 #### HIGHLIGHT stuff with a z coordinate not consitent to the z level!
 
@@ -103,19 +104,19 @@ rooms[is.na(TimeSpent), "TimeSpent"] = 0
 
 #### USE PLOTLY:
 
-p <- plot_ly (
-  trajectorie[z > z1filter & z < z2filter],
-  type = "scatter3d",
-  x = ~ x,
-  y = -trajectorie[z > z1filter & z < z2filter, y],
-  z = ~ z,
-  line = list(
-    width = 6,
-    color = ~ z,
-    reverscale = FALSE
-  ),
-  mode = 'lines'
-)
+# p <- plot_ly (
+#   trajectorie[z > z1filter & z < z2filter],
+#   type = "scatter3d",
+#   x = ~ x,
+#   y = -trajectorie[z > z1filter & z < z2filter, y],
+#   z = ~ z,
+#   line = list(
+#     width = 6,
+#     color = ~ z,
+#     reverscale = FALSE
+#   ),
+#   mode = 'lines'
+# )
 
 # nobody needs infit rooms...
 rooms = rooms[-1] # to hell with it!
@@ -148,9 +149,9 @@ p <-
                                                 nrow(rooms)):266),
     k = c((3 * nrow(rooms)):(4 * nrow(rooms) - 1), (3 *
                                                       nrow(rooms)):(4 * nrow(rooms) - 1))
-  )
+  ) %>% layout(title = "FUCK PLOTTING IN R",aspectmode='cube')
 
-print(p)
+#print(p)
 
 
 
