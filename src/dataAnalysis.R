@@ -19,6 +19,7 @@ persons = loadPersonsDataset()
 roomsWorldOne = loadRoomsDefinitionWorldOne()
 #roomsWorldTwo = loadRoomsDefinitionWorldTwo()
 trajectorie = loadTrajectorieDataset()
+singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
 
 
 #TODO plot information about the dataset

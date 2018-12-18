@@ -26,29 +26,59 @@ loadRoomsDefinitionWorldTwo <- function() {
 }
 
 
-
-
-loadTrajectorieDataset <- function() {
-  #tempNames = list.files(path=CSV_TRAJECTORIES_FOLDER_PATH, pattern="*.csv")
-  #myfiles = lapply(tempNames, fread)
-  #trajectorie <- fread(csv_test_trajectories_path)
-  
-  all.files <- list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,pattern = ".csv",full.names= TRUE)
+# Loads all .csv files contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
+# Returns a list of data tables of the csv files
+loadCompleteTrajectorieDataset <- function() {
+  fileNames <- list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,pattern = ".csv",full.names= TRUE)
   
   ## Read data using fread
   readdata <- function(fn){
     dt_temp <- fread(fn, sep=",")
-    #keycols <- c("VP")
-    #setkeyv(dt_temp,keycols)  # Notice there's a "v" after setkey with multiple keys
     return(dt_temp)
-    
   }
-  mylist <- lapply(all.files, readdata)
-  
-  
+  ## List containing all data tables 
+  mylist <- lapply(fileNames, readdata)
   return(mylist)
 }
 
 
+loadTrajectorieByPersonIDAndDay <- function(id, day){
+  fileNamesList <- list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,pattern = ".csv",full.names= TRUE)
+  trajectory <- loadCompleteTrajectorieDataset()
+  
+  if(id ==0 || day==0){
+    return()
+  }
+  
+  
+  if (day == 1) {
+    index <-((id*2)-1)
+  }else if(day == 2) {
+    index <-(id*2)
+    }
+    else{
+      print('Wrong day provided')
+    }
+  fileName <- fileNamesList[[index]]
 
-loadTrajectorieDataset()
+  if(nchar(id) == 1){
+    id = paste('0',id,sep="")
+  }
+  
+  idToCheck <- (paste('VP',id,sep=""))
+  dayToCheck <- (paste('Tag',day,sep=""))
+  
+  
+  if(grepl(idToCheck,fileName) & grepl(dayToCheck,fileName)){
+    trajectoryFileForIDandDay = trajectory[[index]]
+    
+  }else{
+    print('ID and date enteres doesn´t correspond to the filename of the csv')
+  }
+  
+  return(trajectoryFileForIDandDay)
+}
+
+
+#trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))
+
