@@ -14,6 +14,7 @@ library(shinydashboard)
 library("rgl")
 library("car")
 library("data.table")
+library("plotly")
 
 # pkg: dygraphs sounds good
 
@@ -118,7 +119,7 @@ ds_body = dashboardBody(tabItems(
               title = "Second tabBox",
               side = "right",
               height = "250px",
-              tabPanel("Tab1", "Tab content 1"),
+              tabPanel("Tab1", plotlyOutput("histTimeRooms")),
               tabPanel("Tab2", 
                        rglwidgetOutput("trj3d"))
             )
