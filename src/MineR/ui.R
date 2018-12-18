@@ -35,15 +35,13 @@ ds_header = dashboardHeader(title = "MineR",
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
     id = "menuTasks",
-    menuItem("Introduction",
+    menuItem("Project Introduction",
              tabName = "introduction",
              icon = icon("th")),
     menuItem(
-      "The Data - raw",
+      "The Dataset",
       tabName = "rawData",
-      icon = icon("th"),
-      badgeLabel = "sample",
-      badgeColor = "green"
+      icon = icon("th")
     ),
     menuItem(
       "Visual data exploration",
