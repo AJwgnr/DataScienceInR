@@ -1,9 +1,9 @@
 # PATH DECLARATIONS
-CSV_TRAJECTORIES_FOLDER_PATH <- "./res/position_data/"
+CSV_TRAJECTORIES_FOLDER_PATH <- "../../res/position_data/"
 CSV_PERSONS_FOLDER_PATH <-
-  ("./res/person_data/minecraft_all_subjects.xlsx")
-CSV_ROOM_WORLD_ONE_COORDINATE_PATH <- ("./res/room_data/SortedRooms_V1.0.csv")
-CSV_ROOM_WORLD_TWO_COORDINATE_PATH <- ("")
+  ("../../res/person_data/minecraft_all_subjects.xlsx")
+CSV_ROOM_WORLD_ONE_COORDINATE_PATH <- ("../../res/room_data/SortedRooms_V1.0.csv")
+CSV_ROOM_WORLD_TWO_COORDINATE_PATH <- ("../../res/room_data/SortedRooms_V2.0.csv")
 
 
 # Loads the dataset containing all persons attributes into a data table
