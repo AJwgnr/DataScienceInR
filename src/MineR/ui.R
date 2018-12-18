@@ -20,7 +20,6 @@ library("plotly")
 
 ################################################################################
 ### Header:
-################################################################################
 
 ds_header = dashboardHeader(title = "MineR",
                             dropdownMenu(
@@ -30,14 +29,19 @@ ds_header = dashboardHeader(title = "MineR",
                             ))
 ################################################################################
 ### Sidebar:
-################################################################################
 
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
-    id = "menuTasks",
+    id = "menuTasks", # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
+    ###**************************
+    ### MenueItem 1: Introduction
+    ###**************************
     menuItem("Introduction",
              tabName = "introduction",
              icon = icon("th")),
+    ###**************************
+    ### MenueItem 1: Raw Data
+    ###**************************
     menuItem(
       "The Data - raw",
       tabName = "rawData",
@@ -45,19 +49,31 @@ ds_sidebar = dashboardSidebar(
       badgeLabel = "sample",
       badgeColor = "green"
     ),
+    ###**************************
+    ### MenueItem 1: Visuals
+    ###**************************
     menuItem(
       "Visual data exploration",
       tabName = "visualization",
       icon = icon("th")
     ),
+    ###**************************
+    ### MenueItem 1: Features
+    ###**************************
     menuItem(
       "Trajectory feature exploration",
       tabName = "trjFeatures",
       icon = icon("th")
     ),
+    ###**************************
+    ### MenueItem 1: Clustering
+    ###**************************
     menuItem("Clustering",
              tabName = "clustering",
              icon = icon("th")),
+    ###**************************
+    ### MenueItem 1: DecisionTree
+    ###**************************
     menuItem("Decision Trees",
              tabName = "decisionTree",
              icon = icon("th"))
@@ -66,26 +82,27 @@ ds_sidebar = dashboardSidebar(
 
 ################################################################################
 ### Dashboard:
-################################################################################
 
 ds_body = dashboardBody(tabItems(
-  ###********************
+  ###********************************************************************************
   ### Tab 1: Indroduction; videos, experiment, text, data, motivation ect. ...
-  ###********************
+  ###********************************************************************************
   tabItem(tabName = "introduction",
           h2("Introduction"),
-          ######
-          # Tab 1: fluidRow 1: ToDo: teaser video
+          #======================================
+          # Tab 1: fluidRow 2: ToDo: Teaser Video
+          #======================================
+          fluidRow(width = 12,
+                   tabBox(title = "First tabBox")),
+          #======================================
+          # Tab 1: fluidRow 2: Minecraft Worlds
+          #======================================
           fluidRow(
             width = 12,
             tabBox(
-              title = "First tabBox",
-              # The id lets us use input$tabset1 on the server to find the current tab
-              id = "tabset1",
+              title = "Second tabBox",
               height = "250px",
               width = 12,
-              #********
-              # tabPanel: 
               tabPanel(
                 "Tab1",
                 tags$video(
@@ -121,16 +138,17 @@ ds_body = dashboardBody(tabItems(
               )
             )
           )),
-  ###********************
+  ###********************************************************************************
   ### Tab 2: Data Raw; table, scatterplots, 
-  ###********************
+  ###********************************************************************************
   tabItem(tabName = "rawData",
           h2("The data - raw"),
+          #======================================
+          # Tab 2: fluidRow 1: ToDo
+          #======================================
           fluidRow(
             tabBox(
               title = "First tabBox",
-              # The id lets us use input$tabset1 on the server to find the current tab
-              id = "tabset1",
               height = "250px",
               tabPanel("Tab1",
                        renderDataTable("fooblaaa")),
@@ -145,29 +163,28 @@ ds_body = dashboardBody(tabItems(
                        rglwidgetOutput("trj3d"))
             )
           )),
-  ###********************
-  ### Tab 3;
-  ###********************
+  ###********************************************************************************
+  ### Tab 3: Visualization 
+  ###********************************************************************************
   tabItem(tabName = "visualization",
           h2("Visual data exploration")),
-  ###********************
-  ### Tab 4:
-  ###********************
+  ###********************************************************************************
+  ### Tab 4: Trajectroy features
+  ###********************************************************************************
   tabItem(tabName = "trjFeatures",
           h2("Trajectory feature exploration")),
-  ###********************
-  ### Tab 5:
-  ###********************
+  ###********************************************************************************
+  ### Tab 5: Clustering plus visualization
+  ###********************************************************************************
   tabItem(tabName = "clustering",
           h2("Clustering")),
-  ###********************
-  ### Tab 6:
-  ###********************
+  ###********************************************************************************
+  ### Tab 6: Decision Tree plus visualization
+  ###********************************************************************************
   tabItem(tabName = "decisionTree",
           h2("Decision tree"))
 ))
 
 ################################################################################
 ### DashboardPage: (must be last)
-################################################################################
 dashboardPage(ds_header, ds_sidebar, ds_body)
