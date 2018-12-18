@@ -18,12 +18,19 @@ library("plotly")
 
 # pkg: dygraphs sounds good
 
+################################################################################
+### Header:
+################################################################################
+
 ds_header = dashboardHeader(title = "MineR",
                             dropdownMenu(
                               type = "message",
                               messageItem(from = "WHO Breaking News:",
                                           message = "Minecraft cures ADHD.")
                             ))
+################################################################################
+### Sidebar:
+################################################################################
 
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
@@ -57,9 +64,18 @@ ds_sidebar = dashboardSidebar(
   )
 )
 
+################################################################################
+### Dashboard:
+################################################################################
+
 ds_body = dashboardBody(tabItems(
+  ###********************
+  ### Tab 1: Indroduction; videos, experiment, text, data, motivation ect. ...
+  ###********************
   tabItem(tabName = "introduction",
           h2("Introduction"),
+          ######
+          # Tab 1: fluidRow 1: ToDo: teaser video
           fluidRow(
             width = 12,
             tabBox(
@@ -68,6 +84,8 @@ ds_body = dashboardBody(tabItems(
               id = "tabset1",
               height = "250px",
               width = 12,
+              #********
+              # tabPanel: 
               tabPanel(
                 "Tab1",
                 tags$video(
@@ -103,6 +121,9 @@ ds_body = dashboardBody(tabItems(
               )
             )
           )),
+  ###********************
+  ### Tab 2: Data Raw; table, scatterplots, 
+  ###********************
   tabItem(tabName = "rawData",
           h2("The data - raw"),
           fluidRow(
@@ -124,15 +145,29 @@ ds_body = dashboardBody(tabItems(
                        rglwidgetOutput("trj3d"))
             )
           )),
+  ###********************
+  ### Tab 3;
+  ###********************
   tabItem(tabName = "visualization",
           h2("Visual data exploration")),
+  ###********************
+  ### Tab 4:
+  ###********************
   tabItem(tabName = "trjFeatures",
           h2("Trajectory feature exploration")),
+  ###********************
+  ### Tab 5:
+  ###********************
   tabItem(tabName = "clustering",
           h2("Clustering")),
+  ###********************
+  ### Tab 6:
+  ###********************
   tabItem(tabName = "decisionTree",
           h2("Decision tree"))
 ))
 
-# Define UI for application that draws everything
+################################################################################
+### DashboardPage: (must be last)
+################################################################################
 dashboardPage(ds_header, ds_sidebar, ds_body)
