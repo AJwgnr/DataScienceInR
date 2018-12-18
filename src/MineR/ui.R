@@ -85,17 +85,17 @@ ds_sidebar = dashboardSidebar(
 
 ds_body = dashboardBody(tabItems(
   ###********************************************************************************
-  ### Tab 1: Indroduction; videos, experiment, text, data, motivation ect. ...
+  ### Page 1: Indroduction; videos, experiment, text, data, motivation ect. ...
   ###********************************************************************************
   tabItem(tabName = "introduction",
           h2("Introduction"),
           #======================================
-          # Tab 1: fluidRow 2: ToDo: Teaser Video
+          # Page 1: fluidRow 1: ToDo: Teaser Video
           #======================================
           fluidRow(width = 12,
                    tabBox(title = "First tabBox")),
           #======================================
-          # Tab 1: fluidRow 2: Minecraft Worlds
+          # Page 1: fluidRow 2: Minecraft Worlds
           #======================================
           fluidRow(
             width = 12,
@@ -139,7 +139,7 @@ ds_body = dashboardBody(tabItems(
             )
           )),
   ###********************************************************************************
-  ### Tab 2: Data Raw; table, scatterplots, 
+  ### Page 2: Data Raw; table, scatterplots, 
   ###********************************************************************************
   tabItem(tabName = "rawData",
           h2("The data - raw"),
@@ -164,22 +164,22 @@ ds_body = dashboardBody(tabItems(
             )
           )),
   ###********************************************************************************
-  ### Tab 3: Visualization 
+  ### Page 3: Visualization 
   ###********************************************************************************
   tabItem(tabName = "visualization",
           h2("Visual data exploration")),
   ###********************************************************************************
-  ### Tab 4: Trajectroy features
+  ### Page 4: Trajectroy features
   ###********************************************************************************
   tabItem(tabName = "trjFeatures",
           h2("Trajectory feature exploration")),
   ###********************************************************************************
-  ### Tab 5: Clustering plus visualization
+  ### Page 5: Clustering plus visualization
   ###********************************************************************************
   tabItem(tabName = "clustering",
           h2("Clustering")),
   ###********************************************************************************
-  ### Tab 6: Decision Tree plus visualization
+  ### Page 6: Decision Tree plus visualization
   ###********************************************************************************
   tabItem(tabName = "decisionTree",
           h2("Decision tree"))
