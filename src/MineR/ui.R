@@ -15,6 +15,7 @@ library("rgl")
 library("car")
 library("data.table")
 library("plotly")
+library(DT)
 
 # pkg: dygraphs sounds good
 
@@ -32,7 +33,8 @@ ds_header = dashboardHeader(title = "MineR",
 
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
-    id = "menuTasks", # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
+    id = "menuTasks",
+    # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
     ###**************************
     ### MenueItem 1: Introduction
     ###**************************
@@ -87,84 +89,100 @@ ds_body = dashboardBody(tabItems(
   ###********************************************************************************
   ### Page 1: Indroduction; videos, experiment, text, data, motivation ect. ...
   ###********************************************************************************
-  tabItem(tabName = "introduction",
-          h2("Introduction"),
-          #======================================
-          # Page 1: fluidRow 1: ToDo: Teaser Video
-          #======================================
-          fluidRow(width = 12,
-                   tabBox(title = "First tabBox")),
-          #======================================
-          # Page 1: fluidRow 2: Minecraft Worlds
-          #======================================
-          fluidRow(
-            width = 12,
-            tabBox(
-              title = "Second tabBox",
-              height = "250px",
-              width = 12,
-              tabPanel(
-                "Tab1",
-                tags$video(
-                  id = "video2",
-                  type = "video/mp4",
-                  src = "VR1.0.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              ),
-              tabPanel(
-                "Tab2",
-                tags$video(
-                  id = "video2",
-                  type = "video/mp4",
-                  src = "VR1.1.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              ),
-              tabPanel(
-                "Tab3",
-                tags$video(
-                  id = "video2",
-                  type = "video/mp4",
-                  src = "VR2.0.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              )
-            )
-          )),
+  tabItem(
+    tabName = "introduction",
+    h2("Introduction"),
+    #======================================
+    # Page 1: fluidRow 1: ToDo: Teaser Video
+    #======================================
+    fluidRow(width = 12,
+             tabBox(title = "First tabBox")),
+    #======================================
+    # Page 1: fluidRow 2: Minecraft Worlds
+    #======================================
+    fluidRow(
+      width = 12,
+      tabBox(
+        title = "Second tabBox",
+        height = "250px",
+        width = 12,
+        tabPanel(
+          "Tab1",
+          tags$video(
+            id = "video2",
+            type = "video/mp4",
+            src = "VR1.0.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        ),
+        tabPanel(
+          "Tab2",
+          tags$video(
+            id = "video2",
+            type = "video/mp4",
+            src = "VR1.1.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        ),
+        tabPanel(
+          "Tab3",
+          tags$video(
+            id = "video2",
+            type = "video/mp4",
+            src = "VR2.0.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        )
+      )
+    )
+  ),
   ###********************************************************************************
-  ### Page 2: Data Raw; table, scatterplots, 
+  ### Page 2: Data Raw; table, scatterplots,
   ###********************************************************************************
-  tabItem(tabName = "rawData",
-          h2("The data - raw"),
-          #======================================
-          # Tab 2: fluidRow 1: ToDo
-          #======================================
-          fluidRow(
-            tabBox(
-              title = "First tabBox",
-              height = "250px",
-              tabPanel("Tab1",
-                       renderDataTable("fooblaaa")),
-              tabPanel("Tab2", "Second tab content")
-            ),
-            tabBox(
-              title = "Second tabBox",
-              side = "right",
-              height = "250px",
-              tabPanel("Tab1", plotlyOutput("histTimeRooms")),
-              tabPanel("Tab2", 
-                       rglwidgetOutput("trj3d"))
-            )
-          )),
+  tabItem(
+    tabName = "rawData",
+    h2("The data - raw"),
+    #======================================
+    # Tab 2: fluidRow 1: ToDo
+    #======================================
+    fluidRow(
+      width = 12,
+      h3(width = 12, "Fuck you!"),
+      DT::dataTableOutput("gx_DT_personsDataTable"),style = "height:500px; overflow-y: scroll;overflow-x: scroll;",
+      h3(width = 12, "Fuck you too!")
+    ),
+    #======================================
+    # Tab 2: fluidRow 2: ToDo
+    #======================================
+    fluidRow(
+      width = 12,
+      tabBox(
+        title = "2nd row FIrst tabBox",
+        side = "right",
+        height = "250px",
+        tabPanel("Tab1", plotlyOutput("histTimeRooms")),
+        tabPanel("Tab2",
+                 h2("wasrgelouts"))
+      ),
+      tabBox(
+        title = "2nd row Second tabBox",
+        side = "right",
+        height = "250px",
+        tabPanel(
+          "mytable"
+        ),
+        tabPanel("Tab2", h2("tab2"))
+      )
+    )
+  ),
   ###********************************************************************************
-  ### Page 3: Visualization 
+  ### Page 3: Visualization
   ###********************************************************************************
   tabItem(tabName = "visualization",
           h2("Visual data exploration")),
