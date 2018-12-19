@@ -33,52 +33,49 @@ ds_header = dashboardHeader(title = "MineR",
 
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
-    id = "menuTasks",
-    # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
+    id = "menuTasks", # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
     ###**************************
     ### MenueItem 1: Introduction
     ###**************************
-    menuItem("Introduction",
+    menuItem("Project Introduction",
              tabName = "introduction",
              icon = icon("th")),
     ###**************************
-    ### MenueItem 1: Raw Data
+    ### MenueItem 2: Dataset
     ###**************************
     menuItem(
-      "The Data - raw",
+      "The Dataset",
       tabName = "rawData",
-      icon = icon("th"),
-      badgeLabel = "sample",
-      badgeColor = "green"
+      icon = icon("database")
     ),
     ###**************************
-    ### MenueItem 1: Visuals
+    ### MenueItem 3: Visuals
     ###**************************
     menuItem(
       "Visual data exploration",
       tabName = "visualization",
-      icon = icon("th")
+      icon = icon("analytics")
     ),
     ###**************************
-    ### MenueItem 1: Features
+    ### MenueItem 4: Features
     ###**************************
     menuItem(
       "Trajectory feature exploration",
       tabName = "trjFeatures",
-      icon = icon("th")
+      icon = icon("running")
     ),
     ###**************************
-    ### MenueItem 1: Clustering
+    ### MenueItem 5: Clustering
     ###**************************
     menuItem("Clustering",
              tabName = "clustering",
-             icon = icon("th")),
+             icon = icon("chart-pie")),
     ###**************************
-    ### MenueItem 1: DecisionTree
+    ### MenueItem 6: DecisionTree
     ###**************************
     menuItem("Decision Trees",
              tabName = "decisionTree",
-             icon = icon("th"))
+             icon = icon("tree"))
   )
 )
 
@@ -89,59 +86,89 @@ ds_body = dashboardBody(tabItems(
   ###********************************************************************************
   ### Page 1: Indroduction; videos, experiment, text, data, motivation ect. ...
   ###********************************************************************************
-  tabItem(
-    tabName = "introduction",
-    h2("Introduction"),
-    #======================================
-    # Page 1: fluidRow 1: ToDo: Teaser Video
-    #======================================
-    fluidRow(width = 12,
-             tabBox(title = "First tabBox")),
-    #======================================
-    # Page 1: fluidRow 2: Minecraft Worlds
-    #======================================
-    fluidRow(
-      width = 12,
-      tabBox(
-        title = "Second tabBox",
-        height = "250px",
-        width = 12,
-        tabPanel(
-          "Tab1",
-          tags$video(
-            id = "video2",
-            type = "video/mp4",
-            src = "VR1.0.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        ),
-        tabPanel(
-          "Tab2",
-          tags$video(
-            id = "video2",
-            type = "video/mp4",
-            src = "VR1.1.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        ),
-        tabPanel(
-          "Tab3",
-          tags$video(
-            id = "video2",
-            type = "video/mp4",
-            src = "VR2.0.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        )
-      )
-    )
-  ),
+  tabItem(tabName = "introduction",
+          h2("Project Introduction"),
+          tags$div(
+            tags$p("Enter description of course here!!!"),
+            tags$b("Johannes Dambacher"), "and",
+            tags$b("Alexander Wagner"),
+            "winter semester 2018/2019 at the Otto-von-Guericke university Magdeburg",
+            tags$br(),
+            tags$a(href=" http://www.kkjp.ovgu.de/Forschung.html", "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"),
+            tags$br(),
+            tags$a(href="https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),
+            tags$br(),
+            tags$a(href="https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"),
+            tags$br(),
+            tags$a(href="http://www.kmd.ovgu.de", "KMD Lab"),
+            tags$br(),
+            tags$a(href="https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),
+            tags$br(),
+            tags$br(),
+
+            tags$br()
+          ),
+          tags$div(
+                   tags$img(src='datascir.png', align = "left"),
+                   tags$img(src='fin.png', align = "right"),
+                   tags$img(src='medlogo.jpeg', align = "center")),
+          #======================================
+          # Page 1: fluidRow 1: ToDo: Teaser Video
+          #======================================
+          fluidRow(width = 12,
+                   tabBox(title = "Watch me! :)",
+                          tags$video(
+                            id = "video2",
+                            type = "video/mp4",
+                            src = "VR1.0.mp4",
+                            controls = "controls",
+                            width = "auto",
+                            height = 250
+                          ))),
+          #======================================
+          # Page 1: fluidRow 2: Minecraft Worlds
+          #======================================
+          fluidRow(
+            width = 12,
+            tabBox(
+              title = "Minecraft World´s",
+              height = 12,
+              width = 12,
+              tabPanel(
+                "The Mansion",
+                tags$video(
+                  id = "video1",
+                  type = "video/mp4",
+                  src = "VR1.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "The Mansion (altered)",
+                tags$video(
+                  id = "video2",
+                  type = "video/mp4",
+                  src = "VR1.1.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "The pirate island",
+                tags$video(
+                  id = "video3",
+                  type = "video/mp4",
+                  src = "VR2.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              )
+            )
+          )),
   ###********************************************************************************
   ### Page 2: Data Raw; table, scatterplots,
   ###********************************************************************************
@@ -201,8 +228,8 @@ ds_body = dashboardBody(tabItems(
   ### Page 6: Decision Tree plus visualization
   ###********************************************************************************
   tabItem(tabName = "decisionTree",
-          h2("Decision tree"))
-))
+          h2("Decision tree")
+)))
 
 ################################################################################
 ### DashboardPage: (must be last)
