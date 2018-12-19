@@ -1,9 +1,9 @@
 #
-# This is the server logic of a Shiny web application. You can run the 
+# This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
 #
 # Find out more about building applications with Shiny here:
-# 
+#
 #    http://shiny.rstudio.com/
 #
 
@@ -22,8 +22,7 @@ library(DT)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  
-  #Source the 
+  #Source the
   source("../functions/data/dataloading.R")
   
   personsDataTable <- loadPersonsDataset()
@@ -31,21 +30,99 @@ shinyServer(function(input, output) {
   ### Here the plotting starts
   
   # Plot personsDataTable as table
-  output$gx_DT_personsDataTable <- DT::renderDataTable(personsDataTable,options = list(paging = FALSE))
+  output$gx_DT_personsDataTable <-
+    DT::renderDataTable(
+      personsDataTable,
+      options = list(
+        scrollX = TRUE,
+        scrollY = 350,
+        pageLength = -1
+      ),
+      selection = "single"
+    )
   
+  # roomGraphDayOne = renderPrint({
+  #   selectedPersons = input$gx_DT_personsDataTable_rows_selected
+  #   if (length(selectedPersons)) {
+  #     # ToDo: invoke traj2graph and compute the roooms visited
+  #   }
+  # })
   
-  # Fix this shit later!
-  output$histTimeRooms <-renderPlotly({plot_ly()%>%add_bars(data=unique(rooms[,c("id","TimeSpent")]),y=~TimeSpent,x=~names)}) 
-  
-  # Deprecated Rgl plot => use plot_ly mesh3d/scatter3 instead
-  output$trj3d <- renderRglwidget({
-    rgl.open(useNULL=T)
-    x<-trajectorie$x;
-    y<-trajectorie$y;
-    z<-trajectorie$z;
-    scatter3d(x,z,y,point.col=c(1,2,3,4,5,6,7),surface = FALSE);
-    rglwidget()
+  output$plot <- renderPlotly({
+    if (FALSE) {
+      plot_ly(mtcars, x = ~ mpg, y = ~ wt)
+    }
+    
   })
+  
+  output$gx_3d_trajectoryDayOne <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    if (length(selectedPersons)) {
+      print(selectedPersons)
+      print(personsDataTable[selectedPersons, VP])
+      # ToDo: invoke traj2graph and compute the roooms visited
+      selectedPersonTrajectoryDayOne <-
+        loadTrajectorieByPersonIDAndDay(personsDataTable[selectedPersons, VP], 1)
+      plot_ly() %>% add_trace(
+        data = selectedPersonTrajectoryDayOne,
+        type = "scatter3d",
+        x = ~ x,
+        y = ~ y,
+        z = ~ z,
+        line = list(
+          width = 6,
+          color = ~ z,
+          reverscale = FALSE
+        ),
+        mode = 'lines'
+      )
+    }
+    
+  })
+  
+  
+  output$gx_3d_trajectoryDayTwo <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    if (length(selectedPersons)) {
+      print(selectedPersons)
+      print(personsDataTable[selectedPersons, VP])
+      # ToDo: invoke traj2graph and compute the roooms visited
+      selectedPersonTrajectoryDayTwo <-
+        loadTrajectorieByPersonIDAndDay(personsDataTable[selectedPersons, VP], 2)
+      plot_ly() %>% add_trace(
+        data = selectedPersonTrajectoryDayTwo,
+        type = "scatter3d",
+        x = ~ x,
+        y = ~ y,
+        z = ~ z,
+        line = list(
+          width = 6,
+          color = ~ z,
+          reverscale = FALSE
+        ),
+        mode = 'lines'
+      )
+    }
+    
+  })
+  
+  
+  # # Fix this shit later!
+  # output$histTimeRoomsDayOne <-
+  #   renderPlotly({
+  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
+  #                            y =  ~ TimeSpent,
+  #                            x =  ~ names)
+  #   })
+  #
+  # output$histTimeRoomsDayOne <-
+  #   renderPlotly({
+  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
+  #                            y =  ~ TimeSpent,
+  #                            x =  ~ names)
+  #   })
+  #
+  
   
   
 })

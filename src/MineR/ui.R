@@ -151,33 +151,34 @@ ds_body = dashboardBody(tabItems(
     #======================================
     # Tab 2: fluidRow 1: ToDo
     #======================================
-    fluidRow(
-      width = 12,
-      h3(width = 12, "Fuck you!"),
-      DT::dataTableOutput("gx_DT_personsDataTable"),style = "height:500px; overflow-y: scroll;overflow-x: scroll;",
-      h3(width = 12, "Fuck you too!")
-    ),
+    fluidRow(width = 12,
+             box(
+               title = "Test persons data table",
+               width = 12,
+               DT::dataTableOutput("gx_DT_personsDataTable")
+             )),
     #======================================
     # Tab 2: fluidRow 2: ToDo
     #======================================
     fluidRow(
       width = 12,
+      h2(width=12, "Trajectory and room data:"),
       tabBox(
-        title = "2nd row FIrst tabBox",
+        title = "First Day",
         side = "right",
-        height = "250px",
-        tabPanel("Tab1", plotlyOutput("histTimeRooms")),
+        selected = "Tab2",
+        tabPanel("Tab1", "times room entered"),
         tabPanel("Tab2",
-                 h2("wasrgelouts"))
+                 verbatimTextOutput("timePerRoomDayOne")),
+        tabPanel("Tab3",plotlyOutput("gx_3d_trajectoryDayOne"))
       ),
       tabBox(
-        title = "2nd row Second tabBox",
+        title = "Second Day",
         side = "right",
-        height = "250px",
-        tabPanel(
-          "mytable"
-        ),
-        tabPanel("Tab2", h2("tab2"))
+        selected = "Tab2",
+        tabPanel("Tab1","times room entered"),
+        tabPanel("Tab2", "Time spent per room"),
+        tabPanel("Tab3",plotlyOutput("gx_3d_trajectoryDayTwo"))
       )
     )
   ),

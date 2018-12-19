@@ -50,7 +50,6 @@ loadTrajectorieByPersonIDAndDay <- function(id, day){
     return()
   }
   
-  
   if (day == 1) {
     index <-((id*2)-1)
   }else if(day == 2) {
