@@ -36,6 +36,15 @@ shinyServer(function(input, output) {
   # Load all stored data
   personsDataTable <- loadPersonsDataset()
   
+  # Load trajectorie data for day one into key value like list
+  trajectoryDataDayOne = loadTrajectoryByDay(1)
+  trajectoryDataDayTwo = loadTrajectoryByDay(2)
+  
+  # Load room coordinates of VR1.0/1 and VR2.0 
+  # (sorts and transforms coordinates to respective world)
+  roomCoordinatesVR1.0 = loadRoomsDefinitionWorldOne()
+  roomCoordinatesVR2.0 = loadRoomsDefinitionWorldTwo()
+  
   ###################
   #### Precompute ###
   ###################
@@ -81,23 +90,16 @@ shinyServer(function(input, output) {
   #   }
   # })
   
-  output$plot <- renderPlotly({
-    if (FALSE) {
-      plot_ly(mtcars, x = ~ mpg, y = ~ wt)
-    }
-    
-  })
   
+  ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
       print(selectedPersons)
       print(personsDataTable[selectedPersons, VP])
       # ToDo: invoke traj2graph and compute the roooms visited
-      selectedPersonTrajectoryDayOne <-
-        loadTrajectorieByPersonIDAndDay(personsDataTable[selectedPersons, VP], 1)
       plot_ly() %>% add_trace(
-        data = selectedPersonTrajectoryDayOne,
+        data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
         x = ~ x,
         y = ~ y,
@@ -120,10 +122,8 @@ shinyServer(function(input, output) {
       print(selectedPersons)
       print(personsDataTable[selectedPersons, VP])
       # ToDo: invoke traj2graph and compute the roooms visited
-      selectedPersonTrajectoryDayTwo <-
-        loadTrajectorieByPersonIDAndDay(personsDataTable[selectedPersons, VP], 2)
       plot_ly() %>% add_trace(
-        data = selectedPersonTrajectoryDayTwo,
+        data = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
         x = ~ x,
         y = ~ y,

@@ -2,8 +2,10 @@
 CSV_TRAJECTORIES_FOLDER_PATH <- "../../res/position_data/"
 CSV_PERSONS_FOLDER_PATH <-
   ("../../res/person_data/minecraft_all_subjects.xlsx")
-CSV_ROOM_WORLD_ONE_COORDINATE_PATH <- ("../../res/room_data/SortedRooms_V1.0.csv")
-CSV_ROOM_WORLD_TWO_COORDINATE_PATH <- ("../../res/room_data/SortedRooms_V2.0.csv")
+CSV_ROOM_WORLD_ONE_COORDINATE_PATH <-
+  ("../../res/SortedRooms_V1.0.csv")
+CSV_ROOM_WORLD_TWO_COORDINATE_PATH <-
+  ("../../res/SortedRooms_V2.0.csv")
 
 
 # Loads the dataset containing all persons attributes into a data table
@@ -15,63 +17,90 @@ loadPersonsDataset <- function() {
 # Loads a dataframe which contains the coordinates of the rooms in the minecraft world one
 loadRoomsDefinitionWorldOne <- function() {
   roomsWorldOne <- fread(CSV_ROOM_WORLD_ONE_COORDINATE_PATH)
+  # TODO: Process world data
   return(roomsWorldOne)
 }
 
 
 # Loads a dataframe which contains the coordinates of the rooms in the minecraft world two
 loadRoomsDefinitionWorldTwo <- function() {
-  rooms <- fread(CSV_ROOM_WORLD_TWO_COORDINATE_PATH)
-  return(rooms)
+  roomsWorldTwo <- fread(CSV_ROOM_WORLD_TWO_COORDINATE_PATH)
+  # TODO: Process world data
+  return(roomsWorldTwo)
 }
 
 
 # Loads all .csv files contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
 # Returns a list of data tables of the csv files
 loadCompleteTrajectorieDataset <- function() {
-  fileNames <- list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,pattern = ".csv",full.names= TRUE)
+  fileNames <-
+    list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
+               pattern = ".csv",
+               full.names = TRUE)
   
   ## Read data using fread
-  readdata <- function(fn){
-    dt_temp <- fread(fn, sep=",")
+  readdata <- function(fn) {
+    dt_temp <- fread(fn, sep = ",")
     return(dt_temp)
   }
-  ## List containing all data tables 
+  ## List containing all data tables
   mylist <- lapply(fileNames, readdata)
   return(mylist)
 }
 
+# Loads all .csv files in CSV_TRAJECTORIES_FOLDER_PATH matching "*minecraft_pos_log_VP.*_Tag#_neu.csv", where # = {1,2}
+loadTrajectoryByDay <- function(day) {
+  fileNames <-
+    list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
+               pattern = ".csv",
+               full.names = TRUE)
+  # Filter files by day
+  fileNames <- fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag",day,"_neu.csv",sep=""),fileNames)]
+  # Return list
+  trajectoryData = list()
+  # Load trajectories into list: acces via VP number (NOT id)
+  for (trajectory in fileNames) {
+    key = as.integer(sub("_Tag.*","",sub(".*VP","",trajectory)))
+    value = fread(trajectory,sep=",")
+    trajectoryData[[key]]=value
+  }
+  return(trajectoryData)
+}
 
-loadTrajectorieByPersonIDAndDay <- function(id, day){
-  fileNamesList <- list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,pattern = ".csv",full.names= TRUE)
+
+loadTrajectorieByPersonIDAndDay <- function(id, day) {
+  fileNamesList <-
+    list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
+               pattern = ".csv",
+               full.names = TRUE)
   trajectory <- loadCompleteTrajectorieDataset()
   
-  if(id ==0 || day==0){
+  if (id == 0 || day == 0) {
     return()
   }
   
   if (day == 1) {
-    index <-((id*2)-1)
-  }else if(day == 2) {
-    index <-(id*2)
-    }
-    else{
-      print('Wrong day provided')
-    }
+    index <- ((id * 2) - 1)
+  } else if (day == 2) {
+    index <- (id * 2)
+  }
+  else{
+    print('Wrong day provided')
+  }
   fileName <- fileNamesList[[index]]
-
-  if(nchar(id) == 1){
-    id = paste('0',id,sep="")
+  
+  if (nchar(id) == 1) {
+    id = paste('0', id, sep = "")
   }
   
-  idToCheck <- (paste('VP',id,sep=""))
-  dayToCheck <- (paste('Tag',day,sep=""))
+  idToCheck <- (paste('VP', id, sep = ""))
+  dayToCheck <- (paste('Tag', day, sep = ""))
   
   
-  if(grepl(idToCheck,fileName) & grepl(dayToCheck,fileName)){
+  if (grepl(idToCheck, fileName) & grepl(dayToCheck, fileName)) {
     trajectoryFileForIDandDay = trajectory[[index]]
     
-  }else{
+  } else{
     print('ID and date enteres doesn´t correspond to the filename of the csv')
   }
   
@@ -80,4 +109,3 @@ loadTrajectorieByPersonIDAndDay <- function(id, day){
 
 
 #trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))
-
