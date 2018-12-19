@@ -22,12 +22,45 @@ library(DT)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  #Source the
+  
+  ###################
+  ###    Source   ###
+  ###################
+  # Source the function written in various files:
   source("../functions/data/dataloading.R")
   
+  ###################
+  ###    Load     ###
+  ###################
+  
+  # Load all stored data
   personsDataTable <- loadPersonsDataset()
   
-  ### Here the plotting starts
+  ###################
+  #### Precompute ###
+  ###################
+  
+  # Compute roomgraph for each trajectory/person
+  
+  # Compute roomtime for each trajectory/person
+  
+  ###################
+  ###   Features  ###
+  ###################
+  
+  # Compute features for each person based on trajectory and roomGraph/Time
+  
+  ###################
+  ### Clustering? ###
+  ###################
+  
+  ###################
+  ### DecisionTree###
+  ###################
+  
+  ###################
+  ###   Plotting  ###
+  ###################
   
   # Plot personsDataTable as table
   output$gx_DT_personsDataTable <-
