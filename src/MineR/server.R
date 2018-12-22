@@ -32,9 +32,9 @@ shinyServer(function(input, output) {
   trajectoryDataDayTwo = loadTrajectoryByDay(2)
   
   # Load room coordinates of VR1.0/1 and VR2.0
-  # (sorts and transforms coordinates to respective world)
-  roomCoordinatesVR1.0 = loadRoomsDefinitionWorldOne()
-  roomCoordinatesVR2.0 = loadRoomsDefinitionWorldTwo()
+  # ( TODO: sorts and transforms coordinates to respective world)
+  roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
+  roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
   
   ###################
   #### Precompute ###
@@ -70,7 +70,8 @@ shinyServer(function(input, output) {
   
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
-      personsDataTable[,c(1,as.integer(input$id_pickerInputDTpersonsRaw)),with = FALSE], # with = FALSE need for DT version <= 1.96
+      personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw)), with = FALSE],
+      # with = FALSE need for DT version <= 1.96
       options = list(
         scrollX = TRUE,
         scrollY = 350,

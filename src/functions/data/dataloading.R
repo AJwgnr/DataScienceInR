@@ -15,19 +15,52 @@ loadPersonsDataset <- function() {
 }
 
 # Loads a dataframe which contains the coordinates of the rooms in the minecraft world one
-loadRoomsDefinitionWorldOne <- function() {
-  roomsWorldOne <- fread(CSV_ROOM_WORLD_ONE_COORDINATE_PATH)
-  # TODO: Process world data
-  return(roomsWorldOne)
+loadRoomsDefinitionWorld <- function(world_id) {
+  if (world_id == 1) {
+    rooms <- fread(CSV_ROOM_WORLD_ONE_COORDINATE_PATH)
+  } else if (world_id == 2) {
+    rooms <- fread(CSV_ROOM_WORLD_TWO_COORDINATE_PATH)
+  } else{
+    print("Wrong world_id provided")
+    return()
+  }
+  
+  # Sort room coordinates : x1<x2,y1<y2
+  # Room coordinates MUST be presorted by z to work correctly with traj2graph!
+  for (row in 1:nrow(rooms)) {
+    xx1 <- rooms[row, 2]
+    xx2 <- rooms[row, 4]
+    yy1 <- rooms[row, 3]
+    yy2 <- rooms[row, 5]
+    if (xx1 > xx2) {
+      rooms[row, 2] <- xx2
+      rooms[row, 4] <- xx1
+    }
+    
+    if (yy1 > yy2) {
+      rooms[row, 3] <- yy2
+      rooms[row, 5] <- yy1
+    }
+  }
+  
+  # Transform minecraft to python coordinates (python references mc world origin, mc references spwan origin)
+  if (world_id == 1) {
+    rooms$z  = rooms$z  - 72
+    rooms$x1 = rooms$x1 - 249
+    rooms$x2 = rooms$x2 - 249
+    rooms$y1 = rooms$y1 - 227
+    rooms$y2 = rooms$y2 - 227
+  } else if (world_id == 2) {
+    rooms$z  = rooms$z  - 64
+    rooms$x1 = rooms$x1 - 64
+    rooms$x2 = rooms$x2 - 64
+    rooms$y1 = rooms$y1 - 188
+    rooms$y2 = rooms$y2 - 188
+  }
+  
+  return(rooms)
 }
 
-
-# Loads a dataframe which contains the coordinates of the rooms in the minecraft world two
-loadRoomsDefinitionWorldTwo <- function() {
-  roomsWorldTwo <- fread(CSV_ROOM_WORLD_TWO_COORDINATE_PATH)
-  # TODO: Process world data
-  return(roomsWorldTwo)
-}
 
 
 # Loads all .csv files contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
@@ -55,14 +88,17 @@ loadTrajectoryByDay <- function(day) {
                pattern = ".csv",
                full.names = TRUE)
   # Filter files by day
-  fileNames <- fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag",day,"_neu.csv",sep=""),fileNames)]
+  fileNames <-
+    fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag", day, "_neu.csv", sep =
+                            ""),
+                    fileNames)]
   # Return list
   trajectoryData = list()
   # Load trajectories into list: acces via VP number (NOT id)
   for (trajectory in fileNames) {
-    key = as.integer(sub("_Tag.*","",sub(".*VP","",trajectory)))
-    value = fread(trajectory,sep=",")
-    trajectoryData[[key]]=value
+    key = as.integer(sub("_Tag.*", "", sub(".*VP", "", trajectory)))
+    value = fread(trajectory, sep = ",")
+    trajectoryData[[key]] = value
     # maybe names(mylist) <- c(VP1..VPi..VPn) is more robust/faster?
   }
   return(trajectoryData)

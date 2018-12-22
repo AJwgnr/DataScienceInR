@@ -227,16 +227,8 @@ ds_body = dashboardBody(tabItems(
         side = "right",
         selected = "Tab2",
         tabPanel("Tab1", "Times room entered"),
-        tabPanel(
-          "Tab2",
-          "Time spent per room",
-          checkboxGroupInput(
-            "columns",
-            "Select Columns",
-            choices = columChoicesPersonsTable,
-            inline = T
-          )
-        ),
+        tabPanel("Tab2",
+                 "Time spent per room"),
         tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayOne"))
       ),
       tabBox(
