@@ -64,11 +64,13 @@ shinyServer(function(input, output) {
   
   # Plot personsDataTable as table
   
-  
+  # debug text output for various stuff
+  # put as gxElement into ui.R: verbatimTextOutput("value")
+  # output$value <- renderText({ input$<whateveryouwish> })
   
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
-      personsDataTable,
+      personsDataTable[,c(1,as.integer(input$id_pickerInputDTpersonsRaw)),with = FALSE], # with = FALSE need for DT version <= 1.96
       options = list(
         scrollX = TRUE,
         scrollY = 350,

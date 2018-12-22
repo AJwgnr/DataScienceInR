@@ -201,7 +201,18 @@ ds_body = dashboardBody(tabItems(
       box(
         title = "Test persons data table",
         width = 12,
-        # TODO: PickSelctInput
+        pickerInput(
+          inputId = "id_pickerInputDTpersonsRaw",
+          label = "Select columns to display:",
+          choices = columChoicesPersonsTable[-1],
+          options = list(
+            `actions-box` = TRUE,
+            size = 10,
+            `selected-text-format` = "count > 3"
+          ),
+          multiple = TRUE,
+          selected = columChoicesPersonsTable[2:7]
+        ),
         DT::dataTableOutput("gx_DT_personsDataTable")
       )
     ),
@@ -216,8 +227,16 @@ ds_body = dashboardBody(tabItems(
         side = "right",
         selected = "Tab2",
         tabPanel("Tab1", "Times room entered"),
-        tabPanel("Tab2","Time spent per room",
-        checkboxGroupInput("columns","Select Columns",choices=columChoicesPersonsTable,inline = T)),
+        tabPanel(
+          "Tab2",
+          "Time spent per room",
+          checkboxGroupInput(
+            "columns",
+            "Select Columns",
+            choices = columChoicesPersonsTable,
+            inline = T
+          )
+        ),
         tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayOne"))
       ),
       tabBox(
