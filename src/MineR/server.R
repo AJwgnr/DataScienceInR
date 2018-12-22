@@ -22,7 +22,6 @@ library(DT)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  
   ###################
   ###    Source   ###
   ###################
@@ -40,7 +39,7 @@ shinyServer(function(input, output) {
   trajectoryDataDayOne = loadTrajectoryByDay(1)
   trajectoryDataDayTwo = loadTrajectoryByDay(2)
   
-  # Load room coordinates of VR1.0/1 and VR2.0 
+  # Load room coordinates of VR1.0/1 and VR2.0
   # (sorts and transforms coordinates to respective world)
   roomCoordinatesVR1.0 = loadRoomsDefinitionWorldOne()
   roomCoordinatesVR2.0 = loadRoomsDefinitionWorldTwo()
@@ -72,6 +71,9 @@ shinyServer(function(input, output) {
   ###################
   
   # Plot personsDataTable as table
+  
+  
+  
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
       personsDataTable,
