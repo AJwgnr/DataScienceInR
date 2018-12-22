@@ -9,15 +9,10 @@
 
 # see https://rstudio.github.io/shinydashboard/structure.html
 
-library(shiny)
-library(shinydashboard)
-library("rgl")
-library("car")
-library("data.table")
-library("plotly")
-library(DT)
+# include everything once
+source("inc.R")
 
-# pkg: dygraphs sounds good
+
 
 ### Set up column names of persons table for checkboxes
 # Risky solution loading personsTable in ui? (static anyway)
@@ -206,6 +201,7 @@ ds_body = dashboardBody(tabItems(
       box(
         title = "Test persons data table",
         width = 12,
+        # TODO: PickSelctInput
         DT::dataTableOutput("gx_DT_personsDataTable")
       )
     ),
@@ -219,18 +215,16 @@ ds_body = dashboardBody(tabItems(
         title = "First Day",
         side = "right",
         selected = "Tab2",
-        tabPanel("Tab1", "times room entered"),
-        tabPanel("Tab2",
-                 verbatimTextOutput("timePerRoomDayOne")),
-        checkboxGroupInput("columns","Select Columns",choices=columChoicesPersonsTable,inline = T),
-        
+        tabPanel("Tab1", "Times room entered"),
+        tabPanel("Tab2","Time spent per room",
+        checkboxGroupInput("columns","Select Columns",choices=columChoicesPersonsTable,inline = T)),
         tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayOne"))
       ),
       tabBox(
         title = "Second Day",
         side = "right",
         selected = "Tab2",
-        tabPanel("Tab1", "times room entered"),
+        tabPanel("Tab1", "Times room entered"),
         tabPanel("Tab2", "Time spent per room"),
         tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"))
       )

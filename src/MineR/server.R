@@ -7,17 +7,9 @@
 #    http://shiny.rstudio.com/
 #
 
-# only includes in ui.R neccessary?
-library(shiny)
-library(shinydashboard)
-library("rgl")
-library("car")
-library("data.table")
-library("plotly")
-library(dtplyr)
-library(readxl)
-library(stringr)
-library(DT)
+# include everything once
+source("inc.R")
+
 
 
 # Define server logic required to draw a histogram
@@ -97,9 +89,7 @@ shinyServer(function(input, output) {
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
-      print(selectedPersons)
-      print(personsDataTable[selectedPersons, VP])
-      # ToDo: invoke traj2graph and compute the roooms visited
+      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
@@ -121,9 +111,7 @@ shinyServer(function(input, output) {
   output$gx_3d_trajectoryDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
-      print(selectedPersons)
-      print(personsDataTable[selectedPersons, VP])
-      # ToDo: invoke traj2graph and compute the roooms visited
+      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
