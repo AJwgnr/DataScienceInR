@@ -94,7 +94,13 @@ shinyServer(function(input, output) {
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
-
+      # create colorscale
+      n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
+      sRl = input$colorInput_dayOne[1]
+      sRh = input$colorInput_dayOne[2]
+      # FIXME
+      shade = c(array(0,sRl*n),seq.int(sRl*n,sRh*n),array(n-(sRh/100)*n))
+      print(shade)
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
@@ -105,7 +111,7 @@ shinyServer(function(input, output) {
         line = list(
           width = 6,
           # Use the colorsilder provided in UI here...
-          color = ~ z,#array(0,c(3,5))
+          color = shade,#array(0,c(3,5))
           reverscale = FALSE
         ),
         mode = 'lines'
