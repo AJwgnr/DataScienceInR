@@ -51,17 +51,20 @@ ds_sidebar = dashboardSidebar(
     ### MenueItem 2: Dataset
     ###**************************
     menuItem(
-      "Minecraft World´s",
-      tabName = "minecraft",
-      icon = icon("th")
-    ),
-    menuItem(
       "The Dataset",
       tabName = "rawData",
       icon = icon("database")
     ),
     ###**************************
-    ### MenueItem 3: Visuals
+    ### MenueItem 3: Minecraft World´s
+    ###**************************
+    menuItem(
+      "Minecraft World´s",
+      tabName = "minecraft",
+      icon = icon("th")
+    ),
+    ###**************************
+    ### MenueItem 4: Visuals
     ###**************************
     menuItem(
       "Visual data exploration",
@@ -69,7 +72,7 @@ ds_sidebar = dashboardSidebar(
       icon = icon("analytics")
     ),
     ###**************************
-    ### MenueItem 4: Features
+    ### MenueItem 5: Features
     ###**************************
     menuItem(
       "Trajectory feature exploration",
@@ -77,7 +80,7 @@ ds_sidebar = dashboardSidebar(
       icon = icon("running")
     ),
     ###**************************
-    ### MenueItem 5: Clustering
+    ### MenueItem 6: Clustering
     ###**************************
     menuItem(
       "Clustering",
@@ -85,7 +88,7 @@ ds_sidebar = dashboardSidebar(
       icon = icon("chart-pie")
     ),
     ###**************************
-    ### MenueItem 6: DecisionTree
+    ### MenueItem 7: DecisionTree
     ###**************************
     menuItem("Decision Trees",
              tabName = "decisionTree",
@@ -104,34 +107,32 @@ ds_body = dashboardBody(tabItems(
     tabName = "introduction",
     h2("Project Introduction"),
     tags$div(
-      tags$p("Enter description of course here!!!"),
+      "This webpage is the result of the semester project of the course",
+      tags$b("Data Science with R"),
+      "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",  
+      tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),". Further details regarding the lecture can be found on the official",
+      tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"), ".",
+      "This project was done as a team consisting of the members",
       tags$b("Johannes Dambacher"),
       "and",
       tags$b("Alexander Wagner"),
-      "winter semester 2018/2019 at the Otto-von-Guericke university Magdeburg",
-      tags$br(),
+      ".",
+      "The general project idea as well as an detailed time plan can be found in the " ,
+      tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),".",
+      "The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the ",
       tags$a(
         href = " http://www.kkjp.ovgu.de/Forschung.html",
-        "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"
-      ),
-      tags$br(),
-      tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),
-      tags$br(),
-      tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"),
-      tags$br(),
-      tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),
-      tags$br(),
-      tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),
-      tags$br(),
-      tags$br(),
+        "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"),
+      "at the medical faculty of the university of Magdeburg. Further information regarding the dataset can be found in the dataset tab.",
       
+      "The whole code for this project is stored in this",
+      tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),".",
+      tags$br(),
       tags$br()
     ),
-    tags$div(
-      tags$img(src = 'datascir.png', align = "left"),
-      tags$img(src = 'fin.png', align = "right"),
-      tags$img(src = 'medlogo.jpeg', align = "center")
-    ),
+   
+    
+    
     #======================================
     # Page 1: fluidRow 1: ToDo: Teaser Video
     #======================================
@@ -146,74 +147,40 @@ ds_body = dashboardBody(tabItems(
                  controls = "controls",
                  width = "auto",
                  height = 250
-               )))),
-               
+               ))),
+  
+  
     
-    
-    tabItem(tabName = "minecraft",
-            h2("Minecraft World's"),
-            tags$br(),
-            tags$div(
-              
-              
-            ),    
-            # Page 2: fluidRow 1: Minecraft Worlds
-            #======================================
-            fluidRow(
-              width = 12,
-              tabBox(
-                title = "Minecraft World´s",
-                height = "auto",
-                width = 12,
-                tabPanel(
-                  "The Mansion",
-                  tags$video(
-                    id = "video1",
-                    type = "video/mp4",
-                    src = "VR1.0.mp4",
-                    controls = "controls",
-                    width = "auto",
-                    height = 250
-                  )
-                ),
-                tabPanel(
-                  "The Mansion (altered)",
-                  tags$video(
-                    id = "video2",
-                    type = "video/mp4",
-                    src = "VR1.1.mp4",
-                    controls = "controls",
-                    width = "auto",
-                    height = 250
-                  )
-                ),
-                tabPanel(
-                  "The pirate island",
-                  tags$video(
-                    id = "video3",
-                    type = "video/mp4",
-                    src = "VR2.0.mp4",
-                    controls = "controls",
-                    width = "auto",
-                    height = 250
-                  )
-                )
-              )
-            )
+    tags$div(
+      tags$img(src = 'datascir.png', width='78', height='91', align = "left"),
+      tags$img(src = 'fin.png', align = "right"),
+      tags$img(src = 'medlogo.jpeg', align = "center")
     ),
+    tags$br(),
+    tags$br()),
     ###****************************************************************************************************************************************************************
     ### Page 2: Data Raw; table, scatterplots,
     ###****************************************************************************************************************************************************************
     tabItem(
       tabName = "rawData",
-      h2("The dataset"),
+      h1("The dataset"),
+      tags$br(),
+      tags$br(),
+      tags$br(),
+      tags$br(),
+      tags$br(),
+      
+      
+      "Give description of dataset here!!",
+      
+      
       #======================================
       # Tab 2: fluidRow 1: ToDo
       #======================================
       fluidRow(
         width = 12,
         box(
-          title = "Test persons data table",
+          h2(width = 12, "Test persons data table"),
           width = 12,
           pickerInput(
             inputId = "id_pickerInputDTpersonsRaw",
@@ -235,7 +202,7 @@ ds_body = dashboardBody(tabItems(
       #======================================
       fluidRow(
         width = 12,
-        h2(width = 12, "Trajectory and room data:"),
+        h2(width = 12, "Trajectory and room data"),
         tabBox(
           title = "First Day",
           side = "right",
@@ -273,6 +240,66 @@ ds_body = dashboardBody(tabItems(
         )
       )
     ),
+  
+  
+  tabItem(tabName = "minecraft",
+          h2("Minecraft World's"),
+          
+          "Give description of dataset here!!",
+          
+          tags$br(),
+          tags$div(
+            
+            
+          ),    
+          # Page 2: fluidRow 1: Minecraft Worlds
+          #======================================
+          fluidRow(
+            width = 12,
+            tabBox(
+              title = "Minecraft World´s",
+              height = "auto",
+              width = 12,
+              tabPanel(
+                "The Mansion",
+                tags$video(
+                  id = "video1",
+                  type = "video/mp4",
+                  src = "VR1.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "The Mansion (altered)",
+                tags$video(
+                  id = "video2",
+                  type = "video/mp4",
+                  src = "VR1.1.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              ),
+              tabPanel(
+                "The pirate island",
+                tags$video(
+                  id = "video3",
+                  type = "video/mp4",
+                  src = "VR2.0.mp4",
+                  controls = "controls",
+                  width = "auto",
+                  height = 250
+                )
+              )
+            )
+          )
+  ),
+  
+  
+  
+  
     ###****************************************************************************************************************************************************************
     ### Page 3: Visualization
     ###****************************************************************************************************************************************************************

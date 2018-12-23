@@ -1,7 +1,7 @@
 # Include librarys for UI and SERVER
 
-#https://www.r-bloggers.com/difference-between-library-and-require-in-r/
-#Require returns false if package is not found
+# Require returns false if package is not found (https://www.r-bloggers.com/difference-between-library-and-require-in-r/)
+# Check if the packages were already installed, otherwise installs them
 if(!require(shiny)){
   install.packages(shiny)
 }
@@ -30,6 +30,7 @@ if(!require(DT)){
   install.packages(DT)
 }
 
+# Load the libraries
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
@@ -40,10 +41,10 @@ library(readxl)
 library(stringr)
 library(DT)
 
+
+
 # pkg: dygraphs sounds good
-
 # Remove or comment unused libs to avoid abigous function calls and save ram space
-
 # Currently unused:
 # library(rgl)
 # library(car)
