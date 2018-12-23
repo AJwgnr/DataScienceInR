@@ -43,6 +43,11 @@ ds_sidebar = dashboardSidebar(
     ### MenueItem 1: Dataset
     ###**************************
     menuItem(
+      "Minecraft World´s",
+      tabName = "minecraft",
+      icon = icon("th")
+    ),
+    menuItem(
       "The Dataset",
       tabName = "rawData",
       icon = icon("database")
@@ -79,7 +84,7 @@ ds_sidebar = dashboardSidebar(
 )
 
 ################################################################################
-### Dashboard:
+### Dashboard Content:
 
 ds_body = dashboardBody(tabItems(
   ###********************************************************************************
@@ -107,15 +112,13 @@ ds_body = dashboardBody(tabItems(
            
             tags$br()
           ),
-          tags$div(
-                   tags$img(src='datascir.png', align = "left"),
-                   tags$img(src='fin.png', align = "right"),
-                   tags$img(src='medlogo.jpeg', align = "center")),
           #======================================
           # Page 1: fluidRow 1: ToDo: Teaser Video
           #======================================
           fluidRow(width = 12,
                    tabBox(title = "Watch me! :)",
+                          height = "auto",
+                          width = 12,
                           tags$video(
                             id = "video2",
                             type = "video/mp4",
@@ -124,14 +127,27 @@ ds_body = dashboardBody(tabItems(
                             width = "auto",
                             height = 250
                           ))),
+          tags$div(
+                   tags$img(src='datascir.png', align = "left"),
+                   tags$img(src='fin.png', align = "right"),
+                   tags$img(src='medlogo.jpeg', align = "center"))),
+          
+         
+          tabItem(tabName = "minecraft",
+                  h2("Minecraft World's"),
+                  tags$br(),
+                  tags$div(
+                    
+                    
+                  ),
           #======================================
-          # Page 1: fluidRow 2: Minecraft Worlds
+          # Page 2: fluidRow 1: Minecraft Worlds
           #======================================
           fluidRow(
             width = 12,
             tabBox(
               title = "Minecraft World´s",
-              height = 12,
+              height = "auto",
               width = 12,
               tabPanel(
                 "The Mansion",

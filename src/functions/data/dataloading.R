@@ -74,11 +74,12 @@ loadTrajectorieByPersonIDAndDay <- function(id, day){
     
   }else{
     print('ID and date enteres doesn´t correspond to the filename of the csv')
+    print('ID and date enteres doesn´t correspond to the filename of the csv')
   }
   
   return(trajectoryFileForIDandDay)
 }
 
 
-#trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))
+trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))
 
