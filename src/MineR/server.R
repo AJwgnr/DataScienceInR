@@ -1,130 +1,158 @@
 #
-# This is the server logic of a Shiny web application. You can run the 
+# This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
 #
 # Find out more about building applications with Shiny here:
-# 
+#
 #    http://shiny.rstudio.com/
 #
 
-# only includes in ui.R neccessary?
-library(shiny)
-library(shinydashboard)
-library("rgl")
-library("car")
-library("data.table")
-library("plotly")
+# include everything once
+source("inc.R")
+
+
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  ###################
+  ###    Source   ###
+  ###################
+  # Source the function written in various files:
+  source("../functions/data/dataloading.R")
   
-######################################################################################################
-###***********************************************************************************************####
-### COPIED FOLLOWING CODE FROM trjectoryToGraphs.R NEEDS REFACTORING    (bad between *** and ===) ####
-###***********************************************************************************************####
-######################################################################################################
+  ###################
+  ###    Load     ###
+  ###################
   
-  # Path to dataSet
-  # ToDo: adapt to use test persons world ID for correct room file
-  csv_room_coordinates_path <-
-    ("../../res/SortedRooms_V1.0.csv")
-  csv_test_trajectories_path <-
-    ("../../res/position_data/DEBUGFILENODATA_V1.csv")
+  # Load all stored data
+  personsDataTable <- loadPersonsDataset()
   
-  # Load data...
-  rooms <- fread(csv_room_coordinates_path)
-  trajectorie <- fread(csv_test_trajectories_path)
+  # Load trajectorie data for day one into key value like list
+  trajectoryDataDayOne = loadTrajectoryByDay(1)
+  trajectoryDataDayTwo = loadTrajectoryByDay(2)
   
-  # Swap x and y coordinates to make the left one the smaller one
-  for (row in 1:nrow(rooms)) {
-    xx1 <- rooms[row, 2]
-    xx2 <- rooms[row, 4]
-    yy1 <- rooms[row, 3]
-    yy2 <- rooms[row, 5]
-    if (xx1 > xx2) {
-      rooms[row, 2] <- xx2
-      rooms[row, 4] <- xx1
+  # Load room coordinates of VR1.0/1 and VR2.0
+  # ( TODO: sorts and transforms coordinates to respective world)
+  roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
+  roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
+  
+  ###################
+  #### Precompute ###
+  ###################
+  
+  # Compute roomgraph for each trajectory/person
+  
+  # Compute roomtime for each trajectory/person
+  
+  ###################
+  ###   Features  ###
+  ###################
+  
+  # Compute features for each person based on trajectory and roomGraph/Time
+  
+  ###################
+  ### Clustering? ###
+  ###################
+  
+  # Use time normalized room coordinates as feature vector
+  
+  ###################
+  ### DecisionTree###
+  ###################
+  
+  ###################
+  ###   Plotting  ###
+  ###################
+  
+  # Plot personsDataTable as table
+  
+  # debug text output for various stuff
+  # put as gxElement into ui.R: verbatimTextOutput("value")
+  # output$value <- renderText({ input$<whateveryouwish> })
+  
+  output$gx_DT_personsDataTable <-
+    DT::renderDataTable(
+      personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw)), with = FALSE],
+      # with = FALSE need for DT version <= 1.96
+      options = list(
+        scrollX = TRUE,
+        scrollY = 350,
+        pageLength = -1
+      ),
+      selection = "single"
+    )
+  
+  # roomGraphDayOne = renderPrint({
+  #   selectedPersons = input$gx_DT_personsDataTable_rows_selected
+  #   if (length(selectedPersons)) {
+  #     # ToDo: invoke traj2graph and compute the roooms visited
+  #   }
+  # })
+  
+  
+  ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
+  output$gx_3d_trajectoryDayOne <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    if (length(selectedPersons)) {
+
+      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
+      plot_ly() %>% add_trace(
+        data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
+        type = "scatter3d",
+        x = ~ x,
+        y = ~ y,
+        z = ~ z,
+        line = list(
+          width = 6,
+          # Use the colorsilder provided in UI here...
+          color = ~ z,#array(0,c(3,5))
+          reverscale = FALSE
+        ),
+        mode = 'lines'
+      )
     }
     
-    if (yy1 > yy2) {
-      rooms[row, 3] <- yy2
-      rooms[row, 5] <- yy1
-    }
-  }
-  
-  # Convert Minecraft Coordinates to Python Coordinates V1.0
-  #############
-  ### V 1.0 ###
-  #############
-  rooms$z  = rooms$z  - 72
-  rooms$x1 = rooms$x1 - 249
-  rooms$x2 = rooms$x2 - 249
-  rooms$y1 = rooms$y1 - 227
-  rooms$y2 = rooms$y2 - 227
-  #############
-  ### V 2.0 ###
-  #############
-  # rooms$z  = rooms$z  - 64
-  # rooms$x1 = rooms$x1 - 64
-  # rooms$x2 = rooms$x2 - 64
-  # rooms$y1 = rooms$y1 - 188
-  # rooms$y2 = rooms$y2 - 188
-  ############
-  
-  trajectorie$Room = -1
-  for (rows in 1:nrow(rooms)) {
-    condition <-
-      (
-        trajectorie$x >= rooms[rows, x1] &
-          trajectorie$x <= rooms[rows, x2] &
-          trajectorie$y >= rooms[rows, y1] &
-          trajectorie$y <= rooms[rows, y2] &
-          # ToDo: Confirm right handlig of height
-          trajectorie$z >= rooms[rows, z] - 1# &trajectorie$z <= rooms[rows, z] + 4
-      )
-    trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
-    trajectorie[condition == TRUE, "RoomHeight"] = rooms[rows, "z"]
-  }
-  # Summarize into roomGraph
-  trajectorie$rleid = rleid(trajectorie$Room)
-  roomGraph = unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, rleid), trajectorie$rleid]) # 0.1 sec spentd per trajectory row/timestemp
-  
-  # integrate time spent per room into
-  rooms = merge(
-    rooms,
-    aggregate(
-      roomGraph$TimeSpent,
-      by = list(TimeSpent = roomGraph$Room),
-      FUN = sum
-    ),
-    by.x = "id",
-    by.y = "TimeSpent",
-    all.x = TRUE
-  )
-  colnames(rooms)[colnames(rooms) == "x"] <- "TimeSpent"
-  rooms[is.na(TimeSpent), "TimeSpent"] = 0
-  
-  
-  
-  ######################################################################################################
-  ###===============================================================================================####
-  ### COPIED ABOVE CODE FROM trjectoryToGraphs.R NEEDS REFACTORING  (bad between *** and ===)       ####
-  ###===============================================================================================####
-  ######################################################################################################
-  
-  ### Here the plotting starts
-  
-  # Fix this shit later!
-  output$histTimeRooms <-renderPlotly({plot_ly()%>%add_bars(data=unique(rooms[,c("id","TimeSpent")]),y=~TimeSpent,x=~names)}) 
-  
-  output$trj3d <- renderRglwidget({
-    rgl.open(useNULL=T)
-    x<-trajectorie$x;
-    y<-trajectorie$y;
-    z<-trajectorie$z;
-    scatter3d(x,z,y,point.col=c(1,2,3,4,5,6,7),surface = FALSE);
-    rglwidget()
   })
+  
+  
+  output$gx_3d_trajectoryDayTwo <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    if (length(selectedPersons)) {
+      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
+      plot_ly() %>% add_trace(
+        data = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]],
+        type = "scatter3d",
+        x = ~ x,
+        y = ~ y,
+        z = ~ z,
+        line = list(
+          width = 6,
+          color = ~ z,
+          reverscale = FALSE
+        ),
+        mode = 'lines'
+      )
+    }
+    
+  })
+  
+  
+  # # Fix this shit later!
+  # output$histTimeRoomsDayOne <-
+  #   renderPlotly({
+  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
+  #                            y =  ~ TimeSpent,
+  #                            x =  ~ names)
+  #   })
+  #
+  # output$histTimeRoomsDayOne <-
+  #   renderPlotly({
+  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
+  #                            y =  ~ TimeSpent,
+  #                            x =  ~ names)
+  #   })
+  #
+  
   
   
 })

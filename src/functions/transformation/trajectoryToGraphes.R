@@ -149,7 +149,7 @@ p <-
                                                 nrow(rooms)):266),
     k = c((3 * nrow(rooms)):(4 * nrow(rooms) - 1), (3 *
                                                       nrow(rooms)):(4 * nrow(rooms) - 1))
-  ) %>% layout(title = "FUCK PLOTTING IN R",aspectmode='cube')
+  ) %>% layout(title = "Title",aspectmode='cube')
 
 #print(p)
 
