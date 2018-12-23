@@ -17,7 +17,7 @@ source("inc.R")
 ### Set up column names of persons table for checkboxes
 # Risky solution loading personsTable in ui? (static anyway)
 # TODO: how about features beeing appended to personsTable serverSides? -> different plotting enough?
-source("../functions/data/dataloading.R") # sourcing ui sides seems like bad practice
+source("../functions/data/dataloading.R") # sourcing ui sides seems like bad practice: possible to get table names from server?
 personsTable <- loadPersonsDataset()
 columChoicesPersonsTable <- 1:ncol(personsTable)
 names(columChoicesPersonsTable) <- names(personsTable)
@@ -229,7 +229,17 @@ ds_body = dashboardBody(tabItems(
         tabPanel("Tab1", "Times room entered"),
         tabPanel("Tab2",
                  "Time spent per room"),
-        tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayOne"))
+        tabPanel(
+          "Tab3",
+          plotlyOutput("gx_3d_trajectoryDayOne"),
+          sliderInput(
+            "colorInput_dayOne",
+            "Select time intervall",
+            min = 0,
+            max = 100,
+            value = c(0,100)
+          )
+        )
       ),
       tabBox(
         title = "Second Day",
@@ -237,7 +247,15 @@ ds_body = dashboardBody(tabItems(
         selected = "Tab2",
         tabPanel("Tab1", "Times room entered"),
         tabPanel("Tab2", "Time spent per room"),
-        tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"))
+        tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"),
+                 verbatimTextOutput("value"),
+                 sliderInput(
+                   "colorInput_dayTwo",
+                   "Select time intervall",
+                   min = 0,
+                   max = 100,
+                   value = c(0,100)
+                 ))
       )
     )
   ),

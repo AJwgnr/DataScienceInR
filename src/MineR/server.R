@@ -54,6 +54,8 @@ shinyServer(function(input, output) {
   ### Clustering? ###
   ###################
   
+  # Use time normalized room coordinates as feature vector
+  
   ###################
   ### DecisionTree###
   ###################
@@ -92,6 +94,7 @@ shinyServer(function(input, output) {
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
+
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
@@ -101,7 +104,8 @@ shinyServer(function(input, output) {
         z = ~ z,
         line = list(
           width = 6,
-          color = ~ z,
+          # Use the colorsilder provided in UI here...
+          color = ~ z,#array(0,c(3,5))
           reverscale = FALSE
         ),
         mode = 'lines'
