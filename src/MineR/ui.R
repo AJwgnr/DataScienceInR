@@ -146,11 +146,8 @@ ds_body = dashboardBody(tabItems(
                  controls = "controls",
                  width = "auto",
                  height = 250
-               ),
-               tags$div(
-                 tags$img(src='datascir.png', align = "left"),
-                 tags$img(src='fin.png', align = "right"),
-                 tags$img(src='medlogo.jpeg', align = "center")))),
+               )))),
+               
     
     
     tabItem(tabName = "minecraft",
@@ -209,7 +206,7 @@ ds_body = dashboardBody(tabItems(
     ###****************************************************************************************************************************************************************
     tabItem(
       tabName = "rawData",
-      h2("The data - raw"),
+      h2("The dataset"),
       #======================================
       # Tab 2: fluidRow 1: ToDo
       #======================================
@@ -296,7 +293,7 @@ ds_body = dashboardBody(tabItems(
     ###****************************************************************************************************************************************************************
     tabItem(tabName = "decisionTree",
             h2("Decision tree"))
-  )))
+  ))
   
   ################################################################################
   ### DashboardPage: (must be last)
