@@ -51,6 +51,11 @@ ds_sidebar = dashboardSidebar(
     ### MenueItem 2: Dataset
     ###**************************
     menuItem(
+      "Minecraft World´s",
+      tabName = "minecraft",
+      icon = icon("th")
+    ),
+    menuItem(
       "The Dataset",
       tabName = "rawData",
       icon = icon("database")
@@ -89,7 +94,7 @@ ds_sidebar = dashboardSidebar(
 )
 
 ################################################################################
-### Dashboard:
+### Dashboard Content:
 
 ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
@@ -133,6 +138,7 @@ ds_body = dashboardBody(tabItems(
     fluidRow(width = 12,
              tabBox(
                title = "Watch me! :)",
+               width = 12,
                tags$video(
                  id = "video2",
                  type = "video/mp4",
@@ -140,147 +146,159 @@ ds_body = dashboardBody(tabItems(
                  controls = "controls",
                  width = "auto",
                  height = 250
-               )
-             )),
-    #======================================
-    # Page 1: fluidRow 2: Minecraft Worlds
-    #======================================
-    fluidRow(
-      width = 12,
-      tabBox(
-        title = "Minecraft World´s",
-        height = 12,
-        width = 12,
-        tabPanel(
-          "The Mansion",
-          tags$video(
-            id = "video1",
-            type = "video/mp4",
-            src = "VR1.0.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        ),
-        tabPanel(
-          "The Mansion (altered)",
-          tags$video(
-            id = "video2",
-            type = "video/mp4",
-            src = "VR1.1.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        ),
-        tabPanel(
-          "The pirate island",
-          tags$video(
-            id = "video3",
-            type = "video/mp4",
-            src = "VR2.0.mp4",
-            controls = "controls",
-            width = "auto",
-            height = 250
-          )
-        )
-      )
-    )
-  ),
-  ###****************************************************************************************************************************************************************
-  ### Page 2: Data Raw; table, scatterplots,
-  ###****************************************************************************************************************************************************************
-  tabItem(
-    tabName = "rawData",
-    h2("The data - raw"),
-    #======================================
-    # Tab 2: fluidRow 1: ToDo
-    #======================================
-    fluidRow(
-      width = 12,
-      box(
-        title = "Test persons data table",
-        width = 12,
-        pickerInput(
-          inputId = "id_pickerInputDTpersonsRaw",
-          label = "Select columns to display:",
-          choices = columChoicesPersonsTable[-1],
-          options = list(
-            `actions-box` = TRUE,
-            size = 10,
-            `selected-text-format` = "count > 3"
-          ),
-          multiple = TRUE,
-          selected = columChoicesPersonsTable[2:7]
-        ),
-        DT::dataTableOutput("gx_DT_personsDataTable")
-      )
+               ),
+               tags$div(
+                 tags$img(src='datascir.png', align = "left"),
+                 tags$img(src='fin.png', align = "right"),
+                 tags$img(src='medlogo.jpeg', align = "center")))),
+    
+    
+    tabItem(tabName = "minecraft",
+            h2("Minecraft World's"),
+            tags$br(),
+            tags$div(
+              
+              
+            ),    
+            # Page 2: fluidRow 1: Minecraft Worlds
+            #======================================
+            fluidRow(
+              width = 12,
+              tabBox(
+                title = "Minecraft World´s",
+                height = "auto",
+                width = 12,
+                tabPanel(
+                  "The Mansion",
+                  tags$video(
+                    id = "video1",
+                    type = "video/mp4",
+                    src = "VR1.0.mp4",
+                    controls = "controls",
+                    width = "auto",
+                    height = 250
+                  )
+                ),
+                tabPanel(
+                  "The Mansion (altered)",
+                  tags$video(
+                    id = "video2",
+                    type = "video/mp4",
+                    src = "VR1.1.mp4",
+                    controls = "controls",
+                    width = "auto",
+                    height = 250
+                  )
+                ),
+                tabPanel(
+                  "The pirate island",
+                  tags$video(
+                    id = "video3",
+                    type = "video/mp4",
+                    src = "VR2.0.mp4",
+                    controls = "controls",
+                    width = "auto",
+                    height = 250
+                  )
+                )
+              )
+            )
     ),
-    #======================================
-    # Tab 2: fluidRow 2: ToDo
-    #======================================
-    fluidRow(
-      width = 12,
-      h2(width = 12, "Trajectory and room data:"),
-      tabBox(
-        title = "First Day",
-        side = "right",
-        selected = "Tab2",
-        tabPanel("Tab1", "Times room entered"),
-        tabPanel("Tab2",
-                 "Time spent per room"),
-        tabPanel(
-          "Tab3",
-          plotlyOutput("gx_3d_trajectoryDayOne"),
-          sliderInput(
-            "colorInput_dayOne",
-            "Select time intervall",
-            min = 0,
-            max = 100,
-            value = c(0,100)
-          )
+    ###****************************************************************************************************************************************************************
+    ### Page 2: Data Raw; table, scatterplots,
+    ###****************************************************************************************************************************************************************
+    tabItem(
+      tabName = "rawData",
+      h2("The data - raw"),
+      #======================================
+      # Tab 2: fluidRow 1: ToDo
+      #======================================
+      fluidRow(
+        width = 12,
+        box(
+          title = "Test persons data table",
+          width = 12,
+          pickerInput(
+            inputId = "id_pickerInputDTpersonsRaw",
+            label = "Select columns to display:",
+            choices = columChoicesPersonsTable[-1],
+            options = list(
+              `actions-box` = TRUE,
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ),
+            multiple = TRUE,
+            selected = columChoicesPersonsTable[2:7]
+          ),
+          DT::dataTableOutput("gx_DT_personsDataTable")
         )
       ),
-      tabBox(
-        title = "Second Day",
-        side = "right",
-        selected = "Tab2",
-        tabPanel("Tab1", "Times room entered"),
-        tabPanel("Tab2", "Time spent per room"),
-        tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"),
-                 verbatimTextOutput("value"),
-                 sliderInput(
-                   "colorInput_dayTwo",
-                   "Select time intervall",
-                   min = 0,
-                   max = 100,
-                   value = c(0,100)
-                 ))
+      #======================================
+      # Tab 2: fluidRow 2: ToDo
+      #======================================
+      fluidRow(
+        width = 12,
+        h2(width = 12, "Trajectory and room data:"),
+        tabBox(
+          title = "First Day",
+          side = "right",
+          selected = "Tab2",
+          tabPanel("Tab1", "Times room entered"),
+          tabPanel("Tab2",
+                   "Time spent per room"),
+          tabPanel(
+            "Tab3",
+            plotlyOutput("gx_3d_trajectoryDayOne"),
+            sliderInput(
+              "colorInput_dayOne",
+              "Select time intervall",
+              min = 0,
+              max = 100,
+              value = c(0,100)
+            )
+          )
+        ),
+        tabBox(
+          title = "Second Day",
+          side = "right",
+          selected = "Tab2",
+          tabPanel("Tab1", "Times room entered"),
+          tabPanel("Tab2", "Time spent per room"),
+          tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"),
+                   verbatimTextOutput("value"),
+                   sliderInput(
+                     "colorInput_dayTwo",
+                     "Select time intervall",
+                     min = 0,
+                     max = 100,
+                     value = c(0,100)
+                   ))
+        )
       )
-    )
-  ),
-  ###****************************************************************************************************************************************************************
-  ### Page 3: Visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "visualization",
-          h2("Visual data exploration")),
-  ###****************************************************************************************************************************************************************
-  ### Page 4: Trajectroy features
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "trjFeatures",
-          h2("Trajectory feature exploration")),
-  ###****************************************************************************************************************************************************************
-  ### Page 5: Clustering plus visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "clustering",
-          h2("Clustering")),
-  ###****************************************************************************************************************************************************************
-  ### Page 6: Decision Tree plus visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "decisionTree",
-          h2("Decision tree"))
-))
-
-################################################################################
-### DashboardPage: (must be last)
-dashboardPage(ds_header, ds_sidebar, ds_body)
+    ),
+    ###****************************************************************************************************************************************************************
+    ### Page 3: Visualization
+    ###****************************************************************************************************************************************************************
+    tabItem(tabName = "visualization",
+            h2("Visual data exploration")),
+    ###****************************************************************************************************************************************************************
+    ### Page 4: Trajectroy features
+    ###****************************************************************************************************************************************************************
+    tabItem(tabName = "trjFeatures",
+            h2("Trajectory feature exploration")),
+    ###****************************************************************************************************************************************************************
+    ### Page 5: Clustering plus visualization
+    ###****************************************************************************************************************************************************************
+    tabItem(tabName = "clustering",
+            h2("Clustering")),
+    ###****************************************************************************************************************************************************************
+    ### Page 6: Decision Tree plus visualization
+    ###****************************************************************************************************************************************************************
+    tabItem(tabName = "decisionTree",
+            h2("Decision tree"))
+  )))
+  
+  ################################################################################
+  ### DashboardPage: (must be last)
+  dashboardPage(ds_header, ds_sidebar, ds_body)
+  
