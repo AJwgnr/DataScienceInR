@@ -8,7 +8,7 @@
 #
 
 # include everything once
-source("inc.R")
+source("include.R")
 
 
 

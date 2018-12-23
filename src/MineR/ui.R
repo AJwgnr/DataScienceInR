@@ -10,7 +10,7 @@
 # see https://rstudio.github.io/shinydashboard/structure.html
 
 # include everything once
-source("inc.R")
+source("include.R")
 
 
 
