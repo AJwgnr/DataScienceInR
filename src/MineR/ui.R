@@ -48,21 +48,22 @@ ds_sidebar = dashboardSidebar(
       icon = icon("th")
     ),
     ###**************************
-    ### MenueItem 2: Dataset
+    ### MenueItem 2: Experiment Overview
+    ###**************************
+    menuItem(
+      "The Experiment",
+      tabName = "experiment",
+      icon = icon("th")
+    ),
+    ###**************************
+    ### MenueItem 3: Dataset
     ###**************************
     menuItem(
       "The Dataset",
       tabName = "rawData",
       icon = icon("database")
     ),
-    ###**************************
-    ### MenueItem 3: Minecraft World´s
-    ###**************************
-    menuItem(
-      "Minecraft World´s",
-      tabName = "minecraft",
-      icon = icon("th")
-    ),
+    
     ###**************************
     ### MenueItem 4: Visuals
     ###**************************
@@ -123,10 +124,11 @@ ds_body = dashboardBody(tabItems(
       tags$a(
         href = " http://www.kkjp.ovgu.de/Forschung.html",
         "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"),
-      "at the medical faculty of the university of Magdeburg. Further information regarding the dataset can be found in the dataset tab.",
+      "at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the experiment tab. The dataset itself can be explored in the dataset tab.",
       
       "The whole code for this project is stored in this",
       tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),".",
+      "If you want to get a short introduction for this application, please see the video below",
       tags$br(),
       tags$br()
     ),
@@ -164,15 +166,22 @@ ds_body = dashboardBody(tabItems(
     tabItem(
       tabName = "rawData",
       h1("The dataset"),
+
+      "The used datasets consists of", tags$b("two different types"), "of csv files. The first type, in the following named", tags$em("Test subject data,"), "contains all personal information about the tested persons.",
+      "The second type, in the following named", tags$em("Trajectory data,"), "contains information about the movement of the test subjects in the virtual world.",tags$br(),tags$br(),
+      tags$b("Test subject data:"),tags$ul(
+        tags$li("1 csv file"),
+        tags$li("XX instances"), 
+        tags$li("XX attributes")
+      ),
       tags$br(),
+      tags$b("Trajectory data:"),tags$ul(
+        tags$li("XX csv files"), 
+        tags$li("XX instances"), 
+        tags$li("XX attributes")
+      ),
+      "In the following tables you can get an insight into the datset.",
       tags$br(),
-      tags$br(),
-      tags$br(),
-      tags$br(),
-      
-      
-      "Give description of dataset here!!",
-      
       
       #======================================
       # Tab 2: fluidRow 1: ToDo
@@ -242,12 +251,12 @@ ds_body = dashboardBody(tabItems(
     ),
   
   
-  tabItem(tabName = "minecraft",
-          h2("Minecraft World's"),
-          
-          "Give description of dataset here!!",
+  tabItem(tabName = "experiment",
+          h1("Experiment Overview"),
+          tags$br("Give description of the experiment here!! Describe here how to data was recorded, what was the idea of the experiment, etc."),
           
           tags$br(),
+          
           tags$div(
             
             
