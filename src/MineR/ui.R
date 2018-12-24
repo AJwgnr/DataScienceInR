@@ -106,7 +106,7 @@ ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "introduction",
-    h2("Project Introduction"),
+    h1("Project Introduction"),
     tags$div(
       "This webpage is the result of the semester project of the course",
       tags$b("Data Science with R"),
@@ -166,22 +166,25 @@ ds_body = dashboardBody(tabItems(
     tabItem(
       tabName = "rawData",
       h1("The dataset"),
-
+      fluidRow(
+        width = 12,
+        box( h2(width = 12, "Description"),
+             width = 12,
       "The used datasets consists of", tags$b("two different types"), "of csv files. The first type, in the following named", tags$em("Test subject data,"), "contains all personal information about the tested persons.",
       "The second type, in the following named", tags$em("Trajectory data,"), "contains information about the movement of the test subjects in the virtual world.",tags$br(),tags$br(),
       tags$b("Test subject data:"),tags$ul(
         tags$li("1 csv file"),
-        tags$li("XX instances"), 
-        tags$li("XX attributes")
+        tags$li("63 instances"), 
+        tags$li("31 attributes")
       ),
       tags$br(),
       tags$b("Trajectory data:"),tags$ul(
-        tags$li("XX csv files"), 
-        tags$li("XX instances"), 
-        tags$li("XX attributes")
+        tags$li("130 csv files"), 
+        tags$li("~7000 instances each"), 
+        tags$li("4 attributes")
       ),
-      "In the following tables you can get an insight into the datset.",
-      tags$br(),
+      "In the following tables you can get an insight into the dataset.",
+      tags$br())),
       
       #======================================
       # Tab 2: fluidRow 1: ToDo
@@ -211,7 +214,8 @@ ds_body = dashboardBody(tabItems(
       #======================================
       fluidRow(
         width = 12,
-        h2(width = 12, "Trajectory and room data"),
+        box(h2(width = 12, "Trajectory and room data"),
+            width=12,
         tabBox(
           title = "First Day",
           side = "right",
@@ -247,14 +251,20 @@ ds_body = dashboardBody(tabItems(
                      value = c(0,100)
                    ))
         )
-      )
+      ))
     ),
   
   
   tabItem(tabName = "experiment",
           h1("Experiment Overview"),
-          tags$br("Give description of the experiment here!! Describe here how to data was recorded, what was the idea of the experiment, etc."),
           
+          fluidRow(
+            width = 12,
+            box(h2(width = 12, "Description"),
+                width=12,
+          
+          tags$br("Give description of the experiment here!! Describe here how to data was recorded, what was the idea of the experiment, etc.")
+            )),
           tags$br(),
           
           tags$div(
