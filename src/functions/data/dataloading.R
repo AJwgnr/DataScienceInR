@@ -92,7 +92,7 @@ loadTrajectoryByDay <- function(day) {
     fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag", day, "_neu.csv", sep =
                             ""),
                     fileNames)]
-  # Return list
+  # Create list for trajectories
   trajectoryData = list()
   # Load trajectories into list: acces via VP number (NOT id)
   for (trajectory in fileNames) {
