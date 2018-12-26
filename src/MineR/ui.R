@@ -53,7 +53,7 @@ ds_sidebar = dashboardSidebar(
     menuItem(
       "The Experiment",
       tabName = "experiment",
-      icon = icon("th")
+      icon = icon("flask")
     ),
     ###**************************
     ### MenueItem 3: Dataset
@@ -128,7 +128,8 @@ ds_body = dashboardBody(tabItems(
       
       "The whole code for this project is stored in this",
       tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),".",
-      "If you want to get a short introduction for this application, please see the video below",
+      "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
+      "If you want to get a short introduction for this application, please see the video below.",
       tags$br(),
       tags$br()
     ),
