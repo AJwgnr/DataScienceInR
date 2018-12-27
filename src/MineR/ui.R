@@ -171,19 +171,35 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         box( h2(width = 12, "Description"),
              width = 12,
-      "The used datasets consists of", tags$b("two different types"), "of csv files. The first type, in the following named", tags$em("Test subject data,"), "contains all personal information about the tested persons.",
-      "The second type, in the following named", tags$em("Trajectory data,"), "contains information about the movement of the test subjects in the virtual world.",tags$br(),tags$br(),
-      tags$b("Test subject data:"),tags$ul(
-        tags$li("1 csv file"),
-        tags$li("63 instances"), 
-        tags$li("31 attributes")
-      ),
-      tags$br(),
-      tags$b("Trajectory data:"),tags$ul(
-        tags$li("130 csv files"), 
-        tags$li("~7000 instances each"), 
-        tags$li("4 attributes")
-      ),
+             
+             "The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. 
+The data set is divided into trajectory data (in the following named", tags$em("Trajectory data"), ") and information of the test persons (in the following named", tags$em("Test subject data"),") in separate csv files.",
+             
+             "The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world.
+             The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time.
+             Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
+             The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
+             The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, 
+             the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. 
+             The full list of attributes of the used data sets are listed below.",
+             
+             tags$br(),
+             tags$br(),
+             "In summary:", 
+             tags$br(),
+             tags$b("Test subject data:"),tags$ul(
+               tags$li("1 csv file"),
+               tags$li("63 instances"), 
+               tags$li("31 attributes")
+             ),
+             tags$b("Trajectory data:"),tags$ul(
+               tags$li("130 csv files"), 
+               tags$li("~7000 instances each"), 
+               tags$li("4 attributes")),
+             
+             
+             
+             
       "In the following tables you can get an insight into the dataset.",
       tags$br())),
       
@@ -258,24 +274,25 @@ ds_body = dashboardBody(tabItems(
   
   tabItem(tabName = "experiment",
           h1("Experiment Overview"),
-          
-          fluidRow(
-            width = 12,
-            box(h2(width = 12, "Description"),
-                width=12,
-          
-          tags$br("Give description of the experiment here!! Describe here how to data was recorded, what was the idea of the experiment, etc.")
-            )),
+          box(title = "Data generation process",
+          solidHeader = F,
+          collapsible = F,
+          width = 12,
+          fluidRow(column(width = 6, "The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
+For the experiment both groups (with ADHD and the control group) had to attend the study on three different days:",
+                          tags$br(),
+                          tags$b("On the first day"), "the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see the worlds in the videos below).
+                         ",tags$br(), 
+                          tags$b("On the second day"), " the test persons had to learn", tags$em("20 new vocabularies"), "and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others.", tags$br(), tags$b("On the third day"), "the vocabularies had to be recalled again by the test persons (see the process overview in the image on the right). Further test persons will perform the experiment in the future and thus enlarge the data set successively."),
+                   column(width = 6, align = "center",
+                          img(src="process.png", width=400))
+          )),
           tags$br(),
-          
-          tags$div(
-            
-            
-          ),    
+       
+           
           # Page 2: fluidRow 1: Minecraft Worlds
           #======================================
-          fluidRow(
-            width = 12,
+              fluidRow(height = 500,
             tabBox(
               title = "Minecraft World´s",
               height = "auto",
@@ -314,7 +331,9 @@ ds_body = dashboardBody(tabItems(
                 )
               )
             )
-          )
+              
+            )
+          
   ),
   
   

@@ -139,7 +139,7 @@ loadTrajectorieByPersonIDAndDay <- function(id, day) {
     trajectoryFileForIDandDay = trajectory[[index]]
     
   } else{
-    print('ID and date enteres doesn´t correspond to the filename of the csv')
+    print('ID and date entered doesn´t correspond to the filename of the csv')
   }
   
   return(trajectoryFileForIDandDay)
