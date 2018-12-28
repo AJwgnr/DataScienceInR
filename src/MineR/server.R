@@ -40,6 +40,16 @@ shinyServer(function(input, output) {
   #### Precompute ###
   ###################
   
+  # function is currently in traj2graph.R may be put into preComputation,dataLoading...
+  # list containing roomGraphData similar to trajectoryDataDayOne
+  # COMMENT THE NEXT TWO LINES TO RUN CODE OR FIX traj2graph.R
+  roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  #traj2graph works and returns [room<ID>,timeSpent<sec>]
+  #computeRoomGraphByDay dosen't work. should return list similar to trajectoryDataDay[One,Two] (with VP as index)
+  #roomGraph2roomHist dosen't work. should return list with room ID and TOTAL time spent within
+  
+  
   # Compute roomgraph for each trajectory/person
   
   # Compute roomtime for each trajectory/person
@@ -98,10 +108,11 @@ shinyServer(function(input, output) {
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
       sRl = input$colorInput_dayOne[1]
       sRh = input$colorInput_dayOne[2]
-      # FIXME
-      shade = c(array(0, sRl * n), seq.int(sRl * n, sRh * n), array(n -
-                                                                      (sRh / 100) * n))
+      leadingZeros = floor((sRl/100) * n)
+      trailingZeros = n - floor((sRh / 100) * n)
+      shade = c(array(0, leadingZeros), seq(0, n,length.out = n - leadingZeros- trailingZeros), array(0,trailingZeros))
       print(shade)
+      # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
@@ -111,12 +122,16 @@ shinyServer(function(input, output) {
         z = ~ z,
         line = list(
           width = 6,
-          # Use the colorsilder provided in UI here...
           color = shade,
           #array(0,c(3,5))
           reverscale = FALSE
         ),
-        mode = 'lines'
+        mode = 'lines',
+        # FIXME (colorbar,colorscale not attributes of scatter3d)
+        colorbar=list(
+          title='Colorbar'
+        ),
+        colorscale='Viridis'
       )
     }
     
@@ -126,10 +141,6 @@ shinyServer(function(input, output) {
   output$gx_3d_trajectoryDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     if (length(selectedPersons)) {
-      n = nrow(trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]])
-      sRl = input$colorInput_dayOne[1]
-      sRh = input$colorInput_dayOne[2]
-      colorshade = c(array(0, floor(sRl*n)), seq.int(), array(0, ))
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
         data = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]],

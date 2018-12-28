@@ -8,9 +8,9 @@ library("data.table")
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
 csv_room_coordinates_path <-
-  ("../res/SortedRooms_V1.0.csv")
+  ("../../res/SortedRooms_V1.0.csv")
 csv_test_trajectories_path <-
-  ("../res/position_data/DEBUGFILENODATA_V1.csv")
+  ("../../res/DEBUGFILENODATA_V1.csv")
 
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
@@ -77,6 +77,8 @@ toc <- Sys.time() - tic
 
 print(toc)
 
+
+break;
 
 
 #########################################################################################################################
