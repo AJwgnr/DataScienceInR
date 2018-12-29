@@ -229,24 +229,51 @@ ds_body = dashboardBody(tabItems(
     #======================================
     # Tab 2: fluidRow 1: ToDo
     #======================================
-    fluidRow(width = 12,
-             box(
-               h2(width = 12, "Test persons data table"),
-               width = 12,
-               pickerInput(
-                 inputId = "id_pickerInputDTpersonsRaw",
-                 label = "Select columns to display:",
-                 choices = columChoicesPersonsTable[-1],
-                 options = list(
-                   `actions-box` = TRUE,
-                   size = 10,
-                   `selected-text-format` = "count > 3"
-                 ),
-                 multiple = TRUE,
-                 selected = columChoicesPersonsTable[2:7]
-               ),
-               DT::dataTableOutput("gx_DT_personsDataTable")
-             )),
+    fluidRow(
+      width = 12,
+      tabBox(
+        title = "Persons Attributes",
+        side = "right",
+        width = 12,
+        selected = "Table",
+        tabPanel(
+          "Table",
+          h2(width = 12, "Test persons data table"),
+          width = 12,
+          pickerInput(
+            inputId = "id_pickerInputDTpersonsRaw1",
+            label = "Select columns to display:",
+            choices = columChoicesPersonsTable[-1],
+            options = list(
+              `actions-box` = TRUE,
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ),
+            multiple = TRUE,
+            selected = columChoicesPersonsTable[2:7]
+          ),
+          DT::dataTableOutput("gx_DT_personsDataTable")
+        ),
+        tabPanel(
+          "Scatterplot matrix",
+          h2(width = 12, "Test persons data as scatterplot matrix"),
+          width = 12,
+          pickerInput(
+            inputId = "id_pickerInputDTpersonsRaw2",
+            label = "Select columns to display:",
+            choices = columChoicesPersonsTable[-1],
+            options = list(
+              `actions-box` = TRUE,
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ),
+            multiple = TRUE,
+            selected = columChoicesPersonsTable[2:7]
+          ),
+          plotlyOutput("gx_splom_personsDataTable")
+        )
+      )
+    ),
     #======================================
     # Tab 2: fluidRow 2: ToDo
     #======================================
