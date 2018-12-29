@@ -43,8 +43,8 @@ shinyServer(function(input, output) {
   # function is currently in traj2graph.R may be put into preComputation,dataLoading...
   # list containing roomGraphData similar to trajectoryDataDayOne
   # COMMENT THE NEXT TWO LINES TO RUN CODE OR FIX traj2graph.R
-  roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  #roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  #roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   #traj2graph works and returns [room<ID>,timeSpent<sec>]
   #computeRoomGraphByDay dosen't work. should return list similar to trajectoryDataDay[One,Two] (with VP as index)
   #roomGraph2roomHist dosen't work. should return list with room ID and TOTAL time spent within

@@ -10,16 +10,17 @@ computeRoomGraphByDay <-
            VR1coordinates,
            VR2coordinates) {
     # this function has not been tested at all
-    roomGraphData = list()
+    roomGraphData <-  list()
     if (day == 1) {
       for (vp in personsDataTable$VP) {
+        print(vp)
         # Different room coordinates need on same day....
-        if (personsDataTable[vp,firstVR] < 3) {
+        if (personsDataSet[VP==vp,firstVR]< 3) {
           # < 3 correct for coordinates of VR1? double check
-          roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR1coordinates)
+          roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR1coordinates)
         }
         else {
-          roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR2coordinates)
+          roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR2coordinates)
         }
       }
       
@@ -39,9 +40,9 @@ computeRoomGraphByDay <-
 traj2graph <- function(trajectorie, rooms) {
   # Room coordinates must be sorted along z and x1<x2,y1<y2 is forced on data loading
   # Create col 'Room' to store room id for each entry in trajectory
-  trajectorie$Room = -1
+  trajectorie$Room <-  -1
   # Create col 'RoomHeight' to store
-  trajectorie$RoomHeight = -100
+  trajectorie$RoomHeight <-  -100
   
   # Iterate rooms and create id entry for each row in trajectory. (speed up via vectorization might be possible)
   for (rows in 1:nrow(rooms)) {
@@ -61,7 +62,7 @@ traj2graph <- function(trajectorie, rooms) {
   }
   # Summarize into roomGraph
   # FIXME: currently dosen't work because traj is used by reference
-  trajectorie$rleid = rleid(trajectorie$Room)
+  trajectorie$rleid <-  rleid(trajectorie$Room)
   return(unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, rleid), trajectorie$rleid])[, c(2, 3)]) # 0.1 sec spentd per trajectory row/timestemp
 }
 
