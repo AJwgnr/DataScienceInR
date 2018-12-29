@@ -14,7 +14,7 @@ computeRoomGraphByDay <-
     if (day == 1) {
       for (vp in personsDataTable$VP) {
         # Different room coordinates need on same day....
-        if (personsDataTable[vp,firstVR] < 3) {
+        if (personsDataTable[vp, firstVR] < 3) {
           # < 3 correct for coordinates of VR1? double check
           roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR1coordinates)
         }
@@ -69,7 +69,6 @@ traj2graph <- function(trajectorie, rooms) {
 
 
 roomGraph2roomHist <- function() {
-  
   # THE FOLLOWING CODE IS FROM TRAJECTORYTOGRAPHES AND DOES NOT WORK CORRECTLY
   # FIXME: rooms can have same id because of none-rectangularity, this not working properly yet
   # TEST: total time spent after computing time per room must be equal to time spent in world (as nrwo(traj)*0.1)

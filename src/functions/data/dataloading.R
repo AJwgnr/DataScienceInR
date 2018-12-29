@@ -99,7 +99,7 @@ loadTrajectoryByDay <- function(day) {
     key = as.integer(sub("_Tag.*", "", sub(".*VP", "", trajectory)))
     value = fread(trajectory, sep = ",")
     # Don't append an ID or similar here..just creats a bunch of problems on it's own...
-    trajectoryData[[key]] = value 
+    trajectoryData[[key]] = value
     # maybe names(mylist) <- c(VP1..VPi..VPn) is more robust/faster?
   }
   return(trajectoryData)

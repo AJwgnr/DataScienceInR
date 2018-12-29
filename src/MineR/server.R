@@ -43,8 +43,8 @@ shinyServer(function(input, output) {
   # function is currently in traj2graph.R may be put into preComputation,dataLoading...
   # list containing roomGraphData similar to trajectoryDataDayOne
   # COMMENT THE NEXT TWO LINES TO RUN CODE OR FIX traj2graph.R
-  roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  #roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  #roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   #traj2graph works and returns [room<ID>,timeSpent<sec>]
   #computeRoomGraphByDay dosen't work. should return list similar to trajectoryDataDay[One,Two] (with VP as index)
   #roomGraph2roomHist dosen't work. should return list with room ID and TOTAL time spent within
@@ -108,9 +108,13 @@ shinyServer(function(input, output) {
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
       sRl = input$colorInput_dayOne[1]
       sRh = input$colorInput_dayOne[2]
-      leadingZeros = floor((sRl/100) * n)
+      leadingZeros = floor((sRl / 100) * n)
       trailingZeros = n - floor((sRh / 100) * n)
-      shade = c(array(0, leadingZeros), seq(0, n,length.out = n - leadingZeros- trailingZeros), array(0,trailingZeros))
+      shade = c(
+        array(0, leadingZeros),
+        seq(0, n, length.out = n - leadingZeros - trailingZeros),
+        array(0, trailingZeros)
+      )
       print(shade)
       # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
@@ -128,10 +132,8 @@ shinyServer(function(input, output) {
         ),
         mode = 'lines',
         # FIXME (colorbar,colorscale not attributes of scatter3d)
-        colorbar=list(
-          title='Colorbar'
-        ),
-        colorscale='Viridis'
+        colorbar = list(title = 'Colorbar'),
+        colorscale = 'Viridis'
       )
     }
     
