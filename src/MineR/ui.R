@@ -169,8 +169,9 @@ ds_body = dashboardBody(tabItems(
       h1("The dataset"),
       fluidRow(
         width = 12,
-        box( h2(width = 12, "Description"),
+        box( title= "Description",
              width = 12,
+             collapsible = TRUE,
              
              "The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. 
 The data set is divided into trajectory data (in the following named", tags$em("Trajectory data"), ") and information of the test persons (in the following named", tags$em("Test subject data"),") in separate csv files.",
