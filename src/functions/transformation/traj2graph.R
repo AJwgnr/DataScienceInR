@@ -70,7 +70,6 @@ traj2graph <- function(trajectorie, rooms) {
 
 
 roomGraph2roomHist <- function() {
-  
   # THE FOLLOWING CODE IS FROM TRAJECTORYTOGRAPHES AND DOES NOT WORK CORRECTLY
   # FIXME: rooms can have same id because of none-rectangularity, this not working properly yet
   # TEST: total time spent after computing time per room must be equal to time spent in world (as nrwo(traj)*0.1)

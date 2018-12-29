@@ -29,6 +29,12 @@ if(!require(stringr)){
 if(!require(DT)){
   install.packages(DT)
 }
+if(!require(crosstalk)){
+  install.packages(crosstalk)
+}
+if(!require(GGally)){
+  install.packages(GGally)
+}
 
 # Load the libraries
 library(shiny)
@@ -40,7 +46,8 @@ library(dtplyr)
 library(readxl)
 library(stringr)
 library(DT)
-
+library(crosstalk)
+library(GGally)
 
 
 # pkg: dygraphs sounds good

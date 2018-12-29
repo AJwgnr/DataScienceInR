@@ -13,7 +13,7 @@ source("include.R")
 
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   ###################
   ###    Source   ###
   ###################
@@ -82,7 +82,7 @@ shinyServer(function(input, output) {
   
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
-      personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw)), with = FALSE],
+      personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw1)), with = FALSE],
       # with = FALSE need for DT version <= 1.96
       options = list(
         scrollX = TRUE,
@@ -91,6 +91,13 @@ shinyServer(function(input, output) {
       ),
       selection = "single"
     )
+  
+  output$gx_splom_personsDataTable <- renderPlotly({
+    d <-
+      SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
+    p <- GGally::ggpairs(d)
+    highlight(ggplotly(p), on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
+  })
   
   # roomGraphDayOne = renderPrint({
   #   selectedPersons = input$gx_DT_personsDataTable_rows_selected
@@ -108,9 +115,13 @@ shinyServer(function(input, output) {
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
       sRl = input$colorInput_dayOne[1]
       sRh = input$colorInput_dayOne[2]
-      leadingZeros = floor((sRl/100) * n)
+      leadingZeros = floor((sRl / 100) * n)
       trailingZeros = n - floor((sRh / 100) * n)
-      shade = c(array(0, leadingZeros), seq(0, n,length.out = n - leadingZeros- trailingZeros), array(0,trailingZeros))
+      shade = c(
+        array(0, leadingZeros),
+        seq(0, n, length.out = n - leadingZeros - trailingZeros),
+        array(0, trailingZeros)
+      )
       print(shade)
       # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
@@ -128,10 +139,8 @@ shinyServer(function(input, output) {
         ),
         mode = 'lines',
         # FIXME (colorbar,colorscale not attributes of scatter3d)
-        colorbar=list(
-          title='Colorbar'
-        ),
-        colorscale='Viridis'
+        colorbar = list(title = 'Colorbar'),
+        colorscale = 'Viridis'
       )
     }
     
@@ -176,6 +185,19 @@ shinyServer(function(input, output) {
   #   })
   #
   
+  
+  # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
+  
+  # If picker1 changes update picker
+  observe({
+    x <- input$id_pickerInputDTpersonsRaw1
+    updatePickerInput(session, "id_pickerInputDTpersonsRaw2", selected = x)
+  })
+  # Vice versa
+  observe({
+    y <- input$id_pickerInputDTpersonsRaw2
+    updatePickerInput(session, "id_pickerInputDTpersonsRaw1", selected = y)
+  })
   
   
 })

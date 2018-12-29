@@ -110,30 +110,35 @@ ds_body = dashboardBody(tabItems(
     tags$div(
       "This webpage is the result of the semester project of the course",
       tags$b("Data Science with R"),
-      "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",  
-      tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),". Further details regarding the lecture can be found on the official",
-      tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"), ".",
+      "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",
+      tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),
+      ". Further details regarding the lecture can be found on the official",
+      tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"),
+      ".",
       "This project was done as a team consisting of the members",
       tags$b("Johannes Dambacher"),
       "and",
       tags$b("Alexander Wagner"),
       ".",
       "The general project idea as well as an detailed time plan can be found in the " ,
-      tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),".",
+      tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),
+      ".",
       "The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the ",
       tags$a(
         href = " http://www.kkjp.ovgu.de/Forschung.html",
-        "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"),
+        "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"
+      ),
       "at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the experiment tab. The dataset itself can be explored in the dataset tab.",
       
       "The whole code for this project is stored in this",
-      tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),".",
+      tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),
+      ".",
       "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
       "If you want to get a short introduction for this application, please see the video below.",
       tags$br(),
       tags$br()
     ),
-   
+    
     
     
     #======================================
@@ -150,70 +155,93 @@ ds_body = dashboardBody(tabItems(
                  controls = "controls",
                  width = "auto",
                  height = 250
-               ))),
-  
-  
+               )
+             )),
+    
+    
     
     tags$div(
-      tags$img(src = 'datascir.png', width='78', height='91', align = "left"),
+      tags$img(
+        src = 'datascir.png',
+        width = '78',
+        height = '91',
+        align = "left"
+      ),
       tags$img(src = 'fin.png', align = "right"),
       tags$img(src = 'medlogo.jpeg', align = "center")
     ),
     tags$br(),
-    tags$br()),
-    ###****************************************************************************************************************************************************************
-    ### Page 2: Data Raw; table, scatterplots,
-    ###****************************************************************************************************************************************************************
-    tabItem(
-      tabName = "rawData",
-      h1("The dataset"),
-      fluidRow(
+    tags$br()
+  ),
+  ###****************************************************************************************************************************************************************
+  ### Page 2: Data Raw; table, scatterplots,
+  ###****************************************************************************************************************************************************************
+  tabItem(
+    tabName = "rawData",
+    h1("The dataset"),
+    fluidRow(
+      width = 12,
+      box(
+        title = "Description",
         width = 12,
-        box( title= "Description",
-             width = 12,
-             collapsible = TRUE,
-             
-             "The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. 
-The data set is divided into trajectory data (in the following named", tags$em("Trajectory data"), ") and information of the test persons (in the following named", tags$em("Test subject data"),") in separate csv files.",
-             
-             "The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world.
-             The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time.
-             Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
-             The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
-             The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day, 
-             the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. 
-             The full list of attributes of the used data sets are listed below.",
-             
-             tags$br(),
-             tags$br(),
-             "In summary:", 
-             tags$br(),
-             tags$b("Test subject data:"),tags$ul(
-               tags$li("1 csv file"),
-               tags$li("63 instances"), 
-               tags$li("31 attributes")
-             ),
-             tags$b("Trajectory data:"),tags$ul(
-               tags$li("130 csv files"), 
-               tags$li("~7000 instances each"), 
-               tags$li("4 attributes")),
-             
-             
-             
-             
-      "In the following tables you can get an insight into the dataset.",
-      tags$br())),
-      
-      #======================================
-      # Tab 2: fluidRow 1: ToDo
-      #======================================
-      fluidRow(
+        collapsible = TRUE,
+        
+        "The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others.
+        The data set is divided into trajectory data (in the following named",
+        tags$em("Trajectory data"),
+        ") and information of the test persons (in the following named",
+        tags$em("Test subject data"),
+        ") in separate csv files.",
+        
+        "The trajectory data was retrieved by tracking the test persons movement within a 3D virtual Minecraft world.
+        The sample rate was set to a tenth of a second. The data contains a time stamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time.
+        Due to the software based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise, nor outlier nor ambiguities or other measurement based bias.
+        The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
+        The data set of the test persons contains variables such as sex, age and others as well as the number of words remembered correctly/wrongly on the first/second day,
+        the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar.
+        The full list of attributes of the used data sets are listed below.",
+        
+        tags$br(),
+        tags$br(),
+        "In summary:",
+        tags$br(),
+        tags$b("Test subject data:"),
+        tags$ul(
+          tags$li("1 csv file"),
+          tags$li("63 instances"),
+          tags$li("31 attributes")
+        ),
+        tags$b("Trajectory data:"),
+        tags$ul(
+          tags$li("130 csv files"),
+          tags$li("~7000 instances each"),
+          tags$li("4 attributes")
+        ),
+        
+        
+        
+        
+        "In the following tables you can get an insight into the dataset.",
+        tags$br()
+        )
+      ),
+    
+    #======================================
+    # Tab 2: fluidRow 1: ToDo
+    #======================================
+    fluidRow(
+      width = 12,
+      tabBox(
+        title = "Persons Attributes",
+        side = "right",
         width = 12,
-        box(
+        selected = "Table",
+        tabPanel(
+          "Table",
           h2(width = 12, "Test persons data table"),
           width = 12,
           pickerInput(
-            inputId = "id_pickerInputDTpersonsRaw",
+            inputId = "id_pickerInputDTpersonsRaw1",
             label = "Select columns to display:",
             choices = columChoicesPersonsTable[-1],
             options = list(
@@ -225,144 +253,184 @@ The data set is divided into trajectory data (in the following named", tags$em("
             selected = columChoicesPersonsTable[2:7]
           ),
           DT::dataTableOutput("gx_DT_personsDataTable")
-        )
-      ),
-      #======================================
-      # Tab 2: fluidRow 2: ToDo
-      #======================================
-      fluidRow(
-        width = 12,
-        box(h2(width = 12, "Trajectory and room data"),
-            width=12,
-        tabBox(
-          title = "First Day",
-          side = "right",
-          selected = "Tab2",
-          tabPanel("Tab1", "Times room entered"),
-          tabPanel("Tab2",
-                   "Time spent per room"),
-          tabPanel(
-            "Tab3",
-            plotlyOutput("gx_3d_trajectoryDayOne"),
-            sliderInput(
-              "colorInput_dayOne",
-              "Select time intervall",
-              min = 0,
-              max = 100,
-              value = c(0,100)
-            )
-          )
         ),
-        tabBox(
-          title = "Second Day",
-          side = "right",
-          selected = "Tab2",
-          tabPanel("Tab1", "Times room entered"),
-          tabPanel("Tab2", "Time spent per room"),
-          tabPanel("Tab3", plotlyOutput("gx_3d_trajectoryDayTwo"),
+        tabPanel(
+          "Scatterplot matrix",
+          h2(width = 12, "Test persons data as scatterplot matrix"),
+          width = 12,
+          pickerInput(
+            inputId = "id_pickerInputDTpersonsRaw2",
+            label = "Select columns to display:",
+            choices = columChoicesPersonsTable[-1],
+            options = list(
+              `actions-box` = TRUE,
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ),
+            multiple = TRUE,
+            selected = columChoicesPersonsTable[2:7]
+          ),
+          plotlyOutput("gx_splom_personsDataTable")
+        )
+      )
+    ),
+    #======================================
+    # Tab 2: fluidRow 2: ToDo
+    #======================================
+    fluidRow(width = 12,
+             box(
+               h2(width = 12, "Trajectory and room data"),
+               width = 12,
+               tabBox(
+                 title = "First Day",
+                 side = "right",
+                 selected = "Tab2",
+                 tabPanel("Tab1", "Times room entered"),
+                 tabPanel("Tab2",
+                          "Time spent per room"),
+                 tabPanel(
+                   "Tab3",
+                   plotlyOutput("gx_3d_trajectoryDayOne"),
+                   sliderInput(
+                     "colorInput_dayOne",
+                     "Select time intervall",
+                     min = 0,
+                     max = 100,
+                     value = c(0, 100)
+                   )
+                 )
+               ),
+               tabBox(
+                 title = "Second Day",
+                 side = "right",
+                 selected = "Tab2",
+                 tabPanel("Tab1", "Times room entered"),
+                 tabPanel("Tab2", "Time spent per room"),
+                 tabPanel(
+                   "Tab3",
+                   plotlyOutput("gx_3d_trajectoryDayTwo"),
                    verbatimTextOutput("value"),
                    sliderInput(
                      "colorInput_dayTwo",
                      "Select time intervall",
                      min = 0,
                      max = 100,
-                     value = c(0,100)
-                   ))
-        )
-      ))
-    ),
+                     value = c(0, 100)
+                   )
+                 )
+               )
+             ))
+  ),
   
   
-  tabItem(tabName = "experiment",
-          h1("Experiment Overview"),
-          box(title = "Data generation process",
-          solidHeader = F,
-          collapsible = F,
-          width = 12,
-          fluidRow(column(width = 6, "The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
-For the experiment both groups (with ADHD and the control group) had to attend the study on three different days:",
-                          tags$br(),
-                          tags$b("On the first day"), "the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see the worlds in the videos below).
-                         ",tags$br(), 
-                          tags$b("On the second day"), " the test persons had to learn", tags$em("20 new vocabularies"), "and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others.", tags$br(), tags$b("On the third day"), "the vocabularies had to be recalled again by the test persons (see the process overview in the image on the right). Further test persons will perform the experiment in the future and thus enlarge the data set successively."),
-                   column(width = 6, align = "center",
-                          img(src="process.png", width=400))
-          )),
+  tabItem(
+    tabName = "experiment",
+    h1("Experiment Overview"),
+    box(
+      title = "Data generation process",
+      solidHeader = F,
+      collapsible = F,
+      width = 12,
+      fluidRow(
+        column(
+          width = 6,
+          "The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
+          For the experiment both groups (with ADHD and the control group) had to attend the study on three different days:",
           tags$br(),
-       
-           
-          # Page 2: fluidRow 1: Minecraft Worlds
-          #======================================
-              fluidRow(height = 500,
-            tabBox(
-              title = "Minecraft World´s",
-              height = "auto",
-              width = 12,
-              tabPanel(
-                "The Mansion",
-                tags$video(
-                  id = "video1",
-                  type = "video/mp4",
-                  src = "VR1.0.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              ),
-              tabPanel(
-                "The Mansion (altered)",
-                tags$video(
-                  id = "video2",
-                  type = "video/mp4",
-                  src = "VR1.1.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              ),
-              tabPanel(
-                "The pirate island",
-                tags$video(
-                  id = "video3",
-                  type = "video/mp4",
-                  src = "VR2.0.mp4",
-                  controls = "controls",
-                  width = "auto",
-                  height = 250
-                )
-              )
-            )
-              
-            )
-          
+          tags$b("On the first day"),
+          "the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see the worlds in the videos below).
+          ",
+          tags$br(),
+          tags$b("On the second day"),
+          " the test persons had to learn",
+          tags$em("20 new vocabularies"),
+          "and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others.",
+          tags$br(),
+          tags$b("On the third day"),
+          "the vocabularies had to be recalled again by the test persons (see the process overview in the image on the right). Further test persons will perform the experiment in the future and thus enlarge the data set successively."
+        ),
+        column(
+          width = 6,
+          align = "center",
+          img(src = "process.png", width = 400)
+        )
+      )
+    ),
+    tags$br(),
+    
+    
+    # Page 2: fluidRow 1: Minecraft Worlds
+    #======================================
+    fluidRow(
+      height = 500,
+      tabBox(
+        title = "Minecraft World´s",
+        height = "auto",
+        width = 12,
+        tabPanel(
+          "The Mansion",
+          tags$video(
+            id = "video1",
+            type = "video/mp4",
+            src = "VR1.0.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        ),
+        tabPanel(
+          "The Mansion (altered)",
+          tags$video(
+            id = "video2",
+            type = "video/mp4",
+            src = "VR1.1.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        ),
+        tabPanel(
+          "The pirate island",
+          tags$video(
+            id = "video3",
+            type = "video/mp4",
+            src = "VR2.0.mp4",
+            controls = "controls",
+            width = "auto",
+            height = 250
+          )
+        )
+      )
+      
+    )
+    
   ),
   
   
   
   
-    ###****************************************************************************************************************************************************************
-    ### Page 3: Visualization
-    ###****************************************************************************************************************************************************************
-    tabItem(tabName = "visualization",
-            h2("Visual data exploration")),
-    ###****************************************************************************************************************************************************************
-    ### Page 4: Trajectroy features
-    ###****************************************************************************************************************************************************************
-    tabItem(tabName = "trjFeatures",
-            h2("Trajectory feature exploration")),
-    ###****************************************************************************************************************************************************************
-    ### Page 5: Clustering plus visualization
-    ###****************************************************************************************************************************************************************
-    tabItem(tabName = "clustering",
-            h2("Clustering")),
-    ###****************************************************************************************************************************************************************
-    ### Page 6: Decision Tree plus visualization
-    ###****************************************************************************************************************************************************************
-    tabItem(tabName = "decisionTree",
-            h2("Decision tree"))
-  ))
-  
-  ################################################################################
-  ### DashboardPage: (must be last)
-  dashboardPage(ds_header, ds_sidebar, ds_body)
-  
+  ###****************************************************************************************************************************************************************
+  ### Page 3: Visualization
+  ###****************************************************************************************************************************************************************
+  tabItem(tabName = "visualization",
+          h2("Visual data exploration")),
+  ###****************************************************************************************************************************************************************
+  ### Page 4: Trajectroy features
+  ###****************************************************************************************************************************************************************
+  tabItem(tabName = "trjFeatures",
+          h2("Trajectory feature exploration")),
+  ###****************************************************************************************************************************************************************
+  ### Page 5: Clustering plus visualization
+  ###****************************************************************************************************************************************************************
+  tabItem(tabName = "clustering",
+          h2("Clustering")),
+  ###****************************************************************************************************************************************************************
+  ### Page 6: Decision Tree plus visualization
+  ###****************************************************************************************************************************************************************
+  tabItem(tabName = "decisionTree",
+          h2("Decision tree"))
+))
+
+################################################################################
+### DashboardPage: (must be last)
+dashboardPage(ds_header, ds_sidebar, ds_body)
