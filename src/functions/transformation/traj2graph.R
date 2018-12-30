@@ -1,38 +1,79 @@
 # Trajectory function
 
 
-# Compute roomGraph for whole trajectorieSet of Day:day
-# Trajectory Data MUST fit room (unsafe)
-computeRoomGraphByDay <-
-  function(day,
-           personsDataTable,
+# Possible Combinations:
+# Day1      | Day2     | Novelty |  firstVR
+# Mansion     Mansion    1          1
+# Mansion     Mansion(C) 3          1
+# Mansion(C)  Mansion    3          3
+# Mansion(C)  Mansion(C) 1          3
+# Mansion     Pirate     2          1
+# Mansion(C)  Pirate     2          3
+# Pirate      Pirate     1          2
+# Pirate      Mansion    2          2
+# Pirate      Mansion(C) 2          2
+
+# Compute roomGraph for whole trajectorieSet of Day One
+# Trajectory Data MUST fit room (unsafe)??
+computeRoomGraphDayOne <-
+  function(personsDataTable,
            trajectoryData,
            VR1coordinates,
            VR2coordinates) {
-    # this function has not been tested at all
     roomGraphData <-  list()
-    if (day == 1) {
       for (vp in personsDataTable$VP) {
         print(vp)
-        # Different room coordinates need on same day....
-        if (personsDataSet[VP==vp,firstVR]< 3) {
-          # < 3 correct for coordinates of VR1? double check
+        # firstVR ==1 or 3 says that it is the mansion or the colored mansion
+        if (personsDataTable[VP==vp,firstVR] == 1 || personsDataTable[VP==vp,firstVR] == 3) {
           roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR1coordinates)
         }
-        else {
+        # firstVR ==2 says that it is the pirate ship
+        else if(personsDataTable[VP==vp,firstVR] == 2) {
           roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR2coordinates)
         }
+        else{
+          print('Unknown attribute value of FirstVR')
+        }
       }
-      
-    } else if (day == 2) {
-      # same just different day...
-      
-    } else{
-      print("Unsupported day entered in computeRoomGraphByDay")
-      return()
-      
+    return(roomGraphData)
+  }
+
+
+# Compute roomGraph for whole trajectorieSet of Day One
+# Trajectory Data MUST fit room (unsafe)??
+computeRoomGraphDayTwo <-
+  function(personsDataTable,
+           trajectoryData,
+           VR1coordinates,
+           VR2coordinates) {
+    roomGraphData <-  list()
+    for (vp in personsDataTable$VP) {
+      print(vp)
+      # On first day it was either the mansion or the colored mansion (firstVR ==1 or 3)
+      if (((personsDataTable[VP==vp,firstVR] == 1) || (personsDataTable[VP==vp,firstVR] == 3))){
+        #novelty indicates the same or only partial different world on the second day (novelty ==1 or 3)
+        if ((personsDataTable[VP==vp,Novelty] == 1) || (personsDataTable[VP==vp,Novelty] == 3)) {
+        # So use coordinates from mansion
+        roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR1coordinates)
+        } 
+        # If novelty indicates new world
+        else if ((personsDataTable[VP==vp,Novelty] == 2)) {
+          #use coordinates of the pirate ship world
+        roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR2coordinates)
+        }}
+      # if the first world was the pirate ship
+      else if(personsDataTable[VP==vp,firstVR] == 2){
+        # and novelty indicates same world
+        if(personsDataTable[VP==vp,Novelty] == 1){
+          # use pirate bay
+          roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR2coordinates)
+        }
+        # if novelty indicates a new world use the mansion
+        else if (personsDataTable[VP==vp,Novelty] == 2){
+          roomGraphData[[vp]] <-  traj2graph(trajectoryData[[vp]], VR1coordinates)
+        }
+      }
     }
-    
     return(roomGraphData)
   }
 
