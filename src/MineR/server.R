@@ -36,6 +36,33 @@ shinyServer(function(input, output, session) {
   roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
   roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
   
+  
+  
+  
+  
+  adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
+  healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
+  
+  
+  # Extract persons with respect 
+  # Persons that have only seen the same world twice
+  sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
+  sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
+  sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
+  
+  # Persons that have seen a new world
+  newWorld <- personsDataTable[personsDataTable$Novelty == 2]
+  newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
+  newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
+  
+  # Persons that have seen a partial new world (different color)
+  partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
+  partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
+  partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
+  
+  
+  
+  
   ###################
   #### Precompute ###
   ###################
@@ -105,6 +132,78 @@ shinyServer(function(input, output, session) {
   #     # ToDo: invoke traj2graph and compute the roooms visited
   #   }
   # })
+  
+  
+  output$boxplotOverall <- renderPlotly({
+  
+  plot_ly(
+    y = adhdChildren$TP_DirectRecall,
+    name = 'ADHD TP_Direct',
+    type = 'box',
+    boxpoints = 'all',
+    jitter = 0.3,
+    pointpos = -1.8
+  ) %>%
+    add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
+    add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
+    add_trace(y = healthyChildren$TP_DelayedRecall, name =
+                'Healthy TP_Delayed')
+  
+  })
+  
+  
+  
+  
+  output$boxplotSameWorld <- renderPlotly({
+    plot_ly(
+      y = sameWorldADHD$TP_DirectRecall,
+      name = ' SameWorld TP_Direct (ADHD)' ,
+      type = "box",
+      boxpoints = "all",
+      jitter = 0.3,
+      pointpos = -1.8
+    ) %>%
+      add_trace(y = sameWorldHealthy$TP_DirectRecall, name = ' SameWorld TP_Direct (Healthy)') %>%
+      add_trace(y = sameWorldADHD$TP_DelayedRecall, name = ' SameWorld TP_Delayed (ADHD)') %>%
+      add_trace(y = sameWorldHealthy$TP_DelayedRecall, name = ' SameWorld TP_Delayed (Healthy)')
+
+  })
+  
+  
+  
+  output$boxplotNewWorld <- renderPlotly({
+    plot_ly(
+      y = newWorldADHD$TP_DirectRecall,
+      name = ' NewWorld TP_Direct (ADHD)' ,
+      type = "box",
+      boxpoints = "all",
+      jitter = 0.3,
+      pointpos = -1.8
+    ) %>%
+      add_trace(y = newWorldHealthy$TP_DirectRecall, name = ' NewWorld TP_Direct (Healthy)') %>%
+      add_trace(y = newWorldADHD$TP_DelayedRecall, name = ' NewWorld TP_Delayed (ADHD)') %>%
+      add_trace(y = newWorldHealthy$TP_DelayedRecall, name = ' NewWorld TP_Delayed (Healthy)')
+  })
+  
+  
+  
+  
+  
+  output$boxplotPartialNewWorld <- renderPlotly({
+    
+    plot_ly(
+      y = partialNewWorldADHD$TP_DirectRecall,
+      name = ' PartialNewWorld TP_Direct (ADHD)' ,
+      type = "box",
+      boxpoints = "all",
+      jitter = 0.3,
+      pointpos = -1.8
+    ) %>%
+      add_trace(y = partialNewWorldHealthy$TP_DirectRecall, name = ' PartialNewWorld TP_Direct (Healthy)') %>%
+      add_trace(y = partialNewWorldADHD$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (ADHD)') %>%
+      add_trace(y = partialNewWorldHealthy$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (Healthy)')
+
+  })
   
   
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...

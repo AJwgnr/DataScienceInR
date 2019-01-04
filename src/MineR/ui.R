@@ -1,14 +1,3 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-# see https://rstudio.github.io/shinydashboard/structure.html
-
 # include everything once
 source("include.R")
 
@@ -20,6 +9,7 @@ source("include.R")
 # Risky solution loading personsTable in ui? (static anyway)
 # TODO: how about features beeing appended to personsTable serverSides? -> different plotting enough?
 source("../functions/data/dataloading.R") # sourcing ui sides seems like bad practice: possible to get table names from server?
+
 personsTable <- loadPersonsDataset()
 columChoicesPersonsTable <- 1:ncol(personsTable)
 names(columChoicesPersonsTable) <- names(personsTable)
@@ -28,6 +18,8 @@ roomsWorldOne <- loadRoomsDefinitionWorld(1)
 roomsWorldTwo <- loadRoomsDefinitionWorld(2)
 trajectorieDayOne <- loadTrajectoryByDay(1)
 trajectorieDayTwo <- loadTrajectoryByDay(2)
+
+
 ##singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
 
 #roomGraphDayOne <- computeRoomGraphDayOne(persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
@@ -58,6 +50,8 @@ newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
 partialNewWorld <- persons[persons$Novelty == 3]
 partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
 partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
+
+
 
 
 
@@ -496,17 +490,42 @@ ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "memorizing",
-    h2("Memorizing Experiment"),
+    h1("Memorizing Experiment"),
     #======================================
     # Page 4: fluidRow 1: Important figures
     #======================================
     fluidRow(
-      title = ' Testt',
+      title = ' Results',
       width = 12,
       # A static valueBox
-      valueBox(10 * 2, "New Orders", icon = icon("credit-card")),
-      valueBox(10 * 2, "New Orders", icon = icon("credit-card")),
-      valueBox(10 * 2, "New Orders", icon = icon("credit-card"))
+      valueBox(20, "Words to memorize", icon = icon("credit-card")),
+      valueBox(10 * 2, "Average Direct Recall", icon = icon("credit-card")),
+      valueBox(10 * 2, "Average Delayed Recall", icon = icon("credit-card"))
+    ),
+    fluidRow(
+      title = 'Distribution of persons with respect to the different worlds',
+      width = 12,
+      # A static valueBox
+      valueBox(paste(round((nrow(sameWorld)/nrow(persons))*100,2), '%'), "Patient same world", icon = icon("percent"), color = 'green'),
+      valueBox(paste(round((nrow(newWorld)/nrow(persons))*100,2), ' %'), "Patient new world", icon = icon("percent"), color = 'green'),
+      valueBox(paste(round((nrow(partialNewWorld)/nrow(persons))*100,2), '%'), "Patient Partial new world", icon = icon("percent"), color = 'yellow')
+    ),
+    fluidRow(
+      title = ' Distribution of ADHD Type with respect to the different worlds',
+      width = 12,
+      # A static valueBox
+      valueBox(width = 1, 20, "Type 0", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent")),
+      valueBox(width = 1,20, "Type 3", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 0", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent")),
+      valueBox(width = 1, 20, "Type 2", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 0", icon = icon("percent")),
+      valueBox(width = 1,20, "Type 1", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent")),
+      valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
     ),
     #======================================
     # Page 4: fluidRow 2: Description of the following plots
@@ -517,87 +536,42 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         collapsible = T,
         'Add descriptiton of the following plots and also the results!!'
-      ),
-      
-      
+      )),
       #======================================
       # Page 4: fluidRow 3: Boxplots showing the short term and long term memory results
       #======================================
       fluidRow(
-        title = 'Boxplots',
-        collapsible = T,
+        box(
+          title = 'Long and short term recall comparison',
+          width = 12,
+          collapsible = T,  
+        fluidRow(
         box(
           title = "Overall",
-          width = 3,
           status = "primary",
-          plot_ly(
-            y = adhdChildren$TP_DirectRecall,
-            name = 'ADHD TP_Direct',
-            type = 'box',
-            boxpoints = 'all',
-            jitter = 0.3,
-            pointpos = -1.8
-          ) %>%
-            add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
-            add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
-            add_trace(y = healthyChildren$TP_DelayedRecall, name =
-                        'Healthy TP_Delayed')
+          plotlyOutput("boxplotOverall")
+       
         ),
         box(
           title = "Same World",
-          width = 3,
           status = "primary",
-          
-          plot_ly(
-            y = sameWorldADHD$TP_DirectRecall,
-            name = ' SameWorld TP_Direct (ADHD)' ,
-            type = "box",
-            boxpoints = "all",
-            jitter = 0.3,
-            pointpos = -1.8
-          ) %>%
-            add_trace(y = sameWorldHealthy$TP_DirectRecall, name = ' SameWorld TP_Direct (Healthy)') %>%
-            add_trace(y = sameWorldADHD$TP_DelayedRecall, name = ' SameWorld TP_Delayed (ADHD)') %>%
-            add_trace(y = sameWorldHealthy$TP_DelayedRecall, name = ' SameWorld TP_Delayed (Healthy)')
-          
-        ),
+          plotlyOutput("boxplotSameWorld")
+        )),
+        fluidRow(
         box(
           title = "New World",
-          width = 3,
           status = "primary",
-          
-          plot_ly(
-            y = newWorldADHD$TP_DirectRecall,
-            name = ' NewWorld TP_Direct (ADHD)' ,
-            type = "box",
-            boxpoints = "all",
-            jitter = 0.3,
-            pointpos = -1.8
-          ) %>%
-            add_trace(y = newWorldHealthy$TP_DirectRecall, name = ' NewWorld TP_Direct (Healthy)') %>%
-            add_trace(y = newWorldADHD$TP_DelayedRecall, name = ' NewWorld TP_Delayed (ADHD)') %>%
-            add_trace(y = newWorldHealthy$TP_DelayedRecall, name = ' NewWorld TP_Delayed (Healthy)')
-          
+          plotlyOutput("boxplotNewWorld")
         ),
         box(
           title = "Partial New World",
-          width = 3,
           status = "primary",
-          plot_ly(
-            y = partialNewWorldADHD$TP_DirectRecall,
-            name = ' PartialNewWorld TP_Direct (ADHD)' ,
-            type = "box",
-            boxpoints = "all",
-            jitter = 0.3,
-            pointpos = -1.8
-          ) %>%
-            add_trace(y = partialNewWorldHealthy$TP_DirectRecall, name = ' PartialNewWorld TP_Direct (Healthy)') %>%
-            add_trace(y = partialNewWorldADHD$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (ADHD)') %>%
-            add_trace(y = partialNewWorldHealthy$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (Healthy)')
+          plotlyOutput("boxplotPartialNewWorld")
         )
+        
       )
-    )
-  ),
+        )
+  )),
   
   ###****************************************************************************************************************************************************************
   ### Page 5: Trajectroy features
