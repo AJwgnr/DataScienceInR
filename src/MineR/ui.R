@@ -12,12 +12,13 @@ source("../functions/data/dataloading.R") # sourcing ui sides seems like bad pra
 
 personsTable <- loadPersonsDataset()
 columChoicesPersonsTable <- 1:ncol(personsTable)
-names(columChoicesPersonsTable) <- names(personsTable)
-persons = loadPersonsDataset()
-roomsWorldOne <- loadRoomsDefinitionWorld(1)
-roomsWorldTwo <- loadRoomsDefinitionWorld(2)
-trajectorieDayOne <- loadTrajectoryByDay(1)
-trajectorieDayTwo <- loadTrajectoryByDay(2)
+
+#names(columChoicesPersonsTable) <- names(personsTable)
+#persons = loadPersonsDataset()
+#roomsWorldOne <- loadRoomsDefinitionWorld(1)
+#roomsWorldTwo <- loadRoomsDefinitionWorld(2)
+#trajectorieDayOne <- loadTrajectoryByDay(1)
+#trajectorieDayTwo <- loadTrajectoryByDay(2)
 
 
 ##singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
@@ -525,7 +526,7 @@ ds_body = dashboardBody(tabItems(
       #======================================
       fluidRow(
         box(
-          title = 'Long and short term recall comparison',
+          title = 'Long and short term memory recall comparison',
           width = 12,
           collapsible = T,  
         fluidRow(

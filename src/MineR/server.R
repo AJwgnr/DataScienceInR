@@ -262,7 +262,7 @@ shinyServer(function(input, output, session) {
       add_trace(y = partialNewWorldHealthy$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (Healthy)')
 
   })
-  
+ 
   
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
