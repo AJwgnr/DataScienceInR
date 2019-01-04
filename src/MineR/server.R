@@ -10,10 +10,10 @@
 # include everything once
 source("include.R")
 
+  
 
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
+
   ###################
   ###    Source   ###
   ###################
@@ -110,6 +110,7 @@ shinyServer(function(input, output, session) {
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    print(selectedPersons)
     if (length(selectedPersons)) {
       # create colorscale
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
