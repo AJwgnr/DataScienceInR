@@ -35,6 +35,10 @@ if(!require(crosstalk)){
 if(!require(GGally)){
   install.packages(GGally)
 }
+if(!require("shinydashboardPlus")){
+  install.packages("shinydashboardPlus")
+}
+
 
 
 
@@ -50,6 +54,7 @@ library(stringr)
 library(DT)
 library(crosstalk)
 library(GGally)
+library("shinydashboardPlus")
 
 
 # pkg: dygraphs sounds good

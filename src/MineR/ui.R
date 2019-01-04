@@ -35,8 +35,6 @@ columChoicesPersonsTable <- 1:ncol(personsTable)
 
 
 
-
-
 ################################################################################
 ### Header:
 ds_header = dashboardHeader(title = "MineR",
@@ -211,21 +209,23 @@ ds_body = dashboardBody(tabItems(
     # Page 2: fluidRow 1: Important data figures overview
     #======================================
     fluidRow(
-      # TODO:Could be retrieved dynamically once loading is done on the server
-      valueBox(1, "Files", icon = icon("file-excel-o")),
-      valueBox(31, "Attributes", icon = icon("columns")),
-      valueBox(63, "Instances", icon = icon("table"))
-      #valueBox( 2, "Bad data", icon = icon("exclamation"), color="red")
+    box(title = 'Key Figures',
+        width = 12,
+        collapsible = 12,
+    fluidRow(
+      valueBoxOutput('personFiles'),
+      valueBoxOutput('personAttributes'),
+      valueBoxOutput('personInstances')
+
     ),
     #======================================
     # Page 2: fluidRow 2: Important data figures overview
     #======================================
     fluidRow(
-      valueBox(130, "Files", icon = icon("file-excel-o")),
-      valueBox(4, "Attributes", icon = icon("columns")),
-      valueBox( 7000, "Instances", icon = icon("table"))
-      #valueBox( 2, "Bad data", icon = icon("exclamation"), color="red")
-    ),
+      valueBoxOutput('trajectoryFiles'),
+      valueBoxOutput('trajectoryAttributes'),
+      valueBoxOutput('trajectoryInstances')
+    ))),
     #======================================
     # Page 2: fluidRow 3: Description about the dataset
     #======================================
@@ -479,8 +479,8 @@ ds_body = dashboardBody(tabItems(
       width = 12,
        box(
          title = 'Key figures' ,
-        width = 12,
-        collapsible= T,
+         width = 12,
+         collapsible= T,
     fluidRow(
       title = 'Experiment information',
        width = 12, 
@@ -498,6 +498,11 @@ ds_body = dashboardBody(tabItems(
     fluidRow(
       title = ' Distribution of ADHD Type with respect to the different worlds',
       width = 12,
+      box(
+        title = 'ADHD distribution among groups',
+        width = 12,
+        collapsible = T,
+        collapsed = T,
       valueBoxOutput(width= 1,'sameTyp0'),
       valueBoxOutput(width= 1,'sameTyp1'),
       valueBoxOutput(width= 1,'sameTyp2'),
@@ -510,6 +515,7 @@ ds_body = dashboardBody(tabItems(
       valueBoxOutput(width= 1,'paritalNewTyp1'),
       valueBoxOutput(width= 1,'paritalNewTyp2'),
       valueBoxOutput(width= 1,'paritalNewTyp3')
+      )
     ))),
     #======================================
     # Page 4: fluidRow 2: Description of the following plots

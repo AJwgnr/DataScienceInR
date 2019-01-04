@@ -10,6 +10,7 @@ source("src/functions/visualization/datavisualization.R")
 
 #Raw datasets loaded from the csv
 persons = loadPersonsDataset()
+trajectorie <- loadCompleteTrajectorieDataset()
 roomsWorldOne <- loadRoomsDefinitionWorld(1)
 roomsWorldTwo <- loadRoomsDefinitionWorld(2)
 trajectorieDayOne <- loadTrajectoryByDay(1)

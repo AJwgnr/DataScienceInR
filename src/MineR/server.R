@@ -28,15 +28,15 @@ shinyServer(function(input, output, session) {
   personsDataTable <- loadPersonsDataset()
   
   # Load trajectorie data for day one into key value like list
+  trajectorieList = loadCompleteTrajectorieDataset()
   trajectoryDataDayOne = loadTrajectoryByDay(1)
   trajectoryDataDayTwo = loadTrajectoryByDay(2)
+  
   
   # Load room coordinates of VR1.0/1 and VR2.0
   # ( TODO: sorts and transforms coordinates to respective world)
   roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
   roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
-  
-  
   
   
   
@@ -48,16 +48,25 @@ shinyServer(function(input, output, session) {
   # Persons that have only seen the same world twice
   sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
   sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
+  sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1 ] 
+  sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2 ] 
+  sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3 ] 
   sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
   
   # Persons that have seen a new world
   newWorld <- personsDataTable[personsDataTable$Novelty == 2]
   newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
+  newWorldADHD1 <- newWorld[newWorld$ADHD_Subtype == 1]
+  newWorldADHD2 <- newWorld[newWorld$ADHD_Subtype == 2]
+  newWorldADHD3 <- newWorld[newWorld$ADHD_Subtype == 3]
   newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
   
   # Persons that have seen a partial new world (different color)
   partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
   partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
+  partialNewWorldADHD1 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
+  partialNewWorldADHD2 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
+  partialNewWorldADHD3 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
   partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
   
   
@@ -133,17 +142,45 @@ shinyServer(function(input, output, session) {
   #   }
   # })
   
+  
+  ###################################################################################### 
+  #Dataset Value Boxes
+  ######################################################################################
+  output$personFiles <- renderValueBox({
+    valueBox(1, "Files", icon = icon("file-excel-o"), color = 'blue')
+  })
+  output$personAttributes <- renderValueBox({
+    valueBox(ncol(personsDataTable), "Attributes", icon = icon("columns"), color = 'blue')
+  })
+  output$personInstances <- renderValueBox({
+    valueBox(nrow(personsDataTable), "Instances", icon = icon("table"), color = 'blue')
+  })
+  
+  output$trajectoryFiles <- renderValueBox({
+    valueBox(length(trajectorieList), "Files", icon = icon("file-excel-o"), color = 'blue')
+  })
+  output$trajectoryAttributes <- renderValueBox({
+    valueBox(4, "Attributes", icon = icon("columns"), color = 'blue')
+  })
+  output$trajectoryInstances <- renderValueBox({
+    valueBox( 7000, "Instances", icon = icon("table"), color = 'blue')
+  })
+
+ 
+
+  
+  
   ###################################################################################### 
   #Memorizing Value Boxes
   ######################################################################################
   output$wordsValueBox <- renderValueBox({
-    valueBox(20, "Words to memorize", icon = icon("credit-card"))
+    valueBox(20, "Words to memorize", icon = icon("list"))
   })
   output$avgDirectRecallBox <- renderValueBox({
-    valueBox(10 * 2, "Average Direct Recall", icon = icon("credit-card"))
+    valueBox(round(mean(personsDataTable[['TP_DirectRecall']]),1), "Average Direct Recall (Words correctly memorized)", icon = icon("brain"))
   })
   output$avgDelayedRecallBox <- renderValueBox({
-    valueBox(10 * 2, "Average Delayed Recall", icon = icon("credit-card"))
+    valueBox(round(mean(personsDataTable[['TP_DelayedRecall']]),1), "Average Delayed Recall (Words correctly memorized)", icon = icon("brain"))
   })
   output$sameWorldBox <- renderValueBox({
     valueBox(paste(round((nrow(sameWorld)/nrow(personsDataTable))*100,2), '%'), "Patient same world", icon = icon("percent"), color = 'green')
@@ -156,50 +193,44 @@ shinyServer(function(input, output, session) {
   })
   
   output$sameTyp0 <- renderValueBox({
-    valueBox(width = 1, nrow(sameWorldHealthy), "Type 0", icon = icon("percent"))
+    valueBox(round((nrow(sameWorldHealthy)/(nrow(sameWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
   })
   output$sameTyp1 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent"))
+    valueBox(round((nrow(sameWorldADHD1)/(nrow(sameWorld)))*100,0), "Type 1", icon = icon("percent"), color = 'yellow')
   })
   output$sameTyp2 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent"))
+    valueBox(round((nrow(sameWorldADHD2)/(nrow(sameWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
   })
   output$sameTyp3 <- renderValueBox({
-    valueBox(width = 1,20, "Type 3", icon = icon("percent"))
+    valueBox(round((nrow(sameWorldADHD3)/(nrow(sameWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
   })
   output$newTyp0 <- renderValueBox({
-    valueBox(width = 1,nrow(newWorldHealthy), "Type 0", icon = icon("percent"))
+    valueBox(round((nrow(newWorldHealthy)/(nrow(newWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
   })
   output$newTyp1 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent"))
-  })
-  output$newTyp0 <- renderValueBox({
-    valueBox(width = 1, 20, "Type 0", icon = icon("percent"))
-  })
-  output$newTyp1 <- renderValueBox({
-    valueBox(width = 1,20, "Type 1", icon = icon("percent"))
+    valueBox(round((nrow(newWorldADHD1)/(nrow(newWorld)))*100,0), "Type 1", icon = icon("percent"),color = 'yellow')
   })
   output$newTyp2 <- renderValueBox({
-    valueBox(width = 1, 20, "Type 2", icon = icon("percent"))
+    valueBox(round((nrow(newWorldADHD2)/(nrow(newWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
   })
   output$newTyp3 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
+    valueBox(round((nrow(newWorldADHD3)/(nrow(newWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
   })
   output$paritalNewTyp0 <- renderValueBox({
-    valueBox(width = 1,nrow(partialNewWorldHealthy), "Type 0", icon = icon("percent"))
+    valueBox(round((nrow(partialNewWorldHealthy)/(nrow(partialNewWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
   })
   output$paritalNewTyp1 <- renderValueBox({
-    valueBox(width = 1,20, "Type 1", icon = icon("percent"))
+    valueBox(round((nrow(partialNewWorldADHD1)/(nrow(partialNewWorld)))*100,0), "Type 1", icon = icon("percent"), color = 'yellow')
   })
   output$paritalNewTyp2 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent"))
+    valueBox(round((nrow(partialNewWorldADHD2)/(nrow(partialNewWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
   })
   output$paritalNewTyp3 <- renderValueBox({
-    valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
+    valueBox(round((nrow(partialNewWorldADHD3)/(nrow(partialNewWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
   })
   
   ###################################################################################### 
-  #Memorizing Boxplots
+  # Memorizing Boxplots
   ###################################################################################### 
   output$boxplotOverall <- renderPlotly({
   
