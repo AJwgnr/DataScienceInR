@@ -31,27 +31,6 @@ trajectorieDayTwo <- loadTrajectoryByDay(2)
 #        pointpos = -1.8) 
 
 
-adhdChildren <- persons[persons$ADHD_Subtype>0]
-healthyChildren <- persons[persons$ADHD_Subtype==0]
-
-
-# Extract persons with respect 
-# Persons that have only seen the same world twice
-sameWorld <- persons[persons$Novelty == 1]
-sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
-sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
-
-# Persons that have seen a new world
-newWorld <- persons[persons$Novelty == 2]
-newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
-newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
-
-# Persons that have seen a partial new world (different color)
-partialNewWorld <- persons[persons$Novelty == 3]
-partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
-partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
-
-
 
 
 
@@ -497,36 +476,40 @@ ds_body = dashboardBody(tabItems(
     fluidRow(
       title = ' Results',
       width = 12,
-      # A static valueBox
-      valueBox(20, "Words to memorize", icon = icon("credit-card")),
-      valueBox(10 * 2, "Average Direct Recall", icon = icon("credit-card")),
-      valueBox(10 * 2, "Average Delayed Recall", icon = icon("credit-card"))
-    ),
+       box(
+         title = 'Key figures' ,
+        width = 12,
+        collapsible= T,
+    fluidRow(
+      title = 'Experiment information',
+       width = 12, 
+      valueBoxOutput('wordsValueBox'),
+      valueBoxOutput('avgDirectRecallBox'),
+      valueBoxOutput('avgDelayedRecallBox'))
+    ,
     fluidRow(
       title = 'Distribution of persons with respect to the different worlds',
       width = 12,
-      # A static valueBox
-      valueBox(paste(round((nrow(sameWorld)/nrow(persons))*100,2), '%'), "Patient same world", icon = icon("percent"), color = 'green'),
-      valueBox(paste(round((nrow(newWorld)/nrow(persons))*100,2), ' %'), "Patient new world", icon = icon("percent"), color = 'green'),
-      valueBox(paste(round((nrow(partialNewWorld)/nrow(persons))*100,2), '%'), "Patient Partial new world", icon = icon("percent"), color = 'yellow')
+      valueBoxOutput('sameWorldBox'),
+      valueBoxOutput('newWorldBox'),
+      valueBoxOutput('partialNewWorldBox')
     ),
     fluidRow(
       title = ' Distribution of ADHD Type with respect to the different worlds',
       width = 12,
-      # A static valueBox
-      valueBox(width = 1, 20, "Type 0", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent")),
-      valueBox(width = 1,20, "Type 3", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 0", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent")),
-      valueBox(width = 1, 20, "Type 2", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 0", icon = icon("percent")),
-      valueBox(width = 1,20, "Type 1", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent")),
-      valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
-    ),
+      valueBoxOutput(width= 1,'sameTyp0'),
+      valueBoxOutput(width= 1,'sameTyp1'),
+      valueBoxOutput(width= 1,'sameTyp2'),
+      valueBoxOutput(width= 1,'sameTyp3'),
+      valueBoxOutput(width= 1,'newTyp0'),
+      valueBoxOutput(width= 1,'newTyp1'),
+      valueBoxOutput(width= 1,'newTyp2'),
+      valueBoxOutput(width= 1,'newTyp3'),
+      valueBoxOutput(width= 1,'paritalNewTyp0'),
+      valueBoxOutput(width= 1,'paritalNewTyp1'),
+      valueBoxOutput(width= 1,'paritalNewTyp2'),
+      valueBoxOutput(width= 1,'paritalNewTyp3')
+    ))),
     #======================================
     # Page 4: fluidRow 2: Description of the following plots
     #======================================
@@ -551,12 +534,11 @@ ds_body = dashboardBody(tabItems(
           status = "primary",
           plotlyOutput("boxplotOverall")
        
-        ),
-        box(
-          title = "Same World",
+        ), box(
+          title = "Partial New World",
           status = "primary",
-          plotlyOutput("boxplotSameWorld")
-        )),
+          plotlyOutput("boxplotPartialNewWorld")
+        ),
         fluidRow(
         box(
           title = "New World",
@@ -564,11 +546,11 @@ ds_body = dashboardBody(tabItems(
           plotlyOutput("boxplotNewWorld")
         ),
         box(
-          title = "Partial New World",
+          title = "Same World",
           status = "primary",
-          plotlyOutput("boxplotPartialNewWorld")
-        )
-        
+          plotlyOutput("boxplotSameWorld")
+        ))
+       
       )
         )
   )),

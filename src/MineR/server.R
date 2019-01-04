@@ -133,7 +133,74 @@ shinyServer(function(input, output, session) {
   #   }
   # })
   
+  ###################################################################################### 
+  #Memorizing Value Boxes
+  ######################################################################################
+  output$wordsValueBox <- renderValueBox({
+    valueBox(20, "Words to memorize", icon = icon("credit-card"))
+  })
+  output$avgDirectRecallBox <- renderValueBox({
+    valueBox(10 * 2, "Average Direct Recall", icon = icon("credit-card"))
+  })
+  output$avgDelayedRecallBox <- renderValueBox({
+    valueBox(10 * 2, "Average Delayed Recall", icon = icon("credit-card"))
+  })
+  output$sameWorldBox <- renderValueBox({
+    valueBox(paste(round((nrow(sameWorld)/nrow(personsDataTable))*100,2), '%'), "Patient same world", icon = icon("percent"), color = 'green')
+  })
+  output$newWorldBox <- renderValueBox({
+    valueBox(paste(round((nrow(newWorld)/nrow(personsDataTable))*100,2), ' %'), "Patient new world", icon = icon("percent"), color = 'green')
+  })
+  output$partialNewWorldBox <- renderValueBox({
+    valueBox(paste(round((nrow(partialNewWorld)/nrow(personsDataTable))*100,2), '%'), "Patient Partial new world", icon = icon("percent"), color = 'yellow')
+  })
   
+  output$sameTyp0 <- renderValueBox({
+    valueBox(width = 1, nrow(sameWorldHealthy), "Type 0", icon = icon("percent"))
+  })
+  output$sameTyp1 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent"))
+  })
+  output$sameTyp2 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent"))
+  })
+  output$sameTyp3 <- renderValueBox({
+    valueBox(width = 1,20, "Type 3", icon = icon("percent"))
+  })
+  output$newTyp0 <- renderValueBox({
+    valueBox(width = 1,nrow(newWorldHealthy), "Type 0", icon = icon("percent"))
+  })
+  output$newTyp1 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 1", icon = icon("percent"))
+  })
+  output$newTyp0 <- renderValueBox({
+    valueBox(width = 1, 20, "Type 0", icon = icon("percent"))
+  })
+  output$newTyp1 <- renderValueBox({
+    valueBox(width = 1,20, "Type 1", icon = icon("percent"))
+  })
+  output$newTyp2 <- renderValueBox({
+    valueBox(width = 1, 20, "Type 2", icon = icon("percent"))
+  })
+  output$newTyp3 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
+  })
+  output$paritalNewTyp0 <- renderValueBox({
+    valueBox(width = 1,nrow(partialNewWorldHealthy), "Type 0", icon = icon("percent"))
+  })
+  output$paritalNewTyp1 <- renderValueBox({
+    valueBox(width = 1,20, "Type 1", icon = icon("percent"))
+  })
+  output$paritalNewTyp2 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 2", icon = icon("percent"))
+  })
+  output$paritalNewTyp3 <- renderValueBox({
+    valueBox(width = 1,10 * 2, "Type 3", icon = icon("percent"))
+  })
+  
+  ###################################################################################### 
+  #Memorizing Boxplots
+  ###################################################################################### 
   output$boxplotOverall <- renderPlotly({
   
   plot_ly(
@@ -150,10 +217,7 @@ shinyServer(function(input, output, session) {
                 'Healthy TP_Delayed')
   
   })
-  
-  
-  
-  
+
   output$boxplotSameWorld <- renderPlotly({
     plot_ly(
       y = sameWorldADHD$TP_DirectRecall,
@@ -168,9 +232,7 @@ shinyServer(function(input, output, session) {
       add_trace(y = sameWorldHealthy$TP_DelayedRecall, name = ' SameWorld TP_Delayed (Healthy)')
 
   })
-  
-  
-  
+
   output$boxplotNewWorld <- renderPlotly({
     plot_ly(
       y = newWorldADHD$TP_DirectRecall,
@@ -184,10 +246,6 @@ shinyServer(function(input, output, session) {
       add_trace(y = newWorldADHD$TP_DelayedRecall, name = ' NewWorld TP_Delayed (ADHD)') %>%
       add_trace(y = newWorldHealthy$TP_DelayedRecall, name = ' NewWorld TP_Delayed (Healthy)')
   })
-  
-  
-  
-  
   
   output$boxplotPartialNewWorld <- renderPlotly({
     
