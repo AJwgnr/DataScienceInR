@@ -10,6 +10,7 @@ source("src/functions/visualization/datavisualization.R")
 
 #Raw datasets loaded from the csv
 persons = loadPersonsDataset()
+trajectorie <- loadCompleteTrajectorieDataset()
 roomsWorldOne <- loadRoomsDefinitionWorld(1)
 roomsWorldTwo <- loadRoomsDefinitionWorld(2)
 trajectorieDayOne <- loadTrajectoryByDay(1)
@@ -25,10 +26,12 @@ trajectorieDayTwo <- loadTrajectoryByDay(2)
 #        pointpos = -1.8) 
 
 
+adhdChildren <- persons[persons$ADHD_Subtype>0]
+healthyChildren <- persons[persons$ADHD_Subtype==0]
 
 
 # Extract persons with respect 
-# Persons that only seen the same world twice
+# Persons that have only seen the same world twice
 sameWorld <- persons[persons$Novelty == 1]
 sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
 sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
@@ -38,11 +41,18 @@ newWorld <- persons[persons$Novelty == 2]
 newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
 newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
 
-
 # Persons that have seen a partial new world (different color)
 partialNewWorld <- persons[persons$Novelty == 3]
 partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
 partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
+
+
+
+# General comparison of memorized words with respect to ADHD and the control kids
+plot_ly(y=adhdChildren$TP_DirectRecall, name ='ADHD TP_Direct', type = 'box', boxpoints='all', jitter = 0.3, pointpos = -1.8)%>%
+  add_trace(y=healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ' )%>%
+  add_trace(y=adhdChildren$TP_DelayedRecall, name ='ADHD TP_Delayed')%>%
+  add_trace(y=healthyChildren$TP_DelayedRecall, name ='Healthy TP_Delayed')
 
 
 plot_ly(y =sameWorldADHD$TP_DirectRecall, name = ' SameWorld TP_Direct (ADHD)' , type = "box", boxpoints = "all", jitter = 0.3,

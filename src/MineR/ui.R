@@ -1,16 +1,7 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-# see https://rstudio.github.io/shinydashboard/structure.html
-
 # include everything once
 source("include.R")
+
+
 
 
 
@@ -18,29 +9,50 @@ source("include.R")
 # Risky solution loading personsTable in ui? (static anyway)
 # TODO: how about features beeing appended to personsTable serverSides? -> different plotting enough?
 source("../functions/data/dataloading.R") # sourcing ui sides seems like bad practice: possible to get table names from server?
+
 personsTable <- loadPersonsDataset()
 columChoicesPersonsTable <- 1:ncol(personsTable)
-names(columChoicesPersonsTable) <- names(personsTable)
+
+#names(columChoicesPersonsTable) <- names(personsTable)
+#persons = loadPersonsDataset()
+#roomsWorldOne <- loadRoomsDefinitionWorld(1)
+#roomsWorldTwo <- loadRoomsDefinitionWorld(2)
+#trajectorieDayOne <- loadTrajectoryByDay(1)
+#trajectorieDayTwo <- loadTrajectoryByDay(2)
+
+
+##singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
+
+#roomGraphDayOne <- computeRoomGraphDayOne(persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
+#Funktioniert nocht nictht!
+#roomGraphDayTwo <- computeRoomGraphDayTwo(persons,trajectorieDayTwo,roomsWorldOne,roomsWorldTwo)
+
+# Beispiel für die Generierung eines Boxplots mit Anzeige der Datenpunkte
+#plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
+#        pointpos = -1.8) 
+
+
+
 
 
 ################################################################################
 ### Header:
-
 ds_header = dashboardHeader(title = "MineR",
                             dropdownMenu(
                               type = "message",
                               messageItem(from = "WHO Breaking News:",
                                           message = "Minecraft cures ADHD.")
                             ))
+
+
 ################################################################################
 ### Sidebar:
-
 ds_sidebar = dashboardSidebar(
   sidebarMenu(
     id = "menuTasks",
-    # what is the id good for in graphics menus? (also works with tabItems, tabBoxes etc.)
+    
     ###**************************
-    ### MenueItem 1: Introduction
+    ### MenueItem 1: Project Introduction
     ###**************************
     menuItem(
       "Project Introduction",
@@ -65,20 +77,20 @@ ds_sidebar = dashboardSidebar(
     ),
     
     ###**************************
-    ### MenueItem 4: Visuals
+    ### MenueItem 4: Memorizing Experiment
     ###**************************
     menuItem(
-      "Visual data exploration",
-      tabName = "visualization",
-      icon = icon("analytics")
+      "Memorizing Experiment",
+      tabName = "memorizing",
+      icon = icon("brain")
     ),
     ###**************************
-    ### MenueItem 5: Features
+    ### MenueItem 5: Trajectory feature exploration
     ###**************************
     menuItem(
       "Trajectory feature exploration",
       tabName = "trjFeatures",
-      icon = icon("running")
+      icon = icon("rocket")
     ),
     ###**************************
     ### MenueItem 6: Clustering
@@ -99,92 +111,131 @@ ds_sidebar = dashboardSidebar(
 
 ################################################################################
 ### Dashboard Content:
-
 ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
-  ### Page 1: Indroduction; videos, experiment, text, data, motivation ect. ...
+  ### Page 1: Indroduction: webiste screencast, project description
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "introduction",
     h1("Project Introduction"),
-    tags$div(
-      "This webpage is the result of the semester project of the course",
-      tags$b("Data Science with R"),
-      "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",
-      tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),
-      ". Further details regarding the lecture can be found on the official",
-      tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"),
-      ".",
-      "This project was done as a team consisting of the members",
-      tags$b("Johannes Dambacher"),
-      "and",
-      tags$b("Alexander Wagner"),
-      ".",
-      "The general project idea as well as an detailed time plan can be found in the " ,
-      tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),
-      ".",
-      "The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the ",
-      tags$a(
-        href = " http://www.kkjp.ovgu.de/Forschung.html",
-        "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"
-      ),
-      "at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the experiment tab. The dataset itself can be explored in the dataset tab.",
-      
-      "The whole code for this project is stored in this",
-      tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),
-      ".",
-      "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
-      "If you want to get a short introduction for this application, please see the video below.",
-      tags$br(),
-      tags$br()
+    #======================================
+    # Page 1: fluidRow 1: Project Description
+    #======================================
+    fluidRow(
+      box(
+        width = 12,
+        "This webpage is the result of the semester project of the course",
+        tags$b("Data Science with R"),
+        "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",
+        tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab"),
+        ". Further details regarding the lecture can be found on the official",
+        tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website"),
+        ".",
+        "This project was done as a team consisting of the members",
+        tags$b("Johannes Dambacher"),
+        "and",
+        tags$b("Alexander Wagner"),
+        ".",
+        "The general project idea as well as an detailed time plan can be found in the " ,
+        tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal"),
+        ".",
+        "The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the ",
+        tags$a(
+          href = " http://www.kkjp.ovgu.de/Forschung.html",
+          "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)"
+        ),
+        "at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the experiment tab. The dataset itself can be explored in the dataset tab.",
+        
+        "The whole code for this project is stored in this",
+        tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository"),
+        ".",
+        "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
+        "If you want to get a short introduction for this application, please see the video below.",
+        tags$br(),
+        tags$br()
+      )
     ),
-    
-    
-    
     #======================================
-    # Page 1: fluidRow 1: ToDo: Teaser Video
+    # Page 1: fluidRow 2: Screencast
     #======================================
-    fluidRow(width = 12,
-             tabBox(
-               title = "Watch me! :)",
-               width = 12,
-               tags$video(
-                 id = "video2",
-                 type = "video/mp4",
-                 src = "VR1.0.mp4",
-                 controls = "controls",
-                 width = "auto",
-                 height = 250
-               )
-             )),
-    
-    
-    
-    tags$div(
-      tags$img(
-        src = 'datascir.png',
-        width = '78',
-        height = '91',
-        align = "left"
-      ),
-      tags$img(src = 'fin.png', align = "right"),
-      tags$img(src = 'medlogo.jpeg', align = "center")
+    fluidRow(
+      tags$video(
+        id = "video2",
+        type = "video/mp4",
+        src = "VR1.0.mp4",
+        controls = "controls",
+        width = '920',
+        height = '540',
+        style = "display: block; margin-left: auto; margin-right: auto;"
+        
+      )
     ),
     tags$br(),
-    tags$br()
+    tags$br(),
+    #======================================
+    # Page 1: fluidRow 3: Icons
+    #======================================
+    fluidRow(
+      width = 12,
+      column(
+        width = 4,
+        tags$img(
+          src = 'datascir.png',
+          width = '78',
+          height = '91',
+          align = "center",
+          style = "display: block; margin-left: auto; margin-right: auto;"
+        )
+      ),
+      column(
+        width = 4,
+        tags$img(src = 'fin_transp.png', align = "center", style =
+                   "display: block; margin-left: auto; margin-right: auto;")
+      ),
+      column(
+        width = 4,
+        tags$img(src = 'medlogo_transp.png', align = "center", style =
+                   "display: block; margin-left: auto; margin-right: auto;")
+      )
+    )
   ),
   ###****************************************************************************************************************************************************************
-  ### Page 2: Data Raw; table, scatterplots,
+  ### Page 2: Raw Data Overview; table, scatterplots,
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "rawData",
     h1("The dataset"),
+    #======================================
+    # Page 2: fluidRow 1: Important data figures overview
+    #======================================
+    fluidRow(
+    box(title = 'Key Figures',
+        width = 12,
+        collapsible = 12,
+    fluidRow(
+      valueBoxOutput('personFiles'),
+      valueBoxOutput('personAttributes'),
+      valueBoxOutput('personInstances')
+
+    ),
+    #======================================
+    # Page 2: fluidRow 2: Important data figures overview
+    #======================================
+    fluidRow(
+      valueBoxOutput('trajectoryFiles'),
+      valueBoxOutput('trajectoryAttributes'),
+      valueBoxOutput('trajectoryInstances')
+    ))),
+    #======================================
+    # Page 2: fluidRow 3: Description about the dataset
+    #======================================
     fluidRow(
       width = 12,
       box(
         title = "Description",
         width = 12,
         collapsible = TRUE,
+        collapsed = TRUE,
         
         "The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others.
         The data set is divided into trajectory data (in the following named",
@@ -218,27 +269,24 @@ ds_body = dashboardBody(tabItems(
           tags$li("4 attributes")
         ),
         
-        
-        
-        
         "In the following tables you can get an insight into the dataset.",
         tags$br()
         )
       ),
     
+    
     #======================================
-    # Tab 2: fluidRow 1: ToDo
+    # Page 2: fluidRow 4: Person data overview
     #======================================
     fluidRow(
       width = 12,
       tabBox(
-        title = "Persons Attributes",
+        title = "Test persons data",
         side = "right",
         width = 12,
         selected = "Table",
         tabPanel(
           "Table",
-          h2(width = 12, "Test persons data table"),
           width = 12,
           pickerInput(
             inputId = "id_pickerInputDTpersonsRaw1",
@@ -275,63 +323,71 @@ ds_body = dashboardBody(tabItems(
       )
     ),
     #======================================
-    # Tab 2: fluidRow 2: ToDo
+    # Page 2: fluidRow 5: Trajectory data overview
     #======================================
-    fluidRow(width = 12,
-             box(
-               h2(width = 12, "Trajectory and room data"),
-               width = 12,
-               tabBox(
-                 title = "First Day",
-                 side = "right",
-                 selected = "Tab2",
-                 tabPanel("Tab1", "Times room entered"),
-                 tabPanel("Tab2",
-                          "Time spent per room"),
-                 tabPanel(
-                   "Tab3",
-                   plotlyOutput("gx_3d_trajectoryDayOne"),
-                   sliderInput(
-                     "colorInput_dayOne",
-                     "Select time intervall",
-                     min = 0,
-                     max = 100,
-                     value = c(0, 100)
-                   )
-                 )
-               ),
-               tabBox(
-                 title = "Second Day",
-                 side = "right",
-                 selected = "Tab2",
-                 tabPanel("Tab1", "Times room entered"),
-                 tabPanel("Tab2", "Time spent per room"),
-                 tabPanel(
-                   "Tab3",
-                   plotlyOutput("gx_3d_trajectoryDayTwo"),
-                   verbatimTextOutput("value"),
-                   sliderInput(
-                     "colorInput_dayTwo",
-                     "Select time intervall",
-                     min = 0,
-                     max = 100,
-                     value = c(0, 100)
-                   )
-                 )
-               )
-             ))
+    fluidRow(
+      width = 12,
+      box(
+        title = "Trajectory and room data",
+        width = 12,
+        tabBox(
+          title = "First Day",
+          side = "right",
+          selected = "Trajectory",
+          tabPanel("Rooms entered", "Times room entered"),
+          tabPanel("Time per room",
+                   "Time spent per room"),
+          tabPanel(
+            "Trajectory",
+            plotlyOutput("gx_3d_trajectoryDayOne"),
+            sliderInput(
+              "colorInput_dayOne",
+              "Select time intervall",
+              min = 0,
+              max = 100,
+              value = c(0, 100)
+            )
+          )
+        ),
+        tabBox(
+          title = "Second Day",
+          side = "right",
+          selected = "Trajectory",
+          tabPanel("Rooms entered", "Times room entered"),
+          tabPanel("Time per room", "Time spent per room"),
+          tabPanel(
+            "Trajectory",
+            plotlyOutput("gx_3d_trajectoryDayTwo"),
+            verbatimTextOutput("value"),
+            sliderInput(
+              "colorInput_dayTwo",
+              "Select time intervall",
+              min = 0,
+              max = 100,
+              value = c(0, 100)
+            )
+          )
+        )
+      )
+    )
   ),
   
-  
+  ###****************************************************************************************************************************************************************
+  ### Page 3: Experiment description and videos of the different Minecraft worlds
+  ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "experiment",
     h1("Experiment Overview"),
-    box(
-      title = "Data generation process",
-      solidHeader = F,
-      collapsible = F,
+    #======================================
+    # Page 3: fluidRow 1: Experiment description
+    #======================================
+    fluidRow(
       width = 12,
-      fluidRow(
+      box(
+        width = 12,
+        title = "Data generation process",
+        solidHeader = F,
+        collapsible = F,
         column(
           width = 6,
           "The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
@@ -356,10 +412,8 @@ ds_body = dashboardBody(tabItems(
         )
       )
     ),
-    tags$br(),
-    
-    
-    # Page 2: fluidRow 1: Minecraft Worlds
+    #======================================
+    # Page 3: fluidRow 2: Videos of the Minecraft worlds
     #======================================
     fluidRow(
       height = 500,
@@ -367,6 +421,7 @@ ds_body = dashboardBody(tabItems(
         title = "Minecraft World´s",
         height = "auto",
         width = 12,
+        side = 'right',
         tabPanel(
           "The Mansion",
           tags$video(
@@ -374,8 +429,9 @@ ds_body = dashboardBody(tabItems(
             type = "video/mp4",
             src = "VR1.0.mp4",
             controls = "controls",
-            width = "auto",
-            height = 250
+            width = '920',
+            height = '540',
+            style = "display: block; margin-left: auto; margin-right: auto;"
           )
         ),
         tabPanel(
@@ -385,8 +441,9 @@ ds_body = dashboardBody(tabItems(
             type = "video/mp4",
             src = "VR1.1.mp4",
             controls = "controls",
-            width = "auto",
-            height = 250
+            width = '920',
+            height = '540',
+            style = "display: block; margin-left: auto; margin-right: auto;"
           )
         ),
         tabPanel(
@@ -396,8 +453,9 @@ ds_body = dashboardBody(tabItems(
             type = "video/mp4",
             src = "VR2.0.mp4",
             controls = "controls",
-            width = "auto",
-            height = 250
+            width = '920',
+            height = '540',
+            style = "display: block; margin-left: auto; margin-right: auto;"
           )
         )
       )
@@ -407,28 +465,118 @@ ds_body = dashboardBody(tabItems(
   ),
   
   
+  ###****************************************************************************************************************************************************************
+  ### Page 4: Results of the memorizing experiment
+  ###****************************************************************************************************************************************************************
+  tabItem(
+    tabName = "memorizing",
+    h1("Memorizing Experiment"),
+    #======================================
+    # Page 4: fluidRow 1: Important figures
+    #======================================
+    fluidRow(
+      title = ' Results',
+      width = 12,
+       box(
+         title = 'Key figures' ,
+         width = 12,
+         collapsible= T,
+    fluidRow(
+      title = 'Experiment information',
+       width = 12, 
+      valueBoxOutput('wordsValueBox'),
+      valueBoxOutput('avgDirectRecallBox'),
+      valueBoxOutput('avgDelayedRecallBox'))
+    ,
+    fluidRow(
+      title = 'Distribution of persons with respect to the different worlds',
+      width = 12,
+      valueBoxOutput('sameWorldBox'),
+      valueBoxOutput('newWorldBox'),
+      valueBoxOutput('partialNewWorldBox')
+    ),
+    fluidRow(
+      title = ' Distribution of ADHD Type with respect to the different worlds',
+      width = 12,
+      box(
+        title = 'ADHD distribution among groups',
+        width = 12,
+        collapsible = T,
+        collapsed = T,
+      valueBoxOutput(width= 1,'sameTyp0'),
+      valueBoxOutput(width= 1,'sameTyp1'),
+      valueBoxOutput(width= 1,'sameTyp2'),
+      valueBoxOutput(width= 1,'sameTyp3'),
+      valueBoxOutput(width= 1,'newTyp0'),
+      valueBoxOutput(width= 1,'newTyp1'),
+      valueBoxOutput(width= 1,'newTyp2'),
+      valueBoxOutput(width= 1,'newTyp3'),
+      valueBoxOutput(width= 1,'paritalNewTyp0'),
+      valueBoxOutput(width= 1,'paritalNewTyp1'),
+      valueBoxOutput(width= 1,'paritalNewTyp2'),
+      valueBoxOutput(width= 1,'paritalNewTyp3')
+      )
+    ))),
+    #======================================
+    # Page 4: fluidRow 2: Description of the following plots
+    #======================================
+    fluidRow(
+      box(
+        title = 'Description',
+        width = 12,
+        collapsible = T,
+        'Add descriptiton of the following plots and also the results!!'
+      )),
+      #======================================
+      # Page 4: fluidRow 3: Boxplots showing the short term and long term memory results
+      #======================================
+      fluidRow(
+        box(
+          title = 'Long and short term memory recall comparison',
+          width = 12,
+          collapsible = T,  
+        fluidRow(
+        box(
+          title = "Overall",
+          status = "primary",
+          plotlyOutput("boxplotOverall")
+       
+        ), box(
+          title = "Partial New World",
+          status = "primary",
+          plotlyOutput("boxplotPartialNewWorld")
+        ),
+        fluidRow(
+        box(
+          title = "New World",
+          status = "primary",
+          plotlyOutput("boxplotNewWorld")
+        ),
+        box(
+          title = "Same World",
+          status = "primary",
+          plotlyOutput("boxplotSameWorld")
+        ))
+       
+      )
+        )
+  )),
   
-  
   ###****************************************************************************************************************************************************************
-  ### Page 3: Visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "visualization",
-          h2("Visual data exploration")),
-  ###****************************************************************************************************************************************************************
-  ### Page 4: Trajectroy features
+  ### Page 5: Trajectroy features
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "trjFeatures",
-          h2("Trajectory feature exploration")),
+          h1("Trajectory feature exploration")),
   ###****************************************************************************************************************************************************************
-  ### Page 5: Clustering plus visualization
+  ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "clustering",
-          h2("Clustering")),
+          h1("Clustering")),
   ###****************************************************************************************************************************************************************
-  ### Page 6: Decision Tree plus visualization
+  ### Page 7: Decision Tree plus visualization
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "decisionTree",
-          h2("Decision tree"))
+          h1("Decision tree"))
 ))
 
 ################################################################################
