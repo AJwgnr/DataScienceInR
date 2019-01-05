@@ -60,6 +60,8 @@ shinyServer(function(input, output, session) {
   
   # Compute features for each person based on trajectory and roomGraph/Time
   
+  # We need to use PCA at some point I'd guess;)
+  
   ###################
   ### Clustering? ###
   ###################
@@ -92,11 +94,13 @@ shinyServer(function(input, output, session) {
       selection = "single"
     )
   
+  # Create scatterplot matrix from persons Data tabui
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
       SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
-    p <- GGally::ggpairs(d)
-    highlight(ggplotly(p), on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
+    p <- GGally::ggpairs(d)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+theme(axis.text.y = element_text(angle = 0, vjust = 1))
+    p <- ggplotly(p)
+    highlight(p, on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
   })
   
   # roomGraphDayOne = renderPrint({
