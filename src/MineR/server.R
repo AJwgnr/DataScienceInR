@@ -302,7 +302,6 @@ shinyServer(function(input, output, session) {
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
-    print(selectedPersons)
     if (length(selectedPersons)) {
       # create colorscale
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
@@ -315,7 +314,6 @@ shinyServer(function(input, output, session) {
         seq(0, n, length.out = n - leadingZeros - trailingZeros),
         array(0, trailingZeros)
       )
-      print(shade)
       # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
       plot_ly() %>% add_trace(
