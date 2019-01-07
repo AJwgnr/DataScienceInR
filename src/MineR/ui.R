@@ -31,7 +31,49 @@ names(columChoicesPersonsTable) <- names(personsTable)
 #plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
 #        pointpos = -1.8) 
 
+# Load all stored data
+personsDataTable <- loadPersonsDataset()
 
+# Load trajectorie data for day one into key value like list
+trajectorieList = loadCompleteTrajectorieDataset()
+trajectoryDataDayOne = loadTrajectoryByDay(1)
+trajectoryDataDayTwo = loadTrajectoryByDay(2)
+
+
+# Load room coordinates of VR1.0/1 and VR2.0
+# ( TODO: sorts and transforms coordinates to respective world)
+roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
+roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
+
+
+adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
+healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
+
+
+# Extract persons with respect 
+# Persons that have only seen the same world twice
+sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
+sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
+sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1 ] 
+sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2 ] 
+sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3 ] 
+sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
+
+# Persons that have seen a new world
+newWorld <- personsDataTable[personsDataTable$Novelty == 2]
+newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
+newWorldADHD1 <- newWorld[newWorld$ADHD_Subtype == 1]
+newWorldADHD2 <- newWorld[newWorld$ADHD_Subtype == 2]
+newWorldADHD3 <- newWorld[newWorld$ADHD_Subtype == 3]
+newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
+
+# Persons that have seen a partial new world (different color)
+partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
+partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
+partialNewWorldADHD1 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
+partialNewWorldADHD2 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
+partialNewWorldADHD3 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
+partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
 
 
 
@@ -503,18 +545,18 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         collapsible = T,
         collapsed = T,
-      valueBoxOutput(width= 1,'sameTyp0'),
-      valueBoxOutput(width= 1,'sameTyp1'),
-      valueBoxOutput(width= 1,'sameTyp2'),
-      valueBoxOutput(width= 1,'sameTyp3'),
-      valueBoxOutput(width= 1,'newTyp0'),
-      valueBoxOutput(width= 1,'newTyp1'),
-      valueBoxOutput(width= 1,'newTyp2'),
-      valueBoxOutput(width= 1,'newTyp3'),
-      valueBoxOutput(width= 1,'paritalNewTyp0'),
-      valueBoxOutput(width= 1,'paritalNewTyp1'),
-      valueBoxOutput(width= 1,'paritalNewTyp2'),
-      valueBoxOutput(width= 1,'paritalNewTyp3')
+      fluidRow(
+        width = 12,
+        column(width =4,
+               plotlyOutput('sameWorldBar')
+       ),
+        column(width=4,
+               plotlyOutput('newWorldBar')
+        ),
+        column(width =4,
+               plotlyOutput('partialNewWorldBar')
+       )
+      )
       )
     ))),
     #======================================
@@ -566,7 +608,9 @@ ds_body = dashboardBody(tabItems(
   ### Page 5: Trajectroy features
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "trjFeatures",
-          h1("Trajectory feature exploration")),
+          h1("Trajectory feature exploration")
+    
+  ),
   ###****************************************************************************************************************************************************************
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************

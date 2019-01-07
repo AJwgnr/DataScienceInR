@@ -145,6 +145,68 @@ shinyServer(function(input, output, session) {
   #   }
   # })
   
+
+  output$sameWorldBar <- renderPlotly({
+    p <- plot_ly(
+      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
+      y = c(nrow(sameWorldADHD1)/nrow(sameWorld), nrow(sameWorldADHD2)/nrow(sameWorld), nrow(sameWorldADHD3)/nrow(sameWorld),nrow(sameWorldHealthy)/nrow(sameWorld)),
+      name = "Same World",
+      xaxis = list(
+        title = "",
+        tickfont = list(
+          size = 14,
+          color = 'rgb(107, 107, 107)')),
+      yaxis = list(
+        title = 'USD (millions)',
+        titlefont = list(
+          size = 16,
+          color = 'rgb(107, 107, 107)')),
+      textposition = 'auto',
+      type = "bar"
+    )
+  })
+  
+  output$newWorldBar <- renderPlotly({
+    p <- plot_ly(
+      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
+      y = c(nrow(newWorldADHD1)/nrow(newWorld), nrow(newWorldADHD2)/nrow(newWorld), nrow(newWorldADHD3)/nrow(newWorld),nrow(newWorldHealthy)/nrow(newWorld)),
+      name = "New World",
+      xaxis = list(
+        title = "",
+        tickfont = list(
+          size = 14,
+          color = 'rgb(107, 107, 107)')),
+      yaxis = list(
+        title = 'USD (millions)',
+        titlefont = list(
+          size = 16,
+          color = 'rgb(107, 107, 107)')),
+      type = "bar"
+    )
+  })
+  
+  
+  output$partialNewWorldBar <- renderPlotly({
+    p <- plot_ly(
+      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
+      y = c(nrow(partialNewWorldADHD1)/nrow(partialNewWorld), nrow(partialNewWorldADHD2)/nrow(partialNewWorld), nrow(partialNewWorldADHD3)/nrow(partialNewWorld),nrow(partialNewWorldHealthy)/nrow(partialNewWorld)),
+      name = "Partial New World",
+      xaxis = list(
+        title = "",
+        tickfont = list(
+          size = 14,
+          color = 'rgb(107, 107, 107)')),
+      yaxis = list(
+        title = 'USD (millions)',
+        titlefont = list(
+          size = 16,
+          color = 'rgb(107, 107, 107)')),
+      textposition = 'auto',
+      type = "bar"
+    )
+  })
+  
+  
   
   ###################################################################################### 
   #Dataset Value Boxes
