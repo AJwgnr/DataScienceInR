@@ -331,12 +331,11 @@ shinyServer(function(input, output, session) {
           width = 6,
           color = shade,
           #array(0,c(3,5))
-          reverscale = FALSE
+          reverscale = FALSE,
+          colorbar = list(title = 'Colorbar for lines'),
+          colorscale = 'Viridis'
         ),
-        mode = 'lines',
-        # FIXME (colorbar,colorscale not attributes of scatter3d)
-        colorbar = list(title = 'Colorbar'),
-        colorscale = 'Viridis'
+        mode = 'lines'
       )
     }
     
