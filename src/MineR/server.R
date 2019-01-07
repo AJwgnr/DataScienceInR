@@ -299,6 +299,11 @@ shinyServer(function(input, output, session) {
   })
  
   
+  ###################################################################################### 
+  # Trajectory Plots
+  ###################################################################################### 
+  
+  
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
@@ -360,6 +365,12 @@ shinyServer(function(input, output, session) {
   })
   
   
+  ###################################################################################### 
+  # RoomGraph plots
+  ###################################################################################### 
+  
+  
+  
   # # Fix this shit later!
   # output$histTimeRoomsDayOne <-
   #   renderPlotly({
@@ -376,6 +387,11 @@ shinyServer(function(input, output, session) {
   #   })
   #
   
+  
+  
+  ###################################################################################### 
+  # Selection cupling (not really visualization stuff..)
+  ###################################################################################### 
   
   # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
   
