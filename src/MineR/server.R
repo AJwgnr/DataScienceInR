@@ -330,12 +330,18 @@ shinyServer(function(input, output, session) {
         line = list(
           width = 6,
           color = shade,
-          #array(0,c(3,5))
           reverscale = FALSE,
           colorbar = list(title = 'Colorbar for lines'),
+          showlegend = TRUE,
           colorscale = 'Viridis'
         ),
         mode = 'lines'
+      ) %>% add_trace(
+        data = 1,
+        type = "scatter3d",
+        x = 100,
+        y = 100,
+        z = 50
       )
     }
     
