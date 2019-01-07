@@ -12,8 +12,8 @@ source("../functions/data/dataloading.R") # sourcing ui sides seems like bad pra
 
 personsTable <- loadPersonsDataset()
 columChoicesPersonsTable <- 1:ncol(personsTable)
+names(columChoicesPersonsTable) <- names(personsTable)
 
-#names(columChoicesPersonsTable) <- names(personsTable)
 #persons = loadPersonsDataset()
 #roomsWorldOne <- loadRoomsDefinitionWorld(1)
 #roomsWorldTwo <- loadRoomsDefinitionWorld(2)
