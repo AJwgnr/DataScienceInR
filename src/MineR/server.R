@@ -39,7 +39,6 @@ shinyServer(function(input, output, session) {
   roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
   
   
-  
   adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
   healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
   
