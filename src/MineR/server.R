@@ -567,7 +567,7 @@ shinyServer(function(input, output, session) {
           add_trace(
             data = roomCoordinatesVR1.0,
             type = "mesh3d",
-            opacity = 0.50,
+            opacity = 0.30,
             x = c(
               roomCoordinatesVR1.0$x1,
               roomCoordinatesVR1.0$x2,
@@ -615,7 +615,7 @@ shinyServer(function(input, output, session) {
           add_trace(
             data = roomCoordinatesVR2.0,
             type = "mesh3d",
-            opacity = 0.50,
+            opacity = 0.30,
             x = c(
               roomCoordinatesVR2.0$x1,
               roomCoordinatesVR2.0$x2,
