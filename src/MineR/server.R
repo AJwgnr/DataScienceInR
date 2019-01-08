@@ -304,9 +304,9 @@ shinyServer(function(input, output, session) {
     y = adhdChildren$TP_DirectRecall,
     name = 'ADHD TP_Direct',
     type = 'box',
-    boxpoints = 'all',
-    jitter = 0.3,
-    pointpos = -1.8
+    boxpoints = 'all'
+    #jitter = 0.3,
+    #pointpos = -1.8
   ) %>%
     add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
     add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
@@ -320,9 +320,9 @@ shinyServer(function(input, output, session) {
       y = sameWorldADHD$TP_DirectRecall,
       name = ' SameWorld TP_Direct (ADHD)' ,
       type = "box",
-      boxpoints = "all",
-      jitter = 0.3,
-      pointpos = -1.8
+      boxpoints = "all"
+      #jitter = 0.3,
+      #pointpos = -1.8
     ) %>%
       add_trace(y = sameWorldHealthy$TP_DirectRecall, name = ' SameWorld TP_Direct (Healthy)') %>%
       add_trace(y = sameWorldADHD$TP_DelayedRecall, name = ' SameWorld TP_Delayed (ADHD)') %>%
@@ -335,9 +335,9 @@ shinyServer(function(input, output, session) {
       y = newWorldADHD$TP_DirectRecall,
       name = ' NewWorld TP_Direct (ADHD)' ,
       type = "box",
-      boxpoints = "all",
-      jitter = 0.3,
-      pointpos = -1.8
+      boxpoints = "all"
+      #jitter = 0.3,
+      #pointpos = -1.8
     ) %>%
       add_trace(y = newWorldHealthy$TP_DirectRecall, name = ' NewWorld TP_Direct (Healthy)') %>%
       add_trace(y = newWorldADHD$TP_DelayedRecall, name = ' NewWorld TP_Delayed (ADHD)') %>%
@@ -350,9 +350,9 @@ shinyServer(function(input, output, session) {
       y = partialNewWorldADHD$TP_DirectRecall,
       name = ' PartialNewWorld TP_Direct (ADHD)' ,
       type = "box",
-      boxpoints = "all",
-      jitter = 0.3,
-      pointpos = -1.8
+      boxpoints = "all"
+      #jitter = 0.3,
+      #pointpos = -1.8
     ) %>%
       add_trace(y = partialNewWorldHealthy$TP_DirectRecall, name = ' PartialNewWorld TP_Direct (Healthy)') %>%
       add_trace(y = partialNewWorldADHD$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (ADHD)') %>%
