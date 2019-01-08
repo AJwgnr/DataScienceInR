@@ -7,11 +7,21 @@ library("data.table")
 
 # Path to dataSet
 # ToDo: adapt to use test persons world ID for correct room file
+
+VR = 2
+
+if(VR == 1){
 csv_room_coordinates_path <-
   ("../../res/SortedRooms_V1.0.csv")
 csv_test_trajectories_path <-
   ("../../res/DEBUGFILENODATA_V1.csv")
-
+}
+if(VR == 2){
+  csv_room_coordinates_path <-
+    ("../../res/SortedRooms_V2.0.csv")
+  csv_test_trajectories_path <-
+    ("../../res/DEBUGFILENODATA_V2.csv")
+}
 # Load data...
 rooms <- fread(csv_room_coordinates_path)
 trajectorie <- fread(csv_test_trajectories_path)
@@ -37,19 +47,22 @@ for (row in 1:nrow(rooms)) {
 #############
 ### V 1.0 ###
 #############
+if(VR==1){
 rooms$z  = rooms$z  - 72
 rooms$x1 = rooms$x1 - 249
 rooms$x2 = rooms$x2 - 249
 rooms$y1 = rooms$y1 - 227
-rooms$y2 = rooms$y2 - 227
+rooms$y2 = rooms$y2 - 227}
 #############
 ### V 2.0 ###
 #############
-# rooms$z  = rooms$z  - 64
-# rooms$x1 = rooms$x1 - 64
-# rooms$x2 = rooms$x2 - 64
-# rooms$y1 = rooms$y1 - 188
-# rooms$y2 = rooms$y2 - 188
+if(VR == 2){
+rooms$z  = rooms$z  - 64
+rooms$x1 = rooms$x1 - 64
+rooms$x2 = rooms$x2 - 64
+rooms$y1 = rooms$y1 - 188
+rooms$y2 = rooms$y2 - 188
+}
 ############
 
 trajectorie$Room = -1
@@ -147,12 +160,13 @@ p <-
     i = c(0:(nrow(rooms) - 1), 0:(nrow(rooms) -
                                     1)),
     j = c(nrow(rooms):(2 * nrow(rooms) - 1), (2 *
-                                                nrow(rooms)):266),
+                                                nrow(rooms)):(3 * nrow(rooms) -
+                                                                1)),
     k = c((3 * nrow(rooms)):(4 * nrow(rooms) - 1), (3 *
                                                       nrow(rooms)):(4 * nrow(rooms) - 1))
-  ) %>% layout(title = "Title",aspectmode='cube')
+  ) %>% layout(title = "Title", aspectmode = 'cube')
 
-#print(p)
+print(p)
 
 
 

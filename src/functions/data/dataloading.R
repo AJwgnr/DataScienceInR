@@ -25,6 +25,25 @@ loadRoomsDefinitionWorld <- function(world_id) {
     return()
   }
   
+  # Transform minecraft to python coordinates (python references mc world origin, mc references spwan origin)
+  if (world_id == 1) {
+    rooms$z  = rooms$z  - 72
+    rooms$x1 = rooms$x1 - 249
+    rooms$x2 = rooms$x2 - 249
+    rooms$y1 = rooms$y1 - 227
+    rooms$y2 = rooms$y2 - 227
+  } else if (world_id == 2) {
+    rooms$z  = rooms$z  - 64
+    rooms$x1 = rooms$x1 - 64
+    rooms$x2 = rooms$x2 - 64
+    rooms$y1 = rooms$y1 - 188
+    rooms$y2 = rooms$y2 - 188
+  }
+  
+  # reflect y to fix python logging bug
+  rooms[, y1 := -y1]
+  rooms[, y2 := -y2]
+  
   # Sort room coordinates : x1<x2,y1<y2
   # Room coordinates MUST be presorted by z to work correctly with traj2graph!
   for (row in 1:nrow(rooms)) {
@@ -41,21 +60,6 @@ loadRoomsDefinitionWorld <- function(world_id) {
       rooms[row, 3] <- yy2
       rooms[row, 5] <- yy1
     }
-  }
-  
-  # Transform minecraft to python coordinates (python references mc world origin, mc references spwan origin)
-  if (world_id == 1) {
-    rooms$z  = rooms$z  - 72
-    rooms$x1 = rooms$x1 - 249
-    rooms$x2 = rooms$x2 - 249
-    rooms$y1 = rooms$y1 - 227
-    rooms$y2 = rooms$y2 - 227
-  } else if (world_id == 2) {
-    rooms$z  = rooms$z  - 64
-    rooms$x1 = rooms$x1 - 64
-    rooms$x2 = rooms$x2 - 64
-    rooms$y1 = rooms$y1 - 188
-    rooms$y2 = rooms$y2 - 188
   }
   
   return(rooms)
@@ -98,6 +102,8 @@ loadTrajectoryByDay <- function(day) {
   for (trajectory in fileNames) {
     key = as.integer(sub("_Tag.*", "", sub(".*VP", "", trajectory)))
     value = fread(trajectory, sep = ",")
+    # reflect y coordinates to fix possible python logging error
+    value[, y := -y]
     # Don't append an ID or similar here..just creats a bunch of problems on it's own...
     trajectoryData[[key]] = value
     # maybe names(mylist) <- c(VP1..VPi..VPn) is more robust/faster?
