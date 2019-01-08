@@ -39,6 +39,7 @@ shinyServer(function(input, output, session) {
   roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
   
   
+  
   adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
   healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
   
@@ -306,6 +307,7 @@ shinyServer(function(input, output, session) {
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    trjPlotDayOne <- plot_ly()
     if (length(selectedPersons)) {
       # create colorscale
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
@@ -320,7 +322,7 @@ shinyServer(function(input, output, session) {
       )
       # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
-      plot_ly() %>% add_trace(
+      trjPlotDayOne %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
         x = ~ x,
