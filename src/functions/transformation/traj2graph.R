@@ -77,7 +77,7 @@ computeRoomGraphDayTwo <-
     return(roomGraphData)
   }
 
-# Compute roomGraph for one single trajectorie data frame. Room coordinates must be provided.
+# Compute roomGraph for one single trajectorie data frame. Fitting room coordinates must be provided.
 traj2graph <- function(trajectorie, rooms) {
   # Room coordinates must be sorted along z and x1<x2,y1<y2 is forced on data loading
   # Create col 'Room' to store room id for each entry in trajectory

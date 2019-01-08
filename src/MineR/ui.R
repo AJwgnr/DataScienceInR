@@ -29,7 +29,7 @@ names(columChoicesPersonsTable) <- names(personsTable)
 
 # Beispiel für die Generierung eines Boxplots mit Anzeige der Datenpunkte
 #plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
-#        pointpos = -1.8) 
+#        pointpos = -1.8)
 
 # Load all stored data
 personsDataTable <- loadPersonsDataset()
@@ -46,18 +46,19 @@ roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
 roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
 
 
-adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
-healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
+adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype > 0]
+healthyChildren <-
+  personsDataTable[personsDataTable$ADHD_Subtype == 0]
 
 
-# Extract persons with respect 
+# Extract persons with respect
 # Persons that have only seen the same world twice
 sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
-sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
-sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1 ] 
-sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2 ] 
-sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3 ] 
-sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
+sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0]
+sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1]
+sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2]
+sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3]
+sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0]
 
 # Persons that have seen a new world
 newWorld <- personsDataTable[personsDataTable$Novelty == 2]
@@ -69,11 +70,16 @@ newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
 
 # Persons that have seen a partial new world (different color)
 partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
-partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
-partialNewWorldADHD1 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
-partialNewWorldADHD2 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
-partialNewWorldADHD3 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
-partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
+partialNewWorldADHD <-
+  partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
+partialNewWorldADHD1 <-
+  partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
+partialNewWorldADHD2 <-
+  partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
+partialNewWorldADHD3 <-
+  partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
+partialNewWorldHealthy <-
+  partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
 
 
 
@@ -251,23 +257,26 @@ ds_body = dashboardBody(tabItems(
     # Page 2: fluidRow 1: Important data figures overview
     #======================================
     fluidRow(
-    box(title = 'Key Figures',
+      box(
+        title = 'Key Figures',
         width = 12,
         collapsible = 12,
-    fluidRow(
-      valueBoxOutput('personFiles'),
-      valueBoxOutput('personAttributes'),
-      valueBoxOutput('personInstances')
-
+        fluidRow(
+          valueBoxOutput('personFiles'),
+          valueBoxOutput('personAttributes'),
+          valueBoxOutput('personInstances')
+          
+        ),
+        #======================================
+        # Page 2: fluidRow 2: Important data figures overview
+        #======================================
+        fluidRow(
+          valueBoxOutput('trajectoryFiles'),
+          valueBoxOutput('trajectoryAttributes'),
+          valueBoxOutput('trajectoryInstances')
+        )
+      )
     ),
-    #======================================
-    # Page 2: fluidRow 2: Important data figures overview
-    #======================================
-    fluidRow(
-      valueBoxOutput('trajectoryFiles'),
-      valueBoxOutput('trajectoryAttributes'),
-      valueBoxOutput('trajectoryInstances')
-    ))),
     #======================================
     # Page 2: fluidRow 3: Description about the dataset
     #======================================
@@ -381,14 +390,24 @@ ds_body = dashboardBody(tabItems(
                    "Time spent per room"),
           tabPanel(
             "Trajectory",
-            plotlyOutput("gx_3d_trajectoryDayOne"),
-            sliderInput(
-              "colorInput_dayOne",
-              "Select time intervall",
-              min = 0,
-              max = 100,
-              value = c(0, 100)
-            )
+            dropdownButton(
+              tags$h3("List of Input"),
+              sliderInput(
+                "colorInput_dayOne",
+                "Select time intervall",
+                min = 0,
+                max = 100,
+                value = c(0, 100)
+              ),
+              checkboxInput("showRoomInput_dayOne", "Show rooms", value = FALSE),
+              circle = TRUE,
+              status = "danger",
+              icon = icon("gear"),
+              width = "300px",
+              tooltip = tooltipOptions(title = "Click to see inputs !")
+            ),
+            plotlyOutput("gx_3d_trajectoryDayOne")
+
           )
         ),
         tabBox(
@@ -519,46 +538,46 @@ ds_body = dashboardBody(tabItems(
     fluidRow(
       title = ' Results',
       width = 12,
-       box(
-         title = 'Key figures' ,
-         width = 12,
-         collapsible= T,
-    fluidRow(
-      title = 'Experiment information',
-       width = 12, 
-      valueBoxOutput('wordsValueBox'),
-      valueBoxOutput('avgDirectRecallBox'),
-      valueBoxOutput('avgDelayedRecallBox'))
-    ,
-    fluidRow(
-      title = 'Distribution of persons with respect to the different worlds',
-      width = 12,
-      valueBoxOutput('sameWorldBox'),
-      valueBoxOutput('newWorldBox'),
-      valueBoxOutput('partialNewWorldBox')
-    ),
-    fluidRow(
-      title = ' Distribution of ADHD Type with respect to the different worlds',
-      width = 12,
       box(
-        title = 'ADHD distribution among groups',
+        title = 'Key figures' ,
         width = 12,
         collapsible = T,
-        collapsed = T,
-      fluidRow(
-        width = 12,
-        column(width =4,
-               plotlyOutput('sameWorldBar')
-       ),
-        column(width=4,
-               plotlyOutput('newWorldBar')
+        fluidRow(
+          title = 'Experiment information',
+          width = 12,
+          valueBoxOutput('wordsValueBox'),
+          valueBoxOutput('avgDirectRecallBox'),
+          valueBoxOutput('avgDelayedRecallBox')
+        )
+        ,
+        fluidRow(
+          title = 'Distribution of persons with respect to the different worlds',
+          width = 12,
+          valueBoxOutput('sameWorldBox'),
+          valueBoxOutput('newWorldBox'),
+          valueBoxOutput('partialNewWorldBox')
         ),
-        column(width =4,
-               plotlyOutput('partialNewWorldBar')
-       )
+        fluidRow(
+          title = ' Distribution of ADHD Type with respect to the different worlds',
+          width = 12,
+          box(
+            title = 'ADHD distribution among groups',
+            width = 12,
+            collapsible = T,
+            collapsed = T,
+            fluidRow(
+              width = 12,
+              column(width = 4,
+                     plotlyOutput('sameWorldBar')),
+              column(width = 4,
+                     plotlyOutput('newWorldBar')),
+              column(width = 4,
+                     plotlyOutput('partialNewWorldBar'))
+            )
+          )
+        )
       )
-      )
-    ))),
+    ),
     #======================================
     # Page 4: fluidRow 2: Description of the following plots
     #======================================
@@ -568,49 +587,51 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         collapsible = T,
         'Add descriptiton of the following plots and also the results!!'
-      )),
-      #======================================
-      # Page 4: fluidRow 3: Boxplots showing the short term and long term memory results
-      #======================================
-      fluidRow(
-        box(
-          title = 'Long and short term memory recall comparison',
-          width = 12,
-          collapsible = T,  
-        fluidRow(
-        box(
-          title = "Overall",
-          status = "primary",
-          plotlyOutput("boxplotOverall")
-       
-        ), box(
-          title = "Partial New World",
-          status = "primary",
-          plotlyOutput("boxplotPartialNewWorld")
-        ),
-        fluidRow(
-        box(
-          title = "New World",
-          status = "primary",
-          plotlyOutput("boxplotNewWorld")
-        ),
-        box(
-          title = "Same World",
-          status = "primary",
-          plotlyOutput("boxplotSameWorld")
-        ))
-       
       )
+    ),
+    #======================================
+    # Page 4: fluidRow 3: Boxplots showing the short term and long term memory results
+    #======================================
+    fluidRow(
+      box(
+        title = 'Long and short term memory recall comparison',
+        width = 12,
+        collapsible = T,
+        fluidRow(
+          box(
+            title = "Overall",
+            status = "primary",
+            plotlyOutput("boxplotOverall")
+            
+          ),
+          box(
+            title = "Partial New World",
+            status = "primary",
+            plotlyOutput("boxplotPartialNewWorld")
+          ),
+          fluidRow(
+            box(
+              title = "New World",
+              status = "primary",
+              plotlyOutput("boxplotNewWorld")
+            ),
+            box(
+              title = "Same World",
+              status = "primary",
+              plotlyOutput("boxplotSameWorld")
+            )
+          )
+          
         )
-  )),
+      )
+    )
+  ),
   
   ###****************************************************************************************************************************************************************
   ### Page 5: Trajectroy features
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "trjFeatures",
-          h1("Trajectory feature exploration")
-    
-  ),
+          h1("Trajectory feature exploration")),
   ###****************************************************************************************************************************************************************
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************

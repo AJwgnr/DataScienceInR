@@ -10,10 +10,9 @@
 # include everything once
 source("include.R")
 
-  
+
 
 shinyServer(function(input, output, session) {
-
   ###################
   ###    Source   ###
   ###################
@@ -28,7 +27,6 @@ shinyServer(function(input, output, session) {
   personsDataTable <- loadPersonsDataset()
   
   # Load trajectorie data for day one into key value like list
-  trajectorieList = loadCompleteTrajectorieDataset()
   trajectoryDataDayOne = loadTrajectoryByDay(1)
   trajectoryDataDayTwo = loadTrajectoryByDay(2)
   
@@ -40,18 +38,20 @@ shinyServer(function(input, output, session) {
   
   
   
-  adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype>0]
-  healthyChildren <- personsDataTable[personsDataTable$ADHD_Subtype==0]
+  adhdChildren <-
+    personsDataTable[personsDataTable$ADHD_Subtype > 0]
+  healthyChildren <-
+    personsDataTable[personsDataTable$ADHD_Subtype == 0]
   
   
-  # Extract persons with respect 
+  # Extract persons with respect
   # Persons that have only seen the same world twice
   sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
-  sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0 ] 
-  sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1 ] 
-  sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2 ] 
-  sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3 ] 
-  sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0 ] 
+  sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0]
+  sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1]
+  sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2]
+  sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3]
+  sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0]
   
   # Persons that have seen a new world
   newWorld <- personsDataTable[personsDataTable$Novelty == 2]
@@ -63,11 +63,16 @@ shinyServer(function(input, output, session) {
   
   # Persons that have seen a partial new world (different color)
   partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
-  partialNewWorldADHD <- partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
-  partialNewWorldADHD1 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
-  partialNewWorldADHD2 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
-  partialNewWorldADHD3 <- partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
-  partialNewWorldHealthy <- partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
+  partialNewWorldADHD <-
+    partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
+  partialNewWorldADHD1 <-
+    partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
+  partialNewWorldADHD2 <-
+    partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
+  partialNewWorldADHD3 <-
+    partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
+  partialNewWorldHealthy <-
+    partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
   
   
   
@@ -79,8 +84,10 @@ shinyServer(function(input, output, session) {
   # function is currently in traj2graph.R may be put into preComputation,dataLoading...
   # list containing roomGraphData similar to trajectoryDataDayOne
   # COMMENT THE NEXT TWO LINES TO RUN CODE OR FIX traj2graph.R
+  
   #roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   #roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  
   #traj2graph works and returns [room<ID>,timeSpent<sec>]
   #computeRoomGraphByDay dosen't work. should return list similar to trajectoryDataDay[One,Two] (with VP as index)
   #roomGraph2roomHist dosen't work. should return list with room ID and TOTAL time spent within
@@ -134,7 +141,9 @@ shinyServer(function(input, output, session) {
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
       SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
-    p <- GGally::ggpairs(d)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+theme(axis.text.y = element_text(angle = 0, vjust = 1))
+    p <-
+      GGally::ggpairs(d) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+      theme(axis.text.y = element_text(angle = 0, vjust = 1))
     p <- ggplotly(p)
     highlight(p, on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
   })
@@ -146,22 +155,32 @@ shinyServer(function(input, output, session) {
   #   }
   # })
   
-
+  
   output$sameWorldBar <- renderPlotly({
     p <- plot_ly(
-      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
-      y = c(nrow(sameWorldADHD1)/nrow(sameWorld), nrow(sameWorldADHD2)/nrow(sameWorld), nrow(sameWorldADHD3)/nrow(sameWorld),nrow(sameWorldHealthy)/nrow(sameWorld)),
+      x = c(
+        "ADHD_Type_1",
+        "ADHD_Type_2",
+        "ADHD_Type_3",
+        "Control_Group"
+      ),
+      y = c(
+        nrow(sameWorldADHD1) / nrow(sameWorld),
+        nrow(sameWorldADHD2) / nrow(sameWorld),
+        nrow(sameWorldADHD3) / nrow(sameWorld),
+        nrow(sameWorldHealthy) / nrow(sameWorld)
+      ),
       name = "Same World",
       xaxis = list(
         title = "",
-        tickfont = list(
-          size = 14,
-          color = 'rgb(107, 107, 107)')),
+        tickfont = list(size = 14,
+                        color = 'rgb(107, 107, 107)')
+      ),
       yaxis = list(
         title = 'USD (millions)',
-        titlefont = list(
-          size = 16,
-          color = 'rgb(107, 107, 107)')),
+        titlefont = list(size = 16,
+                         color = 'rgb(107, 107, 107)')
+      ),
       textposition = 'auto',
       type = "bar"
     )
@@ -169,19 +188,29 @@ shinyServer(function(input, output, session) {
   
   output$newWorldBar <- renderPlotly({
     p <- plot_ly(
-      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
-      y = c(nrow(newWorldADHD1)/nrow(newWorld), nrow(newWorldADHD2)/nrow(newWorld), nrow(newWorldADHD3)/nrow(newWorld),nrow(newWorldHealthy)/nrow(newWorld)),
+      x = c(
+        "ADHD_Type_1",
+        "ADHD_Type_2",
+        "ADHD_Type_3",
+        "Control_Group"
+      ),
+      y = c(
+        nrow(newWorldADHD1) / nrow(newWorld),
+        nrow(newWorldADHD2) / nrow(newWorld),
+        nrow(newWorldADHD3) / nrow(newWorld),
+        nrow(newWorldHealthy) / nrow(newWorld)
+      ),
       name = "New World",
       xaxis = list(
         title = "",
-        tickfont = list(
-          size = 14,
-          color = 'rgb(107, 107, 107)')),
+        tickfont = list(size = 14,
+                        color = 'rgb(107, 107, 107)')
+      ),
       yaxis = list(
         title = 'USD (millions)',
-        titlefont = list(
-          size = 16,
-          color = 'rgb(107, 107, 107)')),
+        titlefont = list(size = 16,
+                         color = 'rgb(107, 107, 107)')
+      ),
       type = "bar"
     )
   })
@@ -189,19 +218,29 @@ shinyServer(function(input, output, session) {
   
   output$partialNewWorldBar <- renderPlotly({
     p <- plot_ly(
-      x = c("ADHD_Type_1", "ADHD_Type_2", "ADHD_Type_3", "Control_Group"),
-      y = c(nrow(partialNewWorldADHD1)/nrow(partialNewWorld), nrow(partialNewWorldADHD2)/nrow(partialNewWorld), nrow(partialNewWorldADHD3)/nrow(partialNewWorld),nrow(partialNewWorldHealthy)/nrow(partialNewWorld)),
+      x = c(
+        "ADHD_Type_1",
+        "ADHD_Type_2",
+        "ADHD_Type_3",
+        "Control_Group"
+      ),
+      y = c(
+        nrow(partialNewWorldADHD1) / nrow(partialNewWorld),
+        nrow(partialNewWorldADHD2) / nrow(partialNewWorld),
+        nrow(partialNewWorldADHD3) / nrow(partialNewWorld),
+        nrow(partialNewWorldHealthy) / nrow(partialNewWorld)
+      ),
       name = "Partial New World",
       xaxis = list(
         title = "",
-        tickfont = list(
-          size = 14,
-          color = 'rgb(107, 107, 107)')),
+        tickfont = list(size = 14,
+                        color = 'rgb(107, 107, 107)')
+      ),
       yaxis = list(
         title = 'USD (millions)',
-        titlefont = list(
-          size = 16,
-          color = 'rgb(107, 107, 107)')),
+        titlefont = list(size = 16,
+                         color = 'rgb(107, 107, 107)')
+      ),
       textposition = 'auto',
       type = "bar"
     )
@@ -209,112 +248,234 @@ shinyServer(function(input, output, session) {
   
   
   
-  ###################################################################################### 
+  ######################################################################################
   #Dataset Value Boxes
   ######################################################################################
   output$personFiles <- renderValueBox({
-    valueBox(1, "Files", icon = icon("file-excel-o"), color = 'blue')
+    valueBox(1,
+             "Files",
+             icon = icon("file-excel-o"),
+             color = 'blue')
   })
   output$personAttributes <- renderValueBox({
-    valueBox(ncol(personsDataTable), "Attributes", icon = icon("columns"), color = 'blue')
+    valueBox(
+      ncol(personsDataTable),
+      "Attributes",
+      icon = icon("columns"),
+      color = 'blue'
+    )
   })
   output$personInstances <- renderValueBox({
-    valueBox(nrow(personsDataTable), "Instances", icon = icon("table"), color = 'blue')
+    valueBox(
+      nrow(personsDataTable),
+      "Instances",
+      icon = icon("table"),
+      color = 'blue'
+    )
   })
   
   output$trajectoryFiles <- renderValueBox({
-    valueBox(length(trajectorieList), "Files", icon = icon("file-excel-o"), color = 'blue')
+    valueBox(
+      length(trajectoryDataDayTwo)+length(trajectoryDataDayOne),
+      "Files",
+      icon = icon("file-excel-o"),
+      color = 'blue'
+    )
   })
   output$trajectoryAttributes <- renderValueBox({
-    valueBox(4, "Attributes", icon = icon("columns"), color = 'blue')
+    valueBox(4,
+             "Attributes",
+             icon = icon("columns"),
+             color = 'blue')
   })
   output$trajectoryInstances <- renderValueBox({
-    valueBox( 7000, "Instances", icon = icon("table"), color = 'blue')
+    valueBox(7000,
+             "Instances",
+             icon = icon("table"),
+             color = 'blue')
   })
-
- 
-
   
   
-  ###################################################################################### 
+  
+  
+  
+  ######################################################################################
   #Memorizing Value Boxes
   ######################################################################################
   output$wordsValueBox <- renderValueBox({
     valueBox(20, "Words to memorize", icon = icon("list"))
   })
   output$avgDirectRecallBox <- renderValueBox({
-    valueBox(round(mean(personsDataTable[['TP_DirectRecall']]),1), "Average Direct Recall (Words correctly memorized)", icon = icon("brain"))
+    valueBox(
+      round(mean(personsDataTable[['TP_DirectRecall']]), 1),
+      "Average Direct Recall (Words correctly memorized)",
+      icon = icon("brain")
+    )
   })
   output$avgDelayedRecallBox <- renderValueBox({
-    valueBox(round(mean(personsDataTable[['TP_DelayedRecall']]),1), "Average Delayed Recall (Words correctly memorized)", icon = icon("brain"))
+    valueBox(
+      round(mean(personsDataTable[['TP_DelayedRecall']]), 1),
+      "Average Delayed Recall (Words correctly memorized)",
+      icon = icon("brain")
+    )
   })
   output$sameWorldBox <- renderValueBox({
-    valueBox(paste(round((nrow(sameWorld)/nrow(personsDataTable))*100,2), '%'), "Patient same world", icon = icon("percent"), color = 'green')
+    valueBox(
+      paste(round((
+        nrow(sameWorld) / nrow(personsDataTable)
+      ) * 100, 2), '%'),
+      "Patient same world",
+      icon = icon("percent"),
+      color = 'green'
+    )
   })
   output$newWorldBox <- renderValueBox({
-    valueBox(paste(round((nrow(newWorld)/nrow(personsDataTable))*100,2), ' %'), "Patient new world", icon = icon("percent"), color = 'green')
+    valueBox(
+      paste(round((
+        nrow(newWorld) / nrow(personsDataTable)
+      ) * 100, 2), ' %'),
+      "Patient new world",
+      icon = icon("percent"),
+      color = 'green'
+    )
   })
   output$partialNewWorldBox <- renderValueBox({
-    valueBox(paste(round((nrow(partialNewWorld)/nrow(personsDataTable))*100,2), '%'), "Patient Partial new world", icon = icon("percent"), color = 'yellow')
+    valueBox(
+      paste(round((
+        nrow(partialNewWorld) / nrow(personsDataTable)
+      ) * 100, 2), '%'),
+      "Patient Partial new world",
+      icon = icon("percent"),
+      color = 'yellow'
+    )
   })
   
   output$sameTyp0 <- renderValueBox({
-    valueBox(round((nrow(sameWorldHealthy)/(nrow(sameWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
+    valueBox(round((nrow(
+      sameWorldHealthy
+    ) / (
+      nrow(sameWorld)
+    )) * 100, 0),
+    "Type 0",
+    icon = icon("percent"),
+    color = 'green')
   })
   output$sameTyp1 <- renderValueBox({
-    valueBox(round((nrow(sameWorldADHD1)/(nrow(sameWorld)))*100,0), "Type 1", icon = icon("percent"), color = 'yellow')
+    valueBox(round((nrow(sameWorldADHD1) / (
+      nrow(sameWorld)
+    )) * 100, 0),
+    "Type 1",
+    icon = icon("percent"),
+    color = 'yellow')
   })
   output$sameTyp2 <- renderValueBox({
-    valueBox(round((nrow(sameWorldADHD2)/(nrow(sameWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
+    valueBox(round((nrow(sameWorldADHD2) / (
+      nrow(sameWorld)
+    )) * 100, 0),
+    "Type 2",
+    icon = icon("percent"),
+    color = 'orange')
   })
   output$sameTyp3 <- renderValueBox({
-    valueBox(round((nrow(sameWorldADHD3)/(nrow(sameWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
+    valueBox(round((nrow(sameWorldADHD3) / (
+      nrow(sameWorld)
+    )) * 100, 0),
+    "Type 3",
+    icon = icon("percent"),
+    color = 'red')
   })
   output$newTyp0 <- renderValueBox({
-    valueBox(round((nrow(newWorldHealthy)/(nrow(newWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
+    valueBox(round((nrow(
+      newWorldHealthy
+    ) / (nrow(
+      newWorld
+    ))) * 100, 0),
+    "Type 0",
+    icon = icon("percent"),
+    color = 'green')
   })
   output$newTyp1 <- renderValueBox({
-    valueBox(round((nrow(newWorldADHD1)/(nrow(newWorld)))*100,0), "Type 1", icon = icon("percent"),color = 'yellow')
+    valueBox(round((nrow(newWorldADHD1) / (nrow(
+      newWorld
+    ))) * 100, 0),
+    "Type 1",
+    icon = icon("percent"),
+    color = 'yellow')
   })
   output$newTyp2 <- renderValueBox({
-    valueBox(round((nrow(newWorldADHD2)/(nrow(newWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
+    valueBox(round((nrow(newWorldADHD2) / (nrow(
+      newWorld
+    ))) * 100, 0),
+    "Type 2",
+    icon = icon("percent"),
+    color = 'orange')
   })
   output$newTyp3 <- renderValueBox({
-    valueBox(round((nrow(newWorldADHD3)/(nrow(newWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
+    valueBox(round((nrow(newWorldADHD3) / (nrow(
+      newWorld
+    ))) * 100, 0),
+    "Type 3",
+    icon = icon("percent"),
+    color = 'red')
   })
   output$paritalNewTyp0 <- renderValueBox({
-    valueBox(round((nrow(partialNewWorldHealthy)/(nrow(partialNewWorld)))*100,0), "Type 0", icon = icon("percent"), color = 'green')
+    valueBox(round((
+      nrow(partialNewWorldHealthy) / (nrow(partialNewWorld))
+    ) * 100, 0),
+    "Type 0",
+    icon = icon("percent"),
+    color = 'green')
   })
   output$paritalNewTyp1 <- renderValueBox({
-    valueBox(round((nrow(partialNewWorldADHD1)/(nrow(partialNewWorld)))*100,0), "Type 1", icon = icon("percent"), color = 'yellow')
+    valueBox(round((nrow(
+      partialNewWorldADHD1
+    ) / (
+      nrow(partialNewWorld)
+    )) * 100, 0),
+    "Type 1",
+    icon = icon("percent"),
+    color = 'yellow')
   })
   output$paritalNewTyp2 <- renderValueBox({
-    valueBox(round((nrow(partialNewWorldADHD2)/(nrow(partialNewWorld)))*100,0), "Type 2", icon = icon("percent"),color = 'orange')
+    valueBox(round((nrow(
+      partialNewWorldADHD2
+    ) / (
+      nrow(partialNewWorld)
+    )) * 100, 0),
+    "Type 2",
+    icon = icon("percent"),
+    color = 'orange')
   })
   output$paritalNewTyp3 <- renderValueBox({
-    valueBox(round((nrow(partialNewWorldADHD3)/(nrow(partialNewWorld)))*100,0), "Type 3", icon = icon("percent"),color = 'red')
+    valueBox(round((nrow(
+      partialNewWorldADHD3
+    ) / (
+      nrow(partialNewWorld)
+    )) * 100, 0),
+    "Type 3",
+    icon = icon("percent"),
+    color = 'red')
   })
   
-  ###################################################################################### 
+  ######################################################################################
   # Memorizing Boxplots
-  ###################################################################################### 
+  ######################################################################################
   output$boxplotOverall <- renderPlotly({
-  
-  plot_ly(
-    y = adhdChildren$TP_DirectRecall,
-    name = 'ADHD TP_Direct',
-    type = 'box',
-    boxpoints = 'all'
-    #jitter = 0.3,
-    #pointpos = -1.8
-  ) %>%
-    add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
-    add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
-    add_trace(y = healthyChildren$TP_DelayedRecall, name =
-                'Healthy TP_Delayed')
-  
+    plot_ly(
+      y = adhdChildren$TP_DirectRecall,
+      name = 'ADHD TP_Direct',
+      type = 'box',
+      boxpoints = 'all'
+      #jitter = 0.3,
+      #pointpos = -1.8
+    ) %>%
+      add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
+      add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
+      add_trace(y = healthyChildren$TP_DelayedRecall, name =
+                  'Healthy TP_Delayed')
+    
   })
-
+  
   output$boxplotSameWorld <- renderPlotly({
     plot_ly(
       y = sameWorldADHD$TP_DirectRecall,
@@ -327,9 +488,9 @@ shinyServer(function(input, output, session) {
       add_trace(y = sameWorldHealthy$TP_DirectRecall, name = ' SameWorld TP_Direct (Healthy)') %>%
       add_trace(y = sameWorldADHD$TP_DelayedRecall, name = ' SameWorld TP_Delayed (ADHD)') %>%
       add_trace(y = sameWorldHealthy$TP_DelayedRecall, name = ' SameWorld TP_Delayed (Healthy)')
-
+    
   })
-
+  
   output$boxplotNewWorld <- renderPlotly({
     plot_ly(
       y = newWorldADHD$TP_DirectRecall,
@@ -345,7 +506,6 @@ shinyServer(function(input, output, session) {
   })
   
   output$boxplotPartialNewWorld <- renderPlotly({
-    
     plot_ly(
       y = partialNewWorldADHD$TP_DirectRecall,
       name = ' PartialNewWorld TP_Direct (ADHD)' ,
@@ -357,19 +517,21 @@ shinyServer(function(input, output, session) {
       add_trace(y = partialNewWorldHealthy$TP_DirectRecall, name = ' PartialNewWorld TP_Direct (Healthy)') %>%
       add_trace(y = partialNewWorldADHD$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (ADHD)') %>%
       add_trace(y = partialNewWorldHealthy$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (Healthy)')
-
+    
   })
- 
   
-  ###################################################################################### 
+  
+  ######################################################################################
   # Trajectory Plots
-  ###################################################################################### 
+  ######################################################################################
   
   
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     trjPlotDayOne <- plot_ly()
+    # get world id
+    vr = personsDataTable[selectedPersons, firstVR]
     if (length(selectedPersons)) {
       # create colorscale
       n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
@@ -384,7 +546,7 @@ shinyServer(function(input, output, session) {
       )
       # FIXME : shade dosen't work at all
       # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
-      trjPlotDayOne %>% add_trace(
+      trjPlotDayOne <- trjPlotDayOne %>% add_trace(
         data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
         type = "scatter3d",
         x = ~ x,
@@ -399,13 +561,107 @@ shinyServer(function(input, output, session) {
           colorscale = 'Viridis'
         ),
         mode = 'lines'
-      ) %>% add_trace(
-        data = 1,
-        type = "scatter3d",
-        x = 100,
-        y = 100,
-        z = 50
       )
+      if (vr == 1 || vr == 3) {
+        trjPlotDayOne <- trjPlotDayOne %>%
+          add_trace(
+            data = roomCoordinatesVR1.0,
+            type = "mesh3d",
+            opacity = 0.50,
+            x = c(
+              roomCoordinatesVR1.0$x1,
+              roomCoordinatesVR1.0$x2,
+              roomCoordinatesVR1.0$x1,
+              roomCoordinatesVR1.0$x2
+            ),
+            y = c(
+              roomCoordinatesVR1.0$y1,
+              roomCoordinatesVR1.0$y1,
+              roomCoordinatesVR1.0$y2,
+              roomCoordinatesVR1.0$y2
+            ),
+            z = c(
+              roomCoordinatesVR1.0$z,
+              roomCoordinatesVR1.0$z,
+              roomCoordinatesVR1.0$z,
+              roomCoordinatesVR1.0$z
+            ),
+            i = c(0:(nrow(
+              roomCoordinatesVR1.0
+            ) - 1), 0:(nrow(
+              roomCoordinatesVR1.0
+            ) -
+              1)),
+            j = c(
+              nrow(roomCoordinatesVR1.0):(2 * nrow(roomCoordinatesVR1.0) - 1),
+              (2 *
+                 nrow(roomCoordinatesVR1.0)):(3 * nrow(roomCoordinatesVR1.0) -
+                                                1)
+            ),
+            k = c((3 * nrow(
+              roomCoordinatesVR1.0
+            )):(4 * nrow(
+              roomCoordinatesVR1.0
+            ) - 1), (3 *
+                       nrow(
+                         roomCoordinatesVR1.0
+                       )):(4 * nrow(
+                         roomCoordinatesVR1.0
+                       ) - 1))
+          )
+        
+      } else if (vr == 2) {
+        trjPlotDayOne <- trjPlotDayOne %>%
+          add_trace(
+            data = roomCoordinatesVR2.0,
+            type = "mesh3d",
+            opacity = 0.50,
+            x = c(
+              roomCoordinatesVR2.0$x1,
+              roomCoordinatesVR2.0$x2,
+              roomCoordinatesVR2.0$x1,
+              roomCoordinatesVR2.0$x2
+            ),
+            y = c(
+              roomCoordinatesVR2.0$y1,
+              roomCoordinatesVR2.0$y1,
+              roomCoordinatesVR2.0$y2,
+              roomCoordinatesVR2.0$y2
+            ),
+            z = c(
+              roomCoordinatesVR2.0$z,
+              roomCoordinatesVR2.0$z,
+              roomCoordinatesVR2.0$z,
+              roomCoordinatesVR2.0$z
+            ),
+            i = c(0:(nrow(
+              roomCoordinatesVR2.0
+            ) - 1), 0:(nrow(
+              roomCoordinatesVR2.0
+            ) -
+              1)),
+            j = c(
+              nrow(roomCoordinatesVR2.0):(2 * nrow(roomCoordinatesVR2.0) - 1),
+              (2 *
+                 nrow(roomCoordinatesVR2.0)):(3 * nrow(roomCoordinatesVR2.0) -
+                                                1)
+            ),
+            k = c((3 * nrow(
+              roomCoordinatesVR2.0
+            )):(4 * nrow(
+              roomCoordinatesVR2.0
+            ) - 1), (3 *
+                       nrow(
+                         roomCoordinatesVR2.0
+                       )):(4 * nrow(
+                         roomCoordinatesVR2.0
+                       ) - 1))
+            
+          )
+      } else{
+        print("Unexpected VR ID provided in trajectory plotting")
+        print(toString(vr))
+      }
     }
     
   })
@@ -433,9 +689,9 @@ shinyServer(function(input, output, session) {
   })
   
   
-  ###################################################################################### 
+  ######################################################################################
   # RoomGraph plots
-  ###################################################################################### 
+  ######################################################################################
   
   
   
@@ -457,9 +713,9 @@ shinyServer(function(input, output, session) {
   
   
   
-  ###################################################################################### 
+  ######################################################################################
   # Selection cupling (not really visualization stuff..)
-  ###################################################################################### 
+  ######################################################################################
   
   # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
   
