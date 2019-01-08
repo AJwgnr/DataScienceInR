@@ -2,56 +2,69 @@
 
 # Require returns false if package is not found (https://www.r-bloggers.com/difference-between-library-and-require-in-r/)
 # Check if the packages were already installed, otherwise installs them
-if(!require(shiny)){
-  install.packages(shiny)
+if(!require('yaml')){
+  install.packages('yaml')
 }
-if(!require(shinydashboard)){
-  install.packages(shinydashboard)
+if(!require('shiny')){
+  install.packages('shiny')
 }
-if(!require(shinyWidgets)){
-  install.packages(shinyWidgets)
+if(!require('lazyeval')){
+  install.packages('lazyeval')
 }
-if(!require(data.table)){
-  install.packages(data.table)
+if(!require('shinydashboard')){
+  install.packages('shinydashboard')
 }
-if(!require(plotly)){
-  install.packages(plotly)       
+if(!require('shinyWidgets')){
+  install.packages('shinyWidgets')
 }
-if(!require(dtplyr)){
-  install.packages(dtplyr)
+if(!require('data.table')){
+  install.packages('data.table')
 }
-if(!require(readxl)){
-  install.packages(readxl)
+if(!require('ggplot2')){
+  install.packages('ggplot2')
 }
-if(!require(stringr)){
-  install.packages(stringr)
+if(!require('plotly')){
+  install.packages('plotly')       
 }
-if(!require(DT)){
-  install.packages(DT)
+if(!require('dtplyr')){
+  install.packages('dtplyr')
 }
-if(!require(crosstalk)){
-  install.packages(crosstalk)
+if(!require('readxl')){
+  install.packages('readxl')
 }
-if(!require(GGally)){
-  install.packages(GGally)
+if(!require('stringr')){
+  install.packages('stringr')
 }
-
+if(!require('DT')){
+  install.packages('DT')
+}
+if(!require('crosstalk')){
+  install.packages('crosstalk')
+}
+if(!require('GGally')){
+  install.packages('GGally')
+}
+if(!require('tibble')){
+  install.packages('tibble')
+}
 
 
 
 
 # Load the libraries
-library(shiny)
-library(shinydashboard)
-library(shinyWidgets)
-library(data.table)
-library(plotly)
-library(dtplyr)
-library(readxl)
-library(stringr)
-library(DT)
-library(crosstalk)
-library(GGally)
+library('shiny')
+library('tibble')
+library('shinydashboard')
+library('shinyWidgets')
+library('data.table')
+library('ggplot2')
+library('plotly')
+library('dtplyr')
+library('readxl')
+library('stringr')
+library('DT')
+library('crosstalk')
+library('GGally')
 
 
 
@@ -60,7 +73,6 @@ library(GGally)
 # Currently unused:
 # library(rgl)
 # library(car)
-# library(ggplot2)
 
 
 
