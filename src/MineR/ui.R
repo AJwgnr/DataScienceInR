@@ -567,6 +567,7 @@ ds_body = dashboardBody(tabItems(
         title = 'Description',
         width = 12,
         collapsible = T,
+        collapsed = T,
         'Add descriptiton of the following plots and also the results!!'
       )),
       #======================================
