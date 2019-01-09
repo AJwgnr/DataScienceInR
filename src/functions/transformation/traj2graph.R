@@ -65,28 +65,29 @@ traj2graph <- function(trajectorie, rooms) {
   return(unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, RoomType, rleid), trajectorie$rleid])[, c(2, 3, 4)]) # 0.1 sec spentd per trajectory row/timestemp
 }
 
-computeRoomHistByDay <- function(day, personsData, roomGraph, VR1, VR2) {
-  roomHist <- list()
-  for (vp in personsData$VP) {
-    if (day == 1) {
-      vr = personsData[VP == vp, firstVR]
-    } else if (day == 2) {
-      vr = personsData[VP == vp, VE_Day2]
-    } else{
-      print("Unexpected day provided in computeRoomHistByDay")
+computeRoomHistByDay <-
+  function(day, personsData, roomGraph, VR1, VR2) {
+    roomHist <- list()
+    for (vp in personsData$VP) {
+      if (day == 1) {
+        vr = personsData[VP == vp, firstVR]
+      } else if (day == 2) {
+        vr = personsData[VP == vp, VE_Day2]
+      } else{
+        print("Unexpected day provided in computeRoomHistByDay")
+      }
+      
+      if (vr == 1 || vr == 3) {
+        roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR1)
+      } else if (vr == 2) {
+        roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR2)
+      } else{
+        print("Unexpected VR provided in computeRoomHistByDay")
+        return(NULL)
+      }
     }
-    
-    if (vr == 1 || vr == 3) {
-      roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR1)
-    } else if (vr == 2) {
-      roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR2)
-    } else{
-      print("Unexpected VR provided in computeRoomHistByDay")
-      return(NULL)
-    }
+    return(roomHist)
   }
-  return(roomHist)
-}
 
 
 roomGraph2roomHist <- function(rooms, VR) {
@@ -107,3 +108,33 @@ roomGraph2roomHist <- function(rooms, VR) {
   
   return(roomHist)
 }
+
+
+computeRoomEntryHistogramByDay <-
+  function(day, personsData, roomGraph, VR1, VR2,vp) {
+    if (day == 1) {
+      vr = personsData[VP == vp, firstVR]
+    } else if (day == 2) {
+      vr = personsData[VP == vp, VE_Day2]
+    } else{
+      print("Unexpected day provided in computeRoomHistByDay")
+      return(NULL)
+    }
+    entries = as.data.frame(table(roomGraph$Room))
+    names(entries) = c("id", "entries")
+    entries$id = as.numeric(entries$id)
+    
+    if(vr == 1 || vr == 3){
+      roomNames = unique(VR1[, c("id", "name")])
+    }else if(vr ==2){
+      roomNames = unique(VR2[, c("id", "name")])
+    }else{
+      print("Unexpected day provided in computeRoomEntryHistogramByDay")
+      return(NULL)
+    }
+    
+
+    entries = merge(entries, roomNames, by = "id", all = TRUE)
+    entries$entries[is.na(entries$entries)] = 0
+    return(entries)
+  }

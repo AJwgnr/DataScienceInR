@@ -390,9 +390,11 @@ ds_body = dashboardBody(tabItems(
           title = "First Day",
           side = "right",
           selected = "Trajectory",
-          tabPanel("Rooms entered", "Times room entered"),
+          tabPanel("Rooms entered", "Times room entered",
+                   plotlyOutput("gx_roomEntriesBarDayOne")),
           tabPanel("Time per room",
-                   "Time spent per room"),
+                   "Time spent per room",
+                   plotlyOutput("gx_roomHistBarDayOne")),
           tabPanel(
             "Trajectory",
             dropdownButton(
