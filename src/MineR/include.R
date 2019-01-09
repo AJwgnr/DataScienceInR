@@ -48,6 +48,10 @@ if(!require('tibble')){
   install.packages('tibble')
 }
 
+if(!require('reader')){
+  install.packages('reader')
+}
+
 
 
 
@@ -65,6 +69,7 @@ library('stringr')
 library('DT')
 library('crosstalk')
 library('GGally')
+library('reader')
 
 
 

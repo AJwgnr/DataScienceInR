@@ -151,5 +151,72 @@ loadTrajectorieByPersonIDAndDay <- function(id, day) {
   return(trajectoryFileForIDandDay)
 }
 
+# Function to precompute data only once and load it from storage every secutive run
+loadRoomGraphByDay <-
+  function(day,
+           personsDataTable,
+           trajectoryData,
+           VR1,
+           VR2) {
+    if(day==1){
+    # Compute data if not present in directory
+    # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
+    if(find.file('roomGraphDayOne.rds',"../../res/precomputed_data/")==""){
+      print("Precomputing roomGraphDayOne")
+      roomGraph <- computeRoomGraphByDay(1,personsDataTable,trajectoryData,VR1,VR2)
+      saveRDS(roomGraph,file='../../res/precomputed_data/roomGraphDayOne.rds')
+    }else{
+      print("Loading previously roomGraphDayOne")
+      roomGraph <- readRDS('../../res/precomputed_data/roomGraphDayOne.rds')
+    }
+    }else if(day == 2){
+      # Compute data if not present in directory
+      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
+      if(find.file('roomGraphDayTwo.rds',"../../res/precomputed_data/")==""){
+        print("Precomputing roomGraphDayTwo")
+        roomGraph <- computeRoomGraphByDay(1,personsDataTable,trajectoryData,VR1,VR2)
+        saveRDS(roomGraph,file='../../res/precomputed_data/roomGraphDayTwo.rds')
+      }else{
+        print("Loading previously computed roomGraphDayTwo")
+        roomGraph <- readRDS('../../res/precomputed_data/roomGraphDayTwo.rds')
+      }
+    }else{
+      print("Unexpected day provided in loadRoomGraph")
+    }
+    
+    return(roomGraph)
+  }
+
+# Function to precompute data only once and load it from storage every secutive run
+loadRoomHistByDay <-
+  function(day, personsDataTable, roomGraph, VR1, VR2) {
+    if(day==1){
+      # Compute data if not present in directory
+      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
+      if(find.file('roomHistDayOne.rds',"../../res/precomputed_data/")==""){
+        print("Precomputing roomHistDayOne")
+        roomHist <- computeRoomHistByDay(1,personsDataTable,roomGraph,VR1,VR2)
+        saveRDS(roomHist,file='../../res/precomputed_data/roomHistDayOne.rds')
+      }else{
+        print("Loading previously computed roomHistDayOne")
+        roomHist <- readRDS('../../res/precomputed_data/roomHistDayOne.rds')
+      }
+    }else if(day == 2){
+      # Compute data if not present in directory
+      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
+      if(find.file('roomHistDayTwo.rds',"../../res/precomputed_data/")==""){
+        print("Precomputing roomHistDayTwo")
+        roomHist <- computeRoomHistByDay(1,personsDataTable,roomGraph,VR1,VR2)
+        saveRDS(roomHist,file='../../res/precomputed_data/roomHistDayTwo.rds')
+      }else{
+        print("Loading previously roomHistDayTwo")
+        roomHist <- readRDS('../../res/precomputed_data/roomHistDayTwo.rds')
+      }
+    }else{
+      print("Unexpected day provided in loadRoomHist")
+    }
+    
+    return(roomHist)
+  }
 
 #trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))
