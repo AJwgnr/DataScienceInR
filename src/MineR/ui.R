@@ -147,13 +147,7 @@ ds_sidebar = dashboardSidebar(
       "Clustering",
       tabName = "clustering",
       icon = icon("chart-pie")
-    ),
-    ###**************************
-    ### MenueItem 7: DecisionTree
-    ###**************************
-    menuItem("Decision Trees",
-             tabName = "decisionTree",
-             icon = icon("tree"))
+    )
   )
 )
 
