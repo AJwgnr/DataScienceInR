@@ -29,7 +29,7 @@ z,x1,y1,x2,y2,id,name,RoomType
 72,263.5,206,285.5,212.5,2,LeftWingCoridor,0
 72,259,192,272,206,3,LibraryBottom,0
 72,245,192,258,201,6,LeftKitchenBottom,0
-72,272,192,281,206,7,LeftSuitBathroom,0
+72,272,192,281,206,55,LeftSuitBathroom,0
 72,261,258,266,264,17,RightWingPurpleBedroom,0
 72,266,250,285.5,264,18,RightWingWoodBottom,0
 72,266,256,271,264,19,RightWingWoodStorage,0

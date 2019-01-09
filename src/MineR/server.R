@@ -691,28 +691,46 @@ shinyServer(function(input, output, session) {
   
   
   ######################################################################################
-  # RoomGraph plots
+  # Times rooms entered bar chart
   ######################################################################################
   
+  output$gx_roomEntriesBarDayOne <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    p <- plot_ly() 
+    if (length(selectedPersons)) {
+      d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
+      
+
+      p <- p %>%
+        add_trace(
+          data = d,
+          x = ~entries,
+          y = ~id,
+          name = "Entries per room",
+          type = "bar",
+          orientation = "h"
+        )
+    }
+  })
   
-  
-  # # Fix this shit later!
-  # output$histTimeRoomsDayOne <-
-  #   renderPlotly({
-  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
-  #                            y =  ~ TimeSpent,
-  #                            x =  ~ names)
-  #   })
-  #
-  # output$histTimeRoomsDayOne <-
-  #   renderPlotly({
-  #     plot_ly() %>% add_bars(data = unique(rooms[, c("id", "TimeSpent")]),
-  #                            y =  ~ TimeSpent,
-  #                            x =  ~ names)
-  #   })
-  #
-  
-  
+  ######################################################################################
+  # Time Spent per Room bar charts
+  ######################################################################################
+  output$gx_roomHistBarDayOne <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    p <- plot_ly() 
+    if (length(selectedPersons)) {
+     p <- p %>%
+        add_trace(
+          data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
+          x = ~TimeSpent,
+          y = ~Room,
+          name = "Time spent per room",
+          type = "bar",
+          orientation = "h"
+        )
+    }
+  })
   
   ######################################################################################
   # Selection cupling (not really visualization stuff..)
