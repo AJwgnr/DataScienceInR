@@ -591,7 +591,18 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         collapsible = T,
         collapsed = T,
-        'Add descriptiton of the following plots and also the results!!'
+        'The above',
+        tags$b('Key figures'), 
+        'show in the first row important information regarding the conducted memorizing experiment that is also described in the Experiment tab.',
+        'The persons had to memorize and remember 20 words directly and also after a certain time period. The average remebered words are represented by the',
+tags$em('Average Direct Recall'),
+'box, while the average results of the delayed test are shown in the',
+tags$em('Average Delayed Recall'),
+'box.',
+'The boxes in the second row of the tab show the distribution of the visited worlds.',
+'The bar charts below further detail the distribution of ADHD types among the different experiment groups (Same world, New world, Partial new world).',
+tags$br(),
+'In the four box plots below the direct and delayed recall of the memorized words is visualized with respect to ADHD type in the different experiment groups.'
       )
     ),
     #======================================

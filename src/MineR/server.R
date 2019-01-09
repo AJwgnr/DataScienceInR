@@ -324,7 +324,7 @@ shinyServer(function(input, output, session) {
       paste(round((
         nrow(sameWorld) / nrow(personsDataTable)
       ) * 100, 2), '%'),
-      "Patient same world",
+      "Same world",
       icon = icon("percent"),
       color = 'green'
     )
@@ -334,7 +334,7 @@ shinyServer(function(input, output, session) {
       paste(round((
         nrow(newWorld) / nrow(personsDataTable)
       ) * 100, 2), ' %'),
-      "Patient new world",
+      "New world",
       icon = icon("percent"),
       color = 'green'
     )
@@ -344,7 +344,7 @@ shinyServer(function(input, output, session) {
       paste(round((
         nrow(partialNewWorld) / nrow(personsDataTable)
       ) * 100, 2), '%'),
-      "Patient Partial new world",
+      "Partial new world",
       icon = icon("percent"),
       color = 'yellow'
     )
