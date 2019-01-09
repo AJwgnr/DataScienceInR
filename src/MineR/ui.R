@@ -335,9 +335,9 @@ ds_body = dashboardBody(tabItems(
         title = "Test persons data",
         side = "right",
         width = 12,
-        selected = "Table",
+        selected = "Raw Data",
         tabPanel(
-          "Table",
+          "Raw Data",
           width = 12,
           pickerInput(
             inputId = "id_pickerInputDTpersonsRaw1",
@@ -370,6 +370,10 @@ ds_body = dashboardBody(tabItems(
             selected = columChoicesPersonsTable[2:7]
           ),
           plotlyOutput("gx_splom_personsDataTable")
+        ),tabPanel(
+          "Correlation",
+          h2(width = 12, "Correlation of attributes"),
+          width = 12
         )
       )
     ),
@@ -401,7 +405,7 @@ ds_body = dashboardBody(tabItems(
               ),
               checkboxInput("showRoomInput_dayOne", "Show rooms", value = FALSE),
               circle = TRUE,
-              status = "danger",
+              status = "primary",
               icon = icon("gear"),
               width = "300px",
               tooltip = tooltipOptions(title = "Click to see inputs !")
@@ -587,7 +591,18 @@ ds_body = dashboardBody(tabItems(
         width = 12,
         collapsible = T,
         collapsed = T,
-        'Add descriptiton of the following plots and also the results!!'
+        'The above',
+        tags$b('Key figures'), 
+        'show in the first row important information regarding the conducted memorizing experiment that is also described in the Experiment tab.',
+        'The persons had to memorize and remember 20 words directly and also after a certain time period. The average remebered words are represented by the',
+tags$em('Average Direct Recall'),
+'box, while the average results of the delayed test are shown in the',
+tags$em('Average Delayed Recall'),
+'box.',
+'The boxes in the second row of the tab show the distribution of the visited worlds.',
+'The bar charts below further detail the distribution of ADHD types among the different experiment groups (Same world, New world, Partial new world).',
+tags$br(),
+'In the four box plots below the direct and delayed recall of the memorized words is visualized with respect to ADHD type in the different experiment groups.'
       )
     ),
     #======================================
