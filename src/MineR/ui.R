@@ -385,6 +385,7 @@ ds_body = dashboardBody(tabItems(
       box(
         title = "Trajectory and room data",
         width = 12,
+        collapsible = T,
         tabBox(
           title = "First Day",
           side = "right",
@@ -432,6 +433,38 @@ ds_body = dashboardBody(tabItems(
               value = c(0, 100)
             )
           )
+        )
+      )
+    ),
+    fluidRow(
+      width = 12,
+      box(
+        width = 12,
+        title = 'World summarys',
+        collapsible = T,
+        collapsed = T,
+        fluidRow(
+          width = 12,
+          title = 'Different worlds',
+          column(width = 4,
+                 box(
+                   title = "Mansion",
+                   status = "primary"
+                   #plotlyOutput("boxplotNewWorld")
+                 )),
+          column(width = 4,
+                 box(
+                   title = "Mansion altered",
+                   status = "primary"
+                   #plotlyOutput("boxplotNewWorld")
+                 )),
+          column(width = 4,
+                 box(
+                   title = "Pirate ship",
+                   status = "primary"
+                   #plotlyOutput("boxplotNewWorld")
+                 ))
+
         )
       )
     )
