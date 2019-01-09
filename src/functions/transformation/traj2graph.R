@@ -2,34 +2,34 @@
 
 # Compute roomGraph for whole trajectorieSet of Day One
 computeRoomGraphByDay <-
-  function(day,personsDataTable,
+  function(day,
+           personsDataTable,
            trajectoryData,
            VR1coordinates,
            VR2coordinates) {
     roomGraphData <-  list()
-      for (vp in personsDataTable$VP) {
-        # get vr from personsDataTable
-        if(day == 1){
-          vr = personsDataTable[VP==vp,firstVR]
-        }else if(day == 2){
-          vr = personsDataTable[VP==vp,VE_Day2]
-        }else{
-          print("Unexpected day provided in computeRoomGraphByDay")
-          return(NULL)
-        }
-        print(vp)
-        print(vr)
-        if(vr == 1 || vr == 3){
-          roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]],VR1coordinates)
-        }else if(vr == 2)
-        {
-          roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]],VR2coordinates)
-        }else{
-          print("Unexpected vr id provided in computeRoomGraphByDay")
-          return(NULL)
-        }
-        
+    for (vp in personsDataTable$VP) {
+      # get vr from personsDataTable
+      if (day == 1) {
+        vr = personsDataTable[VP == vp, firstVR]
+      } else if (day == 2) {
+        vr = personsDataTable[VP == vp, VE_Day2]
+      } else{
+        print("Unexpected day provided in computeRoomGraphByDay")
+        return(NULL)
       }
+      
+      if (vr == 1 || vr == 3) {
+        roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR1coordinates)
+      } else if (vr == 2)
+      {
+        roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR2coordinates)
+      } else{
+        print("Unexpected vr id provided in computeRoomGraphByDay")
+        return(NULL)
+      }
+      
+    }
     return(roomGraphData)
   }
 
@@ -58,34 +58,52 @@ traj2graph <- function(trajectorie, rooms) {
     # Store room ID ('plane sweep' along z axis is used to compute correct room id. Only highest possible room ID survives)
     trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
     trajectorie[condition == TRUE, "RoomHeight"] = rooms[rows, "z"]
-    trajectorie[condition == TRUE, "RoomType"] = rooms[rows,"RoomType"]
+    trajectorie[condition == TRUE, "RoomType"] = rooms[rows, "RoomType"]
   }
   # Summarize into roomGraph
   trajectorie$rleid <-  rleid(trajectorie$Room)
-  return(unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, RoomType, rleid), trajectorie$rleid])[, c(2, 3,4)]) # 0.1 sec spentd per trajectory row/timestemp
+  return(unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, RoomType, rleid), trajectorie$rleid])[, c(2, 3, 4)]) # 0.1 sec spentd per trajectory row/timestemp
+}
+
+computeRoomHistByDay <- function(day, personsData, roomGraph, VR1, VR2) {
+  roomHist <- list()
+  for (vp in personsData$VP) {
+    if (day == 1) {
+      vr = personsData[VP == vp, firstVR]
+    } else if (day == 2) {
+      vr = personsData[VP == vp, VE_Day2]
+    } else{
+      print("Unexpected day provided in computeRoomHistByDay")
+    }
+    
+    if (vr == 1 || vr == 3) {
+      roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR1)
+    } else if (vr == 2) {
+      roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR2)
+    } else{
+      print("Unexpected VR provided in computeRoomHistByDay")
+      return(NULL)
+    }
+  }
+  return(roomHist)
 }
 
 
-
-
-roomGraph2roomHist <- function() {
-  # THE FOLLOWING CODE IS FROM TRAJECTORYTOGRAPHES AND DOES NOT WORK CORRECTLY
-  # FIXME: rooms can have same id because of none-rectangularity, this not working properly yet
-  # TEST: total time spent after computing time per room must be equal to time spent in world (as nrwo(traj)*0.1)
-  
-  # integrate time spent per room into
-  rooms = merge(
-    rooms,
-    aggregate(
-      roomGraph$TimeSpent,
-      by = list(TimeSpent = roomGraph$Room),
-      FUN = sum
-    ),
-    by.x = "id",
-    by.y = "TimeSpent",
-    all.x = TRUE
+roomGraph2roomHist <- function(rooms, VR) {
+  roomHist = aggregate(
+    rooms[, "TimeSpent"],
+    by = list(Room = rooms$Room),
+    FUN = sum,
+    drop = FALSE
   )
-  colnames(rooms)[colnames(rooms) == "x"] <- "TimeSpent"
-  rooms[is.na(TimeSpent), "TimeSpent"] = 0
+  roomHist = merge(roomHist,
+                   VR,
+                   by.x = "Room",
+                   by.y = "id",
+                   all.y = TRUE)
+  roomHist = roomHist[, c(1, 2)]
+  roomHist = unique(roomHist)
+  roomHist[is.na(roomHist$TimeSpent), "TimeSpent"] = 0
   
+  return(roomHist)
 }

@@ -18,6 +18,7 @@ shinyServer(function(input, output, session) {
   ###################
   # Source the function written in various files:
   source("../functions/data/dataloading.R")
+  source("../functions/transformation/traj2graph.R")
   
   ###################
   ###    Load     ###
@@ -81,21 +82,15 @@ shinyServer(function(input, output, session) {
   #### Precompute ###
   ###################
   
-  # function is currently in traj2graph.R may be put into preComputation,dataLoading...
-  # list containing roomGraphData similar to trajectoryDataDayOne
-  # COMMENT THE NEXT TWO LINES TO RUN CODE OR FIX traj2graph.R
-  
-  #roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  #roomGraphDataDayTwo = computeRoomGrahpByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  
-  #traj2graph works and returns [room<ID>,timeSpent<sec>]
-  #computeRoomGraphByDay dosen't work. should return list similar to trajectoryDataDay[One,Two] (with VP as index)
-  #roomGraph2roomHist dosen't work. should return list with room ID and TOTAL time spent within
-  
+
   
   # Compute roomgraph for each trajectory/person
+  roomGraphDataDayOne = computeRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayTwo = computeRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   
   # Compute roomtime for each trajectory/person
+  roomHistDayOne = computeRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomHistDayTwo = computeRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   
   ###################
   ###   Features  ###
