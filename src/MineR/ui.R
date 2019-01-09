@@ -406,6 +406,13 @@ ds_body = dashboardBody(tabItems(
                 max = 100,
                 value = c(0, 100)
               ),
+              sliderInput(
+                "z_level_dayOne",
+                "Select z intervall for plotting",
+                min = -6,
+                max = 35,
+                value = c(-6, 35)
+              ),
               checkboxInput("showRoomInput_dayOne", "Show rooms", value = FALSE),
               circle = TRUE,
               status = "primary",

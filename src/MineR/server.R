@@ -530,12 +530,17 @@ shinyServer(function(input, output, session) {
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    lower_z_filter = input$z_level_dayOne[1]
+    upper_z_filter = input$z_level_dayOne[2]
     trjPlotDayOne <- plot_ly()
     # get world id
     vr = personsDataTable[selectedPersons, firstVR]
     if (length(selectedPersons)) {
+      # adapt for z sliding
+      z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
+      z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
       # create colorscale
-      n = nrow(trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]])
+      n = nrow(z_filtered_traj)
       sRl = input$colorInput_dayOne[1]
       sRh = input$colorInput_dayOne[2]
       leadingZeros = floor((sRl / 100) * n)
@@ -545,10 +550,8 @@ shinyServer(function(input, output, session) {
         seq(0, n, length.out = n - leadingZeros - trailingZeros),
         array(0, trailingZeros)
       )
-      # FIXME : shade dosen't work at all
-      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
-      trjPlotDayOne <- trjPlotDayOne %>% add_trace(
-        data = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]],
+       trjPlotDayOne <- trjPlotDayOne %>% add_trace(
+        data = z_filtered_traj,
         type = "scatter3d",
         x = ~ x,
         y = ~ y,
@@ -563,99 +566,104 @@ shinyServer(function(input, output, session) {
         ),
         mode = 'lines'
       )
-      if (vr == 1 || vr == 3) {
+      if ((vr == 1 || vr == 3) && input$showRoomInput_dayOne ) {
+        # z selection must be done here
+        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[,(z>lower_z_filter & z<upper_z_filter)],]
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
-            data = roomCoordinatesVR1.0,
+            data = VR1coordinates,
             type = "mesh3d",
             opacity = 0.30,
             x = c(
-              roomCoordinatesVR1.0$x1,
-              roomCoordinatesVR1.0$x2,
-              roomCoordinatesVR1.0$x1,
-              roomCoordinatesVR1.0$x2
+              VR1coordinates$x1,
+              VR1coordinates$x2,
+              VR1coordinates$x1,
+              VR1coordinates$x2
             ),
             y = c(
-              roomCoordinatesVR1.0$y1,
-              roomCoordinatesVR1.0$y1,
-              roomCoordinatesVR1.0$y2,
-              roomCoordinatesVR1.0$y2
+              VR1coordinates$y1,
+              VR1coordinates$y1,
+              VR1coordinates$y2,
+              VR1coordinates$y2
             ),
             z = c(
-              roomCoordinatesVR1.0$z,
-              roomCoordinatesVR1.0$z,
-              roomCoordinatesVR1.0$z,
-              roomCoordinatesVR1.0$z
+              VR1coordinates$z,
+              VR1coordinates$z,
+              VR1coordinates$z,
+              VR1coordinates$z
             ),
             i = c(0:(nrow(
-              roomCoordinatesVR1.0
+              VR1coordinates
             ) - 1), 0:(nrow(
-              roomCoordinatesVR1.0
+              VR1coordinates
             ) -
               1)),
             j = c(
-              nrow(roomCoordinatesVR1.0):(2 * nrow(roomCoordinatesVR1.0) - 1),
+              nrow(VR1coordinates):(2 * nrow(VR1coordinates) - 1),
               (2 *
-                 nrow(roomCoordinatesVR1.0)):(3 * nrow(roomCoordinatesVR1.0) -
+                 nrow(VR1coordinates)):(3 * nrow(VR1coordinates) -
                                                 1)
             ),
             k = c((3 * nrow(
-              roomCoordinatesVR1.0
+              VR1coordinates
             )):(4 * nrow(
-              roomCoordinatesVR1.0
+              VR1coordinates
             ) - 1), (3 *
                        nrow(
-                         roomCoordinatesVR1.0
+                         VR1coordinates
                        )):(4 * nrow(
-                         roomCoordinatesVR1.0
+                         VR1coordinates
                        ) - 1))
           )
         
-      } else if (vr == 2) {
+      } else if ((vr == 2) && input$showRoomInput_dayOne) {
+        # z selection must be done here to work
+        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
-            data = roomCoordinatesVR2.0,
+            data = VR2coordinates,
             type = "mesh3d",
             opacity = 0.30,
             x = c(
-              roomCoordinatesVR2.0$x1,
-              roomCoordinatesVR2.0$x2,
-              roomCoordinatesVR2.0$x1,
-              roomCoordinatesVR2.0$x2
+              VR2coordinates$x1,
+              VR2coordinates$x2,
+              VR2coordinates$x1,
+              VR2coordinates$x2
             ),
             y = c(
-              roomCoordinatesVR2.0$y1,
-              roomCoordinatesVR2.0$y1,
-              roomCoordinatesVR2.0$y2,
-              roomCoordinatesVR2.0$y2
+              VR2coordinates$y1,
+              VR2coordinates$y1,
+              VR2coordinates$y2,
+              VR2coordinates$y2
             ),
             z = c(
-              roomCoordinatesVR2.0$z,
-              roomCoordinatesVR2.0$z,
-              roomCoordinatesVR2.0$z,
-              roomCoordinatesVR2.0$z
+              VR2coordinates$z,
+              VR2coordinates$z,
+              VR2coordinates$z,
+              VR2coordinates$z
             ),
             i = c(0:(nrow(
-              roomCoordinatesVR2.0
+              VR2coordinates
             ) - 1), 0:(nrow(
-              roomCoordinatesVR2.0
+              VR2coordinates
             ) -
               1)),
             j = c(
-              nrow(roomCoordinatesVR2.0):(2 * nrow(roomCoordinatesVR2.0) - 1),
+              nrow(VR2coordinates):(2 * nrow(VR2coordinates) - 1),
               (2 *
-                 nrow(roomCoordinatesVR2.0)):(3 * nrow(roomCoordinatesVR2.0) -
+                 nrow(VR2coordinates)):(3 * nrow(VR2coordinates) -
                                                 1)
             ),
             k = c((3 * nrow(
-              roomCoordinatesVR2.0
+              VR2coordinates
             )):(4 * nrow(
-              roomCoordinatesVR2.0
+              VR2coordinates
             ) - 1), (3 *
                        nrow(
-                         roomCoordinatesVR2.0
+                         VR2coordinates
                        )):(4 * nrow(
-                         roomCoordinatesVR2.0
+                         VR2coordinates
                        ) - 1))
             
           )
@@ -664,7 +672,7 @@ shinyServer(function(input, output, session) {
         print(toString(vr))
       }
     }
-    
+    trjPlotDayOne
   })
   
   
@@ -700,6 +708,7 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
       
+      #TODO: debug + color code rooms seperately in traj??
 
       p <- p %>%
         add_trace(
