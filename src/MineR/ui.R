@@ -682,7 +682,36 @@ tags$br(),
   ### Page 5: Trajectroy features
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "trjFeatures",
-          h1("Trajectory feature exploration")),
+          h1("Trajectory feature exploration"),
+          fluidRow(
+            width = 12,
+            title = '',
+            box(
+              width = 12,
+              title = 'Direction of Movement',
+              collapsible = T
+            ),
+            box(
+              width = 12,
+              title = 'Average time per room',
+              collapsible = T
+            ),
+            box(
+              width = 12,
+              title = 'Percentage of rooms visited',
+              collapsible = T
+            ),
+            box(
+              width = 12,
+              title = 'Rooms visited multiple times',
+              collapsible = T
+            ),
+            box(
+              width = 12,
+              title = 'Overall time spent in the world',
+              collapsible = T
+            )
+          )),
   ###****************************************************************************************************************************************************************
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************
