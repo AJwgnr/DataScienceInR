@@ -52,11 +52,15 @@ if(!require('reader')){
   install.packages('reader')
 }
 
+if(!require('pracma')){
+  install.packages('pracma')
+}
 
 
 
 # Load the libraries
 library('shiny')
+library('pracma')
 library('tibble')
 library('shinydashboard')
 library('shinyWidgets')

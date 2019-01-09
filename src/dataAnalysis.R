@@ -26,9 +26,8 @@ trajectorieDayTwo <- loadTrajectoryByDay(2)
 #        pointpos = -1.8) 
 
 
-
-for (trajectory in trajectorieDayOne){
-  trajec <- trajectory
+for(vp in persons$VP){
+  trajec <- trajectorieDayOne[[vp]]
   trajec$vectorX <- (trajec$x[-1] - trajec$x)
   trajec$vectorY <- (trajec$y[-1] - trajec$y)
   trajec$vectorZ <- (trajec$z[-1] - trajec$z)
@@ -37,8 +36,16 @@ for (trajectory in trajectorieDayOne){
   trajec$vectorY[nrow(trajec)] <- 0
   trajec$vectorZ[nrow(trajec)] <- 0
   
-  trajectorieDayOne[trajectory] <- trajec
+  trajec$vectorX1 <- (trajec$vectorX[-1])
+  trajec$vectorY1 <- (trajec$vectorY[-1])
+  trajec$vectorZ1 <- (trajec$vectorZ[-1])
+  
+  trajec$angle <- ((dot(c(trajec$vectorX,trajec$vectory,trajec$vectorz),c(trajec$vectorX1,trajec$vectorX2,trajec$vectorX3)))/((Norm(c(trajec$vectorX,trajec$vectory,trajec$vectorz)))*(Norm(c(trajec$vectorX1,trajec$vectory1,trajec$vectorz1)))))
+  
+  trajectorieDayOne[[vp]] <- trajec
+
 }
+
 
 
 
