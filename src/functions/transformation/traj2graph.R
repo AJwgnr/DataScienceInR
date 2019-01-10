@@ -18,6 +18,7 @@ computeRoomGraphByDay <-
         print("Unexpected day provided in computeRoomGraphByDay")
         return(NULL)
       }
+
       
       if (vr == 1 || vr == 3) {
         roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR1coordinates)

@@ -56,11 +56,14 @@ if(!require('plyr')){
   install.packages('plyr')
 }
 
-
+if(!require('pracma')){
+  install.packages('pracma')
+}
 
 
 # Load the libraries
 library('shiny')
+library('pracma')
 library('tibble')
 library('shinydashboard')
 library('shinyWidgets')
@@ -74,6 +77,7 @@ library('DT')
 library('crosstalk')
 library('GGally')
 library('reader')
+library('plyr')
 
 
 

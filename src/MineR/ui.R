@@ -1,86 +1,16 @@
-# include everything once
+# Source the librarys to include
 source("include.R")
+# Source the functions for loading the data
+source("../functions/data/dataloading.R")
 
 
 
-
-
-### Set up column names of persons table for checkboxes
-# Risky solution loading personsTable in ui? (static anyway)
-# TODO: how about features beeing appended to personsTable serverSides? -> different plotting enough?
-source("../functions/data/dataloading.R") # sourcing ui sides seems like bad practice: possible to get table names from server?
-
-personsTable <- loadPersonsDataset()
-columChoicesPersonsTable <- 1:ncol(personsTable)
-names(columChoicesPersonsTable) <- names(personsTable)
-
-#persons = loadPersonsDataset()
-#roomsWorldOne <- loadRoomsDefinitionWorld(1)
-#roomsWorldTwo <- loadRoomsDefinitionWorld(2)
-#trajectorieDayOne <- loadTrajectoryByDay(1)
-#trajectorieDayTwo <- loadTrajectoryByDay(2)
-
-
-##singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
-
-#roomGraphDayOne <- computeRoomGraphDayOne(persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
-#Funktioniert nocht nictht!
-#roomGraphDayTwo <- computeRoomGraphDayTwo(persons,trajectorieDayTwo,roomsWorldOne,roomsWorldTwo)
-
-# Beispiel für die Generierung eines Boxplots mit Anzeige der Datenpunkte
-#plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
-#        pointpos = -1.8)
-
-# Load all stored data
+################################################################################
+#Load all stored data
+# Loading the attribute names for the dropdown of the select input
 personsDataTable <- loadPersonsDataset()
-
-# Load trajectorie data for day one into key value like list
-trajectorieList = loadCompleteTrajectorieDataset()
-trajectoryDataDayOne = loadTrajectoryByDay(1)
-trajectoryDataDayTwo = loadTrajectoryByDay(2)
-
-
-# Load room coordinates of VR1.0/1 and VR2.0
-# ( TODO: sorts and transforms coordinates to respective world)
-roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
-roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
-
-
-adhdChildren <- personsDataTable[personsDataTable$ADHD_Subtype > 0]
-healthyChildren <-
-  personsDataTable[personsDataTable$ADHD_Subtype == 0]
-
-
-# Extract persons with respect
-# Persons that have only seen the same world twice
-sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
-sameWorldADHD <- sameWorld[sameWorld$ADHD_Subtype > 0]
-sameWorldADHD1 <- sameWorld[sameWorld$ADHD_Subtype == 1]
-sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2]
-sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3]
-sameWorldHealthy <- sameWorld[sameWorld$ADHD_Subtype == 0]
-
-# Persons that have seen a new world
-newWorld <- personsDataTable[personsDataTable$Novelty == 2]
-newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
-newWorldADHD1 <- newWorld[newWorld$ADHD_Subtype == 1]
-newWorldADHD2 <- newWorld[newWorld$ADHD_Subtype == 2]
-newWorldADHD3 <- newWorld[newWorld$ADHD_Subtype == 3]
-newWorldHealthy <- newWorld[newWorld$ADHD_Subtype == 0]
-
-# Persons that have seen a partial new world (different color)
-partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
-partialNewWorldADHD <-
-  partialNewWorld[partialNewWorld$ADHD_Subtype > 0]
-partialNewWorldADHD1 <-
-  partialNewWorld[partialNewWorld$ADHD_Subtype == 1]
-partialNewWorldADHD2 <-
-  partialNewWorld[partialNewWorld$ADHD_Subtype == 2]
-partialNewWorldADHD3 <-
-  partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
-partialNewWorldHealthy <-
-  partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
-
+columChoicesPersonsTable <- 1:ncol(personsDataTable)
+names(columChoicesPersonsTable) <- names(personsDataTable)
 
 
 ################################################################################
@@ -147,13 +77,7 @@ ds_sidebar = dashboardSidebar(
       "Clustering",
       tabName = "clustering",
       icon = icon("chart-pie")
-    ),
-    ###**************************
-    ### MenueItem 7: DecisionTree
-    ###**************************
-    menuItem("Decision Trees",
-             tabName = "decisionTree",
-             icon = icon("tree"))
+    )
   )
 )
 
@@ -370,7 +294,8 @@ ds_body = dashboardBody(tabItems(
             selected = columChoicesPersonsTable[2:7]
           ),
           plotlyOutput("gx_splom_personsDataTable")
-        ),tabPanel(
+        ),
+        tabPanel(
           "Correlation",
           h2(width = 12, "Correlation of attributes"),
           width = 12
@@ -390,11 +315,16 @@ ds_body = dashboardBody(tabItems(
           title = "First Day",
           side = "right",
           selected = "Trajectory",
-          tabPanel("Rooms entered", "Times room entered",
-                   plotlyOutput("gx_roomEntriesBarDayOne")),
-          tabPanel("Time per room",
-                   "Time spent per room",
-                   plotlyOutput("gx_roomHistBarDayOne")),
+          tabPanel(
+            "Rooms entered",
+            "Times room entered",
+            plotlyOutput("gx_roomEntriesBarDayOne")
+          ),
+          tabPanel(
+            "Time per room",
+            "Time spent per room",
+            plotlyOutput("gx_roomHistBarDayOne")
+          ),
           tabPanel(
             "Trajectory",
             dropdownButton(
@@ -421,7 +351,7 @@ ds_body = dashboardBody(tabItems(
               tooltip = tooltipOptions(title = "Click to see inputs !")
             ),
             plotlyOutput("gx_3d_trajectoryDayOne")
-
+            
           )
         ),
         tabBox(
@@ -456,24 +386,15 @@ ds_body = dashboardBody(tabItems(
           width = 12,
           title = 'Different worlds',
           column(width = 4,
-                 box(
-                   title = "Mansion",
-                   status = "primary"
-                   #plotlyOutput("boxplotNewWorld")
-                 )),
+                 box(title = "Mansion",
+                     status = "primary")),
           column(width = 4,
-                 box(
-                   title = "Mansion altered",
-                   status = "primary"
-                   #plotlyOutput("boxplotNewWorld")
-                 )),
+                 box(title = "Mansion altered",
+                     status = "primary")),
           column(width = 4,
-                 box(
-                   title = "Pirate ship",
-                   status = "primary"
-                   #plotlyOutput("boxplotNewWorld")
-                 ))
-
+                 box(title = "Pirate ship",
+                     status = "primary"))
+          
         )
       )
     )
@@ -634,17 +555,17 @@ ds_body = dashboardBody(tabItems(
         collapsible = T,
         collapsed = T,
         'The above',
-        tags$b('Key figures'), 
+        tags$b('Key figures'),
         'show in the first row important information regarding the conducted memorizing experiment that is also described in the Experiment tab.',
         'The persons had to memorize and remember 20 words directly and also after a certain time period. The average remebered words are represented by the',
-tags$em('Average Direct Recall'),
-'box, while the average results of the delayed test are shown in the',
-tags$em('Average Delayed Recall'),
-'box.',
-'The boxes in the second row of the tab show the distribution of the visited worlds.',
-'The bar charts below further detail the distribution of ADHD types among the different experiment groups (Same world, New world, Partial new world).',
-tags$br(),
-'In the four box plots below the direct and delayed recall of the memorized words is visualized with respect to ADHD type in the different experiment groups.'
+        tags$em('Average Direct Recall'),
+        'box, while the average results of the delayed test are shown in the',
+        tags$em('Average Delayed Recall'),
+        'box.',
+        'The boxes in the second row of the tab show the distribution of the visited worlds.',
+        'The bar charts below further detail the distribution of ADHD types among the different experiment groups (Same world, New world, Partial new world).',
+        tags$br(),
+        'In the four box plots below the direct and delayed recall of the memorized words is visualized with respect to ADHD type in the different experiment groups.'
       )
     ),
     #======================================
@@ -688,47 +609,44 @@ tags$br(),
   ###****************************************************************************************************************************************************************
   ### Page 5: Trajectroy features
   ###****************************************************************************************************************************************************************
-  tabItem(tabName = "trjFeatures",
-          h1("Trajectory feature exploration"),
-          fluidRow(
-            width = 12,
-            title = '',
-            box(
-              width = 12,
-              title = 'Direction of Movement',
-              collapsible = T
-            ),
-            box(
-              width = 12,
-              title = 'Average time per room',
-              collapsible = T
-            ),
-            box(
-              width = 12,
-              title = 'Percentage of rooms visited',
-              collapsible = T
-            ),
-            box(
-              width = 12,
-              title = 'Rooms visited multiple times',
-              collapsible = T
-            ),
-            box(
-              width = 12,
-              title = 'Overall time spent in the world',
-              collapsible = T
-            )
-          )),
+  tabItem(
+    tabName = "trjFeatures",
+    h1("Trajectory feature exploration"),
+    fluidRow(
+      width = 12,
+      title = '',
+      box(
+        width = 12,
+        title = 'Direction of Movement',
+        collapsible = T
+      ),
+      box(
+        width = 12,
+        title = 'Average time per room',
+        collapsible = T
+      ),
+      box(
+        width = 12,
+        title = 'Percentage of rooms visited',
+        collapsible = T
+      ),
+      box(
+        width = 12,
+        title = 'Rooms visited multiple times',
+        collapsible = T
+      ),
+      box(
+        width = 12,
+        title = 'Overall time spent in the world',
+        collapsible = T
+      )
+    )
+  ),
   ###****************************************************************************************************************************************************************
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "clustering",
-          h1("Clustering")),
-  ###****************************************************************************************************************************************************************
-  ### Page 7: Decision Tree plus visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(tabName = "decisionTree",
-          h1("Decision tree"))
+          h1("Clustering"))
 ))
 
 ################################################################################
