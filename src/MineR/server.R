@@ -120,7 +120,6 @@ shinyServer(function(input, output, session) {
   ###   Plotting  ###
   ###################
   
-  # Plot personsDataTable as table
   
   # debug text output for various stuff
   # put as gxElement into ui.R: verbatimTextOutput("value")
@@ -466,9 +465,9 @@ shinyServer(function(input, output, session) {
       y = adhdChildren$TP_DirectRecall,
       name = 'ADHD TP_Direct',
       type = 'box',
-      boxpoints = 'all'
-      #jitter = 0.3,
-      #pointpos = -1.8
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
     ) %>%
       add_trace(y = healthyChildren$TP_DirectRecall  , name = 'Healthy TP_Direct ') %>%
       add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%

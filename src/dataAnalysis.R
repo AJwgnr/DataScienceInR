@@ -1,11 +1,11 @@
 # Check/Install the needed Libraries
-source('src/MineR/include.R')
+source('include.R')
 
 # Source the needed functions
-source("src/functions/data/dataloading.R")
-source("src/functions/data/datapreprocessing.R")
-source("src/functions/transformation/traj2graph.R")
-source("src/functions/visualization/datavisualization.R")
+source("../../src/functions/data/dataloading.R")
+source("../../src/functions/data/datapreprocessing.R")
+source("../../src/functions/transformation/traj2graph.R")
+source("../../src/functions/visualization/datavisualization.R")
 
 
 #Raw datasets loaded from the csv
@@ -24,6 +24,16 @@ trajectorieDayTwo <- loadTrajectoryByDay(2)
 # Beispiel für die Generierung eines Boxplots mit Anzeige der Datenpunkte
 #plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
 #        pointpos = -1.8) 
+
+
+roomGraphDataDayOne = loadRoomGraphByDay(1,persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
+roomGraphDataDayTwo = loadRoomGraphByDay(2,persons,trajectorieDayTwo,roomsWorldOne,roomsWorldTwo)
+roomHistDayOne = loadRoomHistByDay(1,persons,roomGraphDataDayOne,roomsWorldOne,roomsWorldTwo)
+roomHistDayTwo = loadRoomHistByDay(2,persons,roomGraphDataDayTwo,roomsWorldOne,roomsWorldTwo)
+
+
+
+
 
 
 for(vp in persons$VP){
