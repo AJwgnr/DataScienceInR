@@ -1,6 +1,4 @@
 # Include librarys for UI and SERVER
-
-# Require returns false if package is not found (https://www.r-bloggers.com/difference-between-library-and-require-in-r/)
 # Check if the packages were already installed, otherwise installs them
 if(!require('yaml')){
   install.packages('yaml')
@@ -56,8 +54,6 @@ if(!require('pracma')){
   install.packages('pracma')
 }
 
-
-
 # Load the libraries
 library('shiny')
 library('pracma')
@@ -74,14 +70,3 @@ library('DT')
 library('crosstalk')
 library('GGally')
 library('reader')
-
-
-
-# pkg: dygraphs sounds good
-# Remove or comment unused libs to avoid abigous function calls and save ram space
-# Currently unused:
-# library(rgl)
-# library(car)
-
-
-
