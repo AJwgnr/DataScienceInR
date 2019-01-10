@@ -37,6 +37,8 @@ computeRoomGraphByDay <-
 # Compute roomGraph for one single trajectorie data frame. Fitting room coordinates must be provided.
 traj2graph <- function(trajectorie, rooms) {
   # Room coordinates must be sorted along z and x1<x2,y1<y2 is forced on data loading
+  roomNames= unique(rooms[, c("id", "name")])
+  
   # Create col 'Room' to store room id for each entry in trajectory
   trajectorie$Room <-  -1
   # Create col 'RoomHeight' to store
@@ -62,11 +64,15 @@ traj2graph <- function(trajectorie, rooms) {
   }
   # Summarize into roomGraph
   trajectorie$rleid <-  rleid(trajectorie$Room)
-  return(unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, RoomType, rleid), trajectorie$rleid])[, c(2, 3, 4)]) # 0.1 sec spentd per trajectory row/timestemp
+  trajectorie <- unique(trajectorie[, list(TimeSpent = .N * 0.1, Room, RoomType, rleid), trajectorie$rleid])[, c(2, 3, 4)]
+  trajectorie <- merge(trajectorie,roomNames,by.x = "Room",by.y="id",all.x = TRUE)
+  return(trajectorie) # 0.1 sec spentd per trajectory row/timestemp
 }
 
 computeRoomHistByDay <-
   function(day, personsData, roomGraph, VR1, VR2) {
+    roomNamesVR1.0 = unique(VR1[, c("id", "name")])
+    roomNamesVR2.0 = unique(VR2[, c("id", "name")])
     roomHist <- list()
     for (vp in personsData$VP) {
       if (day == 1) {
@@ -78,9 +84,9 @@ computeRoomHistByDay <-
       }
       
       if (vr == 1 || vr == 3) {
-        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR1))
+        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR1,roomNamesVR1.0))
       } else if (vr == 2) {
-        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR2))
+        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR2,roomNamesVR2.0))
       } else{
         print("Unexpected VR provided in computeRoomHistByDay")
         return(NULL)
@@ -90,7 +96,7 @@ computeRoomHistByDay <-
   }
 
 
-roomGraph2roomHist <- function(rooms, VR) {
+roomGraph2roomHist <- function(rooms, VR, roomNames) {
   roomHist = aggregate(
     rooms[, "TimeSpent"],
     by = list(Room = rooms$Room),
@@ -105,13 +111,13 @@ roomGraph2roomHist <- function(rooms, VR) {
   roomHist = roomHist[, c(1, 2)]
   roomHist = unique(roomHist)
   roomHist[is.na(roomHist$TimeSpent), "TimeSpent"] = 0
-  
+  roomHist =merge(roomHist,roomNames,by.x = "Room",by.y="id",all.x = TRUE)
   return(roomHist)
 }
 
 
 computeRoomEntryHistogramByDay <-
-  function(day, personsData, roomGraph, VR1, VR2,vp) {
+  function(day, personsData, roomGraph, roomHist, VR1, VR2,vp) {
     if (day == 1) {
       vr = personsData[VP == vp, firstVR]
     } else if (day == 2) {
@@ -120,7 +126,7 @@ computeRoomEntryHistogramByDay <-
       print("Unexpected day provided in computeRoomHistByDay")
       return(NULL)
     }
-    entries = as.data.frame(table(roomGraph$Room))
+    entries = as.data.frame(count(roomGraph$Room))
     names(entries) = c("id", "entries")
     entries$id = as.numeric(entries$id)
     
@@ -136,5 +142,6 @@ computeRoomEntryHistogramByDay <-
 
     entries = merge(entries, roomNames, by = "id", all = TRUE)
     entries$entries[is.na(entries$entries)] = 0
+    entries = merge(entries, roomHist, by.x = "id",by.y = "Room", all.x = TRUE)
     return(entries)
   }

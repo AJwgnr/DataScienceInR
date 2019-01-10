@@ -52,6 +52,10 @@ if(!require('reader')){
   install.packages('reader')
 }
 
+if(!require('plyr')){
+  install.packages('plyr')
+}
+
 
 
 
