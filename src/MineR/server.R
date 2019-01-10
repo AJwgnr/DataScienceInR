@@ -667,7 +667,7 @@ shinyServer(function(input, output, session) {
                        ) - 1))
             
           )
-      } else{
+      } else if(input$showRoomInput_dayOne){
         print("Unexpected VR ID provided in trajectory plotting")
         print(toString(vr))
       }
@@ -740,6 +740,60 @@ shinyServer(function(input, output, session) {
         )
     }
   })
+  
+  ######################################################################################
+  # Debug traj2roomGraph
+  ######################################################################################
+  
+  # Create a printf function for formattet printing
+  printf <- function(...) cat(sprintf(...))
+  # Create symmetric diff function
+  symdiff <- function( x, y) { setdiff( union(x, y), intersect(x, y))}
+  # Print debug information of selected VP
+  observe({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    # Only day one beeing checked
+    if(length(selectedPersons)){
+    vp = personsDataTable[selectedPersons,VP]
+    vr = personsDataTable[selectedPersons,firstVR]
+    trj = trajectoryDataDayOne[[vp]]
+    graph = roomGraphDataDayOne[[vp]]
+    hist = as.data.table(roomHistDayOne[[vp]])
+    # Timings:
+    trjTime = nrow(trj)*0.1
+    graphTime = sum(graph$TimeSpent)
+    histTime = sum(hist$TimeSpent)
+    # Unentered Rooms: (depends on VR version)
+    if(vr == 1 || 3){
+      graphRoomUnvisited = symdiff(roomCoordinatesVR1.0$id,graph$Room)
+    }else if(vr == 2){
+      graphRoomUnvisited = symdiff(roomCoordinatesVR2.0$id,graph$Room)
+    }else{
+      print("abort in debug observing: wrong vr id")
+      return(NULL)
+    }
+    histRoomUnvisited = hist[hist[,TimeSpent==0],]$Room
+    histEntries = as.data.table(computeRoomEntryHistogramByDay(1,personsDataTable,graph,roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons))
+    histEntries = histEntries[histEntries[,entries==0],]$id
+    # Printing
+    printf("For Day One: \n")
+    printf("selected person id: %d vp: %d  vr: %d \n",selectedPersons, vp, vr)
+    printf("Time: trj = %4.1f rGraph = %4.1f rHist = %4.1f \n", trjTime,graphTime,histTime)
+    # Print unvisited rooms
+    printf("Rooms not entered: \n")
+    print(graphRoomUnvisited)
+    print(histRoomUnvisited)
+    print(histEntries)
+    printf("Difference roomGraph to roomHist:")
+    print(symdiff(graphRoomUnvisited,histRoomUnvisited))
+    printf("\n")
+    printf("Difference roomHist to histEntries:")
+    print(symdiff(histRoomUnvisited,histEntries))
+    printf("\n")
+    #TODO: fix histEntrie computation!
+    }
+  })
+  
   
   ######################################################################################
   # Selection cupling (not really visualization stuff..)

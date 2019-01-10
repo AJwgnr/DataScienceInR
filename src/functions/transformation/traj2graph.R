@@ -78,9 +78,9 @@ computeRoomHistByDay <-
       }
       
       if (vr == 1 || vr == 3) {
-        roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR1)
+        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR1))
       } else if (vr == 2) {
-        roomHist[[vp]] = roomGraph2roomHist(roomGraph[[vp]], VR2)
+        roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR2))
       } else{
         print("Unexpected VR provided in computeRoomHistByDay")
         return(NULL)
