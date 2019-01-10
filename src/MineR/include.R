@@ -50,6 +50,10 @@ if(!require('reader')){
   install.packages('reader')
 }
 
+if(!require('plyr')){
+  install.packages('plyr')
+}
+
 if(!require('pracma')){
   install.packages('pracma')
 }
@@ -70,3 +74,4 @@ library('DT')
 library('crosstalk')
 library('GGally')
 library('reader')
+library('plyr')

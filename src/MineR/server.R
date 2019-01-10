@@ -170,10 +170,11 @@ shinyServer(function(input, output, session) {
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     lower_z_filter = input$z_level_dayOne[1]
     upper_z_filter = input$z_level_dayOne[2]
-    trjPlotDayOne <- plot_ly()
     # get world id
     vr = personsDataTable[selectedPersons, firstVR]
+    trjPlotDayOne = NULL
     if (length(selectedPersons)) {
+      trjPlotDayOne <- plot_ly()
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
@@ -344,15 +345,15 @@ shinyServer(function(input, output, session) {
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly() 
     if (length(selectedPersons)) {
-      d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
+      d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomHistDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
       
       #TODO: debug + color code rooms seperately in traj??
       
       p <- p %>%
         add_trace(
           data = d,
-          x = ~entries,
-          y = ~id,
+          x = d$entries,
+          y = d$name,
           name = "Entries per room",
           type = "bar",
           orientation = "h"
@@ -371,7 +372,7 @@ shinyServer(function(input, output, session) {
         add_trace(
           data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
           x = ~TimeSpent,
-          y = ~Room,
+          y = ~name,
           name = "Time spent per room",
           type = "bar",
           orientation = "h"
@@ -733,7 +734,7 @@ shinyServer(function(input, output, session) {
       return(NULL)
     }
     histRoomUnvisited = hist[hist[,TimeSpent==0],]$Room
-    histEntries = as.data.table(computeRoomEntryHistogramByDay(1,personsDataTable,graph,roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons))
+    histEntries = as.data.table(computeRoomEntryHistogramByDay(1,personsDataTable,graph,hist,roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons))
     histEntries = histEntries[histEntries[,entries==0],]$id
     # Printing
     printf("For Day One: \n")
