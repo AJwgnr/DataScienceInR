@@ -646,8 +646,27 @@ ds_body = dashboardBody(tabItems(
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************
   tabItem(tabName = "clustering",
-          h1("Clustering"))
-))
+          h1("Clustering"),
+          fluidRow(
+            title = 'clustering',
+            width = 12,
+            box(
+              title = 'Description',
+              width = 12,
+              collapsible = T
+            )
+          ,
+            box(
+              title = 'Clustering results',
+              width = 12,
+              collapsible = T
+            ),
+          box(
+            title = 'Clustering analysis',
+            width = 12,
+            collapsible = T
+          ))
+)))
 
 ################################################################################
 ### DashboardPage: (must be last)
