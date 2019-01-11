@@ -330,20 +330,20 @@ ds_body = dashboardBody(tabItems(
             dropdownButton(
               tags$h3("List of Input"),
               sliderInput(
-                "colorInput_dayOne",
+                "colorInput",
                 "Select time intervall",
                 min = 0,
                 max = 100,
                 value = c(0, 100)
               ),
               sliderInput(
-                "z_level_dayOne",
+                "z_level",
                 "Select z intervall for plotting",
                 min = -6,
                 max = 35,
                 value = c(-6, 35)
               ),
-              checkboxInput("showRoomInput_dayOne", "Show rooms", value = FALSE),
+              checkboxInput("showRoomInput", "Show rooms", value = FALSE),
               circle = TRUE,
               status = "primary",
               icon = icon("gear"),
@@ -358,8 +358,16 @@ ds_body = dashboardBody(tabItems(
           title = "Second Day",
           side = "right",
           selected = "Trajectory",
-          tabPanel("Rooms entered", "Times room entered"),
-          tabPanel("Time per room", "Time spent per room"),
+          tabPanel(
+            "Rooms entered",
+            "Times room entered",
+            plotlyOutput("gx_roomEntriesBarDayTwo")
+          ),
+          tabPanel(
+            "Time per room",
+            "Time spent per room",
+            plotlyOutput("gx_roomHistBarDayTwo")
+          ),
           tabPanel(
             "Trajectory",
             plotlyOutput("gx_3d_trajectoryDayTwo"),

@@ -168,8 +168,8 @@ shinyServer(function(input, output, session) {
   ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
-    lower_z_filter = input$z_level_dayOne[1]
-    upper_z_filter = input$z_level_dayOne[2]
+    lower_z_filter = input$z_level[1]
+    upper_z_filter = input$z_level[2]
     # get world id
     vr = personsDataTable[selectedPersons, firstVR]
     trjPlotDayOne = NULL
@@ -180,8 +180,8 @@ shinyServer(function(input, output, session) {
       z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
       # create colorscale
       n = nrow(z_filtered_traj)
-      sRl = input$colorInput_dayOne[1]
-      sRh = input$colorInput_dayOne[2]
+      sRl = input$colorInput[1]
+      sRh = input$colorInput[2]
       leadingZeros = floor((sRl / 100) * n)
       trailingZeros = n - floor((sRh / 100) * n)
       shade = c(
@@ -205,7 +205,7 @@ shinyServer(function(input, output, session) {
         ),
         mode = 'lines'
       )
-      if ((vr == 1 || vr == 3) && input$showRoomInput_dayOne ) {
+      if ((vr == 1 || vr == 3) && input$showRoomInput ) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[,(z>lower_z_filter & z<upper_z_filter)],]
         trjPlotDayOne <- trjPlotDayOne %>%
@@ -255,7 +255,7 @@ shinyServer(function(input, output, session) {
                        ) - 1))
           )
         
-      } else if ((vr == 2) && input$showRoomInput_dayOne) {
+      } else if ((vr == 2) && input$showRoomInput) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[,(z>lower_z_filter & z<upper_z_filter)],]
         
@@ -306,7 +306,7 @@ shinyServer(function(input, output, session) {
                        ) - 1))
             
           )
-      } else if(input$showRoomInput_dayOne){
+      } else if(input$showRoomInput){
         print("Unexpected VR ID provided in trajectory plotting")
         print(toString(vr))
       }
@@ -317,23 +317,150 @@ shinyServer(function(input, output, session) {
   
   output$gx_3d_trajectoryDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    lower_z_filter = input$z_level[1]
+    upper_z_filter = input$z_level[2]
+    # get world id
+    vr = personsDataTable[selectedPersons, VE_Day2]
+    trjPlotDayTwo = NULL
     if (length(selectedPersons)) {
-      # TODO: highligth room geometry, fix aspec ratio, colorcode time, provide slider input
-      plot_ly() %>% add_trace(
-        data = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]],
+      trjPlotDayTwo <- plot_ly()
+      # adapt for z sliding
+      z_filtered_traj = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]]
+      z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
+      # create colorscale
+      n = nrow(z_filtered_traj)
+      sRl = input$colorInput[1]
+      sRh = input$colorInput[2]
+      leadingZeros = floor((sRl / 100) * n)
+      trailingZeros = n - floor((sRh / 100) * n)
+      shade = c(
+        array(0, leadingZeros),
+        seq(0, n, length.out = n - leadingZeros - trailingZeros),
+        array(0, trailingZeros)
+      )
+      trjPlotDayTwo <- trjPlotDayTwo %>% add_trace(
+        data = z_filtered_traj,
         type = "scatter3d",
         x = ~ x,
         y = ~ y,
         z = ~ z,
         line = list(
           width = 6,
-          color = ~ z,
-          reverscale = FALSE
+          color = shade,
+          reverscale = FALSE,
+          colorbar = list(title = 'Colorbar for lines'),
+          showlegend = TRUE,
+          colorscale = 'Viridis'
         ),
         mode = 'lines'
       )
+      if ((vr == 1 || vr == 3) && input$showRoomInput) {
+        # z selection must be done here
+        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        trjPlotDayTwo <- trjPlotDayTwo %>%
+          add_trace(
+            data = VR1coordinates,
+            type = "mesh3d",
+            opacity = 0.30,
+            x = c(
+              VR1coordinates$x1,
+              VR1coordinates$x2,
+              VR1coordinates$x1,
+              VR1coordinates$x2
+            ),
+            y = c(
+              VR1coordinates$y1,
+              VR1coordinates$y1,
+              VR1coordinates$y2,
+              VR1coordinates$y2
+            ),
+            z = c(
+              VR1coordinates$z,
+              VR1coordinates$z,
+              VR1coordinates$z,
+              VR1coordinates$z
+            ),
+            i = c(0:(nrow(
+              VR1coordinates
+            ) - 1), 0:(nrow(
+              VR1coordinates
+            ) -
+              1)),
+            j = c(
+              nrow(VR1coordinates):(2 * nrow(VR1coordinates) - 1),
+              (2 *
+                 nrow(VR1coordinates)):(3 * nrow(VR1coordinates) -
+                                          1)
+            ),
+            k = c((3 * nrow(
+              VR1coordinates
+            )):(4 * nrow(
+              VR1coordinates
+            ) - 1), (3 *
+                       nrow(
+                         VR1coordinates
+                       )):(4 * nrow(
+                         VR1coordinates
+                       ) - 1))
+          )
+        
+      } else if ((vr == 2) && input$showRoomInput) {
+        # z selection must be done here to work
+        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        
+        trjPlotDayTwo <- trjPlotDayTwo %>%
+          add_trace(
+            data = VR2coordinates,
+            type = "mesh3d",
+            opacity = 0.30,
+            x = c(
+              VR2coordinates$x1,
+              VR2coordinates$x2,
+              VR2coordinates$x1,
+              VR2coordinates$x2
+            ),
+            y = c(
+              VR2coordinates$y1,
+              VR2coordinates$y1,
+              VR2coordinates$y2,
+              VR2coordinates$y2
+            ),
+            z = c(
+              VR2coordinates$z,
+              VR2coordinates$z,
+              VR2coordinates$z,
+              VR2coordinates$z
+            ),
+            i = c(0:(nrow(
+              VR2coordinates
+            ) - 1), 0:(nrow(
+              VR2coordinates
+            ) -
+              1)),
+            j = c(
+              nrow(VR2coordinates):(2 * nrow(VR2coordinates) - 1),
+              (2 *
+                 nrow(VR2coordinates)):(3 * nrow(VR2coordinates) -
+                                          1)
+            ),
+            k = c((3 * nrow(
+              VR2coordinates
+            )):(4 * nrow(
+              VR2coordinates
+            ) - 1), (3 *
+                       nrow(
+                         VR2coordinates
+                       )):(4 * nrow(
+                         VR2coordinates
+                       ) - 1))
+            
+          )
+      } else if(input$showRoomInput){
+        print("Unexpected VR ID provided in trajectory plotting day two")
+        print(toString(vr))
+      }
     }
-    
+    trjPlotDayTwo
   })
   
   
@@ -357,6 +484,22 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  output$gx_roomEntriesBarDayTwo <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    p <- plot_ly() 
+    if (length(selectedPersons)) {
+      p <- p %>%
+        add_trace(
+          data = roomHistDayTwo[[personsDataTable[selectedPersons,VP]]],
+          x = ~Entries,
+          y = ~Name,
+          name = "Entries per room",
+          type = "bar",
+          orientation = "h"
+        )
+    }
+  })
+  
   ######################################################################################
   # Time Spent per Room bar charts
   ######################################################################################
@@ -367,6 +510,22 @@ shinyServer(function(input, output, session) {
       p <- p %>%
         add_trace(
           data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
+          x = ~TimeSpent,
+          y = ~Name,
+          name = "Time spent per room",
+          type = "bar",
+          orientation = "h"
+        )
+    }
+  })
+  
+  output$gx_roomHistBarDayTwo <- renderPlotly({
+    selectedPersons = input$gx_DT_personsDataTable_rows_selected
+    p <- plot_ly() 
+    if (length(selectedPersons)) {
+      p <- p %>%
+        add_trace(
+          data = roomHistDayTwo[[personsDataTable[selectedPersons, VP]]],
           x = ~TimeSpent,
           y = ~Name,
           name = "Time spent per room",
