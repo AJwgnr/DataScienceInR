@@ -33,16 +33,15 @@ shinyServer(function(input, output, session) {
   roomHistWorldTwoList <- append(roomHistDayOne[personsDataTable[personsDataTable[,firstVR==2], VP]] ,roomHistDayTwo[personsDataTable[personsDataTable[,VE_Day2==2], VP]])
   roomHistWorldThreeList <- append(roomHistDayOne[personsDataTable[personsDataTable[,firstVR==3], VP]] ,roomHistDayTwo[personsDataTable[personsDataTable[,VE_Day2==3], VP]])
   
-  worldOneAggregated <- do.call('rbind',roomHistWorldOneList)
-  worldTwoAggregated <- do.call('rbind',roomHistWorldTwoList)
-  worldThreeAggregated <- do.call('rbind',roomHistWorldThreeList)
+  # Adds all trajectories from one world together
+  worldOne <- do.call('rbind',roomHistWorldOneList)
+  worldTwo <- do.call('rbind',roomHistWorldTwoList)
+  worldThree <- do.call('rbind',roomHistWorldThreeList)
   
-  worldOneAggregated <- worldOneAggregated[, (TimeSpent = sum(TimeSpent)), by = ID]
-  worldTwoAggregated <- worldTwoAggregated[, (TimeSpent = sum(TimeSpent)), by = ID]
-  worldThreeAggregated <- worldThreeAggregated[, (TimeSpent = sum(TimeSpent)), by = ID]
-  
-  
-  
+  # Aggregates all trajectories based on the ID (calculates SpentTime)
+  worldOneAggregatedRooms <- worldOne[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
+  worldTwoAggregatedRooms <- worldTwo[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
+  worldThreeAggregatedRooms <- worldThree[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
   
   
   # Filter persons data table for adhd childs and the control group
