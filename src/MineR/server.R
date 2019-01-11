@@ -152,6 +152,22 @@ shinyServer(function(input, output, session) {
       selection = "single"
     )
   
+  ######################################################################################
+  # Regression
+  ######################################################################################
+  
+  output$gx_regression <- renderPlotly({
+    d = personsDataTable[,c("Age","Sex")]
+    dx = personsDataTable[,c("Age")]
+    dy = personsDataTable[,c("Sex")]
+    plot_ly(data = d) %>% add_markers(x=dx,y=dy)
+    })
+  
+  ######################################################################################
+  # SPLOM
+  ######################################################################################
+  
+  
   # Create scatterplot matrix from persons Data tabui
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
