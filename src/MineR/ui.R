@@ -298,7 +298,18 @@ ds_body = dashboardBody(tabItems(
         tabPanel(
           "Correlation",
           h2(width = 12, "Correlation of attributes"),
-          width = 12
+          width = 12,
+          pickerInput(
+            inputId = "id_pickerInputRegression",
+            label = "Select columns to display:",
+            choices = columChoicesPersonsTable[-1],
+            multiple = TRUE,
+            options = pickerOptions(
+              maxOptions = 2
+            ),
+            selected = columChoicesPersonsTable[2:3]
+          ),
+          plotlyOutput("gx_regression")
         )
       )
     ),
@@ -371,14 +382,7 @@ ds_body = dashboardBody(tabItems(
           tabPanel(
             "Trajectory",
             plotlyOutput("gx_3d_trajectoryDayTwo"),
-            verbatimTextOutput("value"),
-            sliderInput(
-              "colorInput_dayTwo",
-              "Select time intervall",
-              min = 0,
-              max = 100,
-              value = c(0, 100)
-            )
+            verbatimTextOutput("value")
           )
         )
       )
