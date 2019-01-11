@@ -7,35 +7,31 @@ source("../../src/functions/data/datapreprocessing.R")
 source("../../src/functions/transformation/traj2graph.R")
 source("../../src/functions/visualization/datavisualization.R")
 
-
-#Raw datasets loaded from the csv
-persons = loadPersonsDataset()
-#trajectorie <- loadCompleteTrajectorieDataset()
-roomsWorldOne <- loadRoomsDefinitionWorld(1)
-roomsWorldTwo <- loadRoomsDefinitionWorld(2)
-trajectorieDayOne <- loadTrajectoryByDay(1)
-trajectorieDayTwo <- loadTrajectoryByDay(2)
-##singleTRajectorie = loadTrajectorieByPersonIDAndDay(2,2)
-
-#roomGraphDayOne <- computeRoomGraphDayOne(persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
-#Funktioniert nocht nictht!
-#roomGraphDayTwo <- computeRoomGraphDayTwo(persons,trajectorieDayTwo,roomsWorldOne,roomsWorldTwo)
-
-# Beispiel für die Generierung eines Boxplots mit Anzeige der Datenpunkte
-#plot_ly(y = roomGraphDayOne[[14]]$TimeSpent, type = "box", boxpoints = "all", jitter = 0.3,
-#        pointpos = -1.8) 
-
-
-roomGraphDataDayOne = loadRoomGraphByDay(1,persons,trajectorieDayOne,roomsWorldOne,roomsWorldTwo)
-roomGraphDataDayTwo = loadRoomGraphByDay(2,persons,trajectorieDayTwo,roomsWorldOne,roomsWorldTwo)
-roomHistDayOne = loadRoomHistByDay(1,persons,roomGraphDataDayOne,roomsWorldOne,roomsWorldTwo)
-roomHistDayTwo = loadRoomHistByDay(2,persons,roomGraphDataDayTwo,roomsWorldOne,roomsWorldTwo)
+  # Load all stored person data
+  personsDataTable <- loadPersonsDataset()
+  
+  # Load trajectorie data for day one and day two into a key value like list
+  trajectoryDataDayOne = loadTrajectoryByDay(1)
+  trajectoryDataDayTwo = loadTrajectoryByDay(2)
+  
+  # Load room coordinates of the virtual worlds
+  roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
+  roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
+  
+  # Precomputes the visited rooms and also the spent time for each day for each trajectorie using a csv. file where the "rooms" of the worlds are provided
+  # Creates a histogram of the visited rooms/with spent time for each day for each trajectorie
+  roomGraphDataDayOne = loadRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayTwo = loadRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomHistDayOne = loadRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomHistDayTwo = loadRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
 
 
 
 
 
 
+
+'
 for(vp in persons$VP){
   trajec <- trajectorieDayOne[[vp]]
   trajec$vectorX <- (trajec$x[-1] - trajec$x)
@@ -54,7 +50,7 @@ for(vp in persons$VP){
   
   trajectorieDayOne[[vp]] <- trajec
 
-}
+}'
 
 
 
@@ -124,14 +120,7 @@ for(vp in persons$VP){
 
   
 
-#TODO plot information about the dataset
-#createSimpleDataOverview(persons)
-# Preprocessed person dataset (Describe Preprocessing here!!!)
-#preprocessed_persons = preprocessedPersonData(persons)
-#createSimpleDataOverview(preprocessed_persons)
-#TODO plot information about the preprocessed dataset
-#createSimpleDataOverview(preprocessed_persons)
-#TODO: Build Features from Treajectories
+
 
 
 
