@@ -14,19 +14,23 @@ shinyServer(function(input, output, session) {
   personsDataTable <- loadPersonsDataset()
   
   # Load trajectorie data for day one and day two into a key value like list
-  trajectoryDataDayOne = loadTrajectoryByDay(1)
-  trajectoryDataDayTwo = loadTrajectoryByDay(2)
+  trajectoryDataDayOne <-  loadTrajectoryByDay(1)
+  trajectoryDataDayTwo <-  loadTrajectoryByDay(2)
   
   # Load room coordinates of the virtual worlds
-  roomCoordinatesVR1.0 = loadRoomsDefinitionWorld(1)
-  roomCoordinatesVR2.0 = loadRoomsDefinitionWorld(2)
+  roomCoordinatesVR1.0 <-  loadRoomsDefinitionWorld(1)
+  roomCoordinatesVR2.0 <-  loadRoomsDefinitionWorld(2)
   
   # Precomputes the visited rooms and also the spent time for each day for each trajectorie using a csv. file where the "rooms" of the worlds are provided
   # Creates a histogram of the visited rooms/with spent time for each day for each trajectorie
-  roomGraphDataDayOne = loadRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomGraphDataDayTwo = loadRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomHistDayOne = loadRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomHistDayTwo = loadRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayOne <-  loadRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayTwo <-  loadRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomHistDayOne <-  loadRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomHistDayTwo <-  loadRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  
+  
+  #roomHistWorldOne
+  
   
   # Filter persons data table for adhd childs and the control group
   adhdChildren <-

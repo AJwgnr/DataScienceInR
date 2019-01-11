@@ -24,8 +24,12 @@ source("../../src/functions/visualization/datavisualization.R")
   roomGraphDataDayTwo = loadRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   roomHistDayOne = loadRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
   roomHistDayTwo = loadRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  
 
-
+  
+  #listWorldMansion <-  
+  #listWorldPirateBay <- 
+  #listWorldMansionColored <- 
 
 
 
