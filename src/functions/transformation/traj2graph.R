@@ -70,10 +70,14 @@ traj2graph <- function(trajectorie, rooms) {
   return(trajectorie) # 0.1 sec spentd per trajectory row/timestemp
 }
 
+# Create list containing data.table with ID, Name and TimeSpent per Room (person wise)
 computeRoomHistByDay <-
   function(day, personsData, roomGraph, VR1, VR2) {
     roomNamesVR1.0 = unique(VR1[, c("id", "name")])
     roomNamesVR2.0 = unique(VR2[, c("id", "name")])
+    names(roomNamesVR1.0) = c("ID","Name")
+    names(roomNamesVR2.0) = c("ID","Name")
+    
     roomHist <- list()
     for (vp in personsData$VP) {
       if (day == 1) {
@@ -96,53 +100,62 @@ computeRoomHistByDay <-
     return(roomHist)
   }
 
-
-roomGraph2roomHist <- function(rooms, VR, roomNames) {
+# Convert roomGraph into roomHist containg the ID, Name and TimeSpent for every room
+roomGraph2roomHist <- function(roomGraph, VR, roomNames) {
   roomHist = aggregate(
-    rooms[, "TimeSpent"],
-    by = list(Room = rooms$Room),
+    roomGraph[, "TimeSpent"],
+    by = list(Room = roomGraph$Room),
     FUN = sum,
     drop = FALSE
   )
+  
   roomHist = merge(roomHist,
                    VR,
                    by.x = "Room",
                    by.y = "id",
                    all.y = TRUE)
+  
   roomHist = roomHist[, c(1, 2)]
   roomHist = unique(roomHist)
   roomHist[is.na(roomHist$TimeSpent), "TimeSpent"] = 0
-  roomHist =merge(roomHist,roomNames,by.x = "Room",by.y="id",all.x = TRUE)
+  roomHist =merge(roomHist,roomNames,by.x = "Room",by.y="ID",all.x = TRUE)
   return(roomHist)
 }
 
-
+# Compute list of data.tables containing Id, Name, TimeSpent and Entries per Room (person wise)
 computeRoomEntryHistogramByDay <-
-  function(day, personsData, roomGraph, roomHist, VR1, VR2,vp) {
-    if (day == 1) {
-      vr = personsData[VP == vp, firstVR]
-    } else if (day == 2) {
-      vr = personsData[VP == vp, VE_Day2]
-    } else{
-      print("Unexpected day provided in computeRoomHistByDay")
-      return(NULL)
+  function(day, personsData, roomGraph, roomHist, VR1, VR2) {
+    roomEntryHist <- list()
+    for (vp in personsData$VP) {
+      if (day == 1) {
+        vr = personsData[VP == vp, firstVR]
+      } else if (day == 2) {
+        vr = personsData[VP == vp, VE_Day2]
+      } else{
+        print("Unexpected day provided in computeRoomHistByDay")
+      }
+      
+      if (vr == 1 || vr == 3) {
+        roomEntryHist[[vp]] = as.data.table(roomHist2roomEntry(roomGraph[[vp]],roomHist[[vp]]))
+      } else if (vr == 2) {
+        roomEntryHist[[vp]] = as.data.table(roomHist2roomEntry(roomGraph[[vp]],roomHist[[vp]]))
+      } else{
+        print("Unexpected VR provided in computeRoomHistByDay")
+        return(NULL)
+      }
     }
-    entries = as.data.frame(count(roomGraph$Room))
-    names(entries) = c("id", "entries")
-    entries$id = as.numeric(entries$id)
-    
-    if(vr == 1 || vr == 3){
-      roomNames = unique(VR1[, c("id", "name")])
-    }else if(vr ==2){
-      roomNames = unique(VR2[, c("id", "name")])
-    }else{
-      print("Unexpected day provided in computeRoomEntryHistogramByDay")
-      return(NULL)
-    }
-    
+    return(roomEntryHist)
+  }
 
-    entries = merge(entries, roomNames, by = "id", all = TRUE)
-    entries$entries[is.na(entries$entries)] = 0
-    entries = merge(entries, roomHist, by.x = "id",by.y = "Room", all.x = TRUE)
+# Compute number of entries per room
+roomHist2roomEntry <-
+  function(roomGraph, roomHist) {
+    # Count number of visits of each room
+    entries = as.data.frame(count(roomGraph$Room))
+    names(entries) = c("ID", "Entries")
+    
+    # Merge with roomHist to create table containing Id, Name, TimeSpent and Entries
+    entries = merge(entries, roomHist, by.x = "ID",by.y = "Room", all = TRUE)
+    entries$Entries[is.na(entries$Entries)] = 0
     return(entries)
   }

@@ -345,9 +345,7 @@ shinyServer(function(input, output, session) {
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly() 
     if (length(selectedPersons)) {
-      d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomHistDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
-      
-      #TODO: debug + color code rooms seperately in traj??
+      d = roomHistDayOne
       
       p <- p %>%
         add_trace(
