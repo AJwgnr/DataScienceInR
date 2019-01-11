@@ -145,7 +145,7 @@ computeRoomEntryHistogramByDay <-
       }
     }
     return(roomEntryHist)
-  }
+ } 
 
 # Compute number of entries per room
 roomHist2roomEntry <-
