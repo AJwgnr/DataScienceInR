@@ -170,10 +170,16 @@ shinyServer(function(input, output, session) {
   ######################################################################################
   
   output$gx_regression <- renderPlotly({
-    d = personsDataTable[,c("Age","Sex")]
-    dx = personsDataTable[,c("Age")]
-    dy = personsDataTable[,c("Sex")]
-    plot_ly(data = d) %>% add_markers(x=dx,y=dy)
+    # Problem: input is char
+    p <- plot_ly()
+    if(length(input$id_pickerInputRegression)==2){
+    firstAttribute = as.integer(input$id_pickerInputRegression[1])
+    secondAttribute = as.integer(input$id_pickerInputRegression[2])
+    d = personsDataTable[,c(..firstAttribute,..secondAttribute)]
+    names(d) = c("first","second")
+    fit = lm(d)
+    p <- p %>% add_markers(data=d,x=~second,y=~first)%>%add_lines(x=~second,y=fitted(fit))
+    p}
     })
   
   ######################################################################################
