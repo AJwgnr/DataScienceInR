@@ -8,13 +8,13 @@ CSV_ROOM_WORLD_TWO_COORDINATE_PATH <-
   ("../../res/SortedRooms_V2.0.csv")
 
 
-# Loads the dataset containing all persons attributes into a data table
+# Loads and returns the dataset containing all persons attributes into a data table
 loadPersonsDataset <- function() {
   persons <- as.data.table(read_excel(CSV_PERSONS_FOLDER_PATH))
   return(persons)
 }
 
-# Loads a dataframe which contains the coordinates of the rooms in the minecraft world one
+# Loads a dataframe which contains the coordinates of the rooms in the minecraft world
 loadRoomsDefinitionWorld <- function(world_id) {
   if (world_id == 1) {
     rooms <- fread(CSV_ROOM_WORLD_ONE_COORDINATE_PATH)
@@ -45,7 +45,7 @@ loadRoomsDefinitionWorld <- function(world_id) {
   rooms[, y2 := -y2]
   
   # Sort room coordinates : x1<x2,y1<y2
-  # Room coordinates MUST be presorted by z to work correctly with traj2graph!
+  # Room coordinates MUST be presorted by z to work correctly with the functions in traj2graph!
   for (row in 1:nrow(rooms)) {
     xx1 <- rooms[row, 2]
     xx2 <- rooms[row, 4]
@@ -55,32 +55,31 @@ loadRoomsDefinitionWorld <- function(world_id) {
       rooms[row, 2] <- xx2
       rooms[row, 4] <- xx1
     }
-    
     if (yy1 > yy2) {
       rooms[row, 3] <- yy2
       rooms[row, 5] <- yy1
     }
   }
-  
   return(rooms)
 }
 
 
 
 # Loads all .csv files contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
-# Returns a list of data tables of the csv files
+# Returns a list of data tables of csv files
 loadCompleteTrajectorieDataset <- function() {
+  # filenames of the .csv files in the CSV_TRAJECTORIES_FOLDER_PATH directory
   fileNames <-
     list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
                pattern = ".csv",
                full.names = TRUE)
   
-  ## Read data using fread
+  # Read data using fread
   readdata <- function(fn) {
     dt_temp <- fread(fn, sep = ",")
     return(dt_temp)
   }
-  ## List containing all data tables
+  # List containing all data tables
   mylist <- lapply(fileNames, readdata)
   return(mylist)
 }
@@ -91,7 +90,8 @@ loadTrajectoryByDay <- function(day) {
     list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
                pattern = ".csv",
                full.names = TRUE)
-  # Filter files by day
+  # Filter files by the provided day variable
+  if((day==1 |day==2)){
   fileNames <-
     fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag", day, "_neu.csv", sep =
                             ""),
@@ -109,49 +109,14 @@ loadTrajectoryByDay <- function(day) {
     # maybe names(mylist) <- c(VP1..VPi..VPn) is more robust/faster?
   }
   return(trajectoryData)
+  }else{
+    # There was a wrong day provided
+    print('Wrong day provided. Only "1" and "2" possible!')
+    return(NULL)
+  }
 }
 
-
-loadTrajectorieByPersonIDAndDay <- function(id, day) {
-  fileNamesList <-
-    list.files(path = CSV_TRAJECTORIES_FOLDER_PATH,
-               pattern = ".csv",
-               full.names = TRUE)
-  trajectory <- loadCompleteTrajectorieDataset()
-  
-  if (id == 0 || day == 0) {
-    return()
-  }
-  
-  if (day == 1) {
-    index <- ((id * 2) - 1)
-  } else if (day == 2) {
-    index <- (id * 2)
-  }
-  else{
-    print('Wrong day provided')
-  }
-  fileName <- fileNamesList[[index]]
-  
-  if (nchar(id) == 1) {
-    id = paste('0', id, sep = "")
-  }
-  
-  idToCheck <- (paste('VP', id, sep = ""))
-  dayToCheck <- (paste('Tag', day, sep = ""))
-  
-  
-  if (grepl(idToCheck, fileName) & grepl(dayToCheck, fileName)) {
-    trajectoryFileForIDandDay = trajectory[[index]]
-    
-  } else{
-    print('ID and date entered doesn´t correspond to the filename of the csv')
-  }
-  
-  return(trajectoryFileForIDandDay)
-}
-
-# Function to precompute data only once and load it from storage every secutive run
+# Function to precompute room graph data only once and load it from storage every secutive run
 loadRoomGraphByDay <-
   function(day,
            personsDataTable,
@@ -187,7 +152,7 @@ loadRoomGraphByDay <-
     return(roomGraph)
   }
 
-# Function to precompute data only once and load it from storage every secutive run
+# Function to precompute room histogram data only once and load it from storage every secutive run
 loadRoomHistByDay <-
   function(day, personsDataTable, roomGraph, VR1, VR2) {
     if(day==1){
@@ -218,5 +183,3 @@ loadRoomHistByDay <-
     
     return(roomHist)
   }
-
-#trajec <- c(loadTrajectorieByPersonIDAndDay(1,1),loadTrajectorieByPersonIDAndDay(11,2),loadTrajectorieByPersonIDAndDay(03,2))

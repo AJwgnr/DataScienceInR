@@ -13,7 +13,7 @@ shinyServer(function(input, output, session) {
   # Load all stored person data
   personsDataTable <- loadPersonsDataset()
   
-  # Load trajectorie data for day one into key value like list
+  # Load trajectorie data for day one and day two into a key value like list
   trajectoryDataDayOne = loadTrajectoryByDay(1)
   trajectoryDataDayTwo = loadTrajectoryByDay(2)
   
