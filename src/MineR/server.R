@@ -649,7 +649,7 @@ shinyServer(function(input, output, session) {
       pointpos = -1.8
     ) %>%
       add_trace(y = controlGroup$TP_DirectRecall  , name = 'Control TP_Direct ') %>%
-      add_trace(y = controlGroup$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
+      add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
       add_trace(y = controlGroup$TP_DelayedRecall, name =
                   'Control TP_Delayed')
     
