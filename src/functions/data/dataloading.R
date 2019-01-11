@@ -139,7 +139,7 @@ loadRoomGraphByDay <-
       # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if(find.file('roomGraphDayTwo.rds',"../../res/precomputed_data/")==""){
         print("Precomputing roomGraphDayTwo")
-        roomGraph <- computeRoomGraphByDay(1,personsDataTable,trajectoryData,VR1,VR2)
+        roomGraph <- computeRoomGraphByDay(2,personsDataTable,trajectoryData,VR1,VR2)
         saveRDS(roomGraph,file='../../res/precomputed_data/roomGraphDayTwo.rds')
       }else{
         print("Loading previously computed roomGraphDayTwo")
@@ -161,6 +161,7 @@ loadRoomHistByDay <-
       if(find.file('roomHistDayOne.rds',"../../res/precomputed_data/")==""){
         print("Precomputing roomHistDayOne")
         roomHist <- computeRoomHistByDay(1,personsDataTable,roomGraph,VR1,VR2)
+        roomHist <- computeRoomEntryHistogramByDay(1,personsDataTable,roomGraph,roomHist,VR1,VR2)
         saveRDS(roomHist,file='../../res/precomputed_data/roomHistDayOne.rds')
       }else{
         print("Loading previously computed roomHistDayOne")
@@ -171,7 +172,8 @@ loadRoomHistByDay <-
       # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if(find.file('roomHistDayTwo.rds',"../../res/precomputed_data/")==""){
         print("Precomputing roomHistDayTwo")
-        roomHist <- computeRoomHistByDay(1,personsDataTable,roomGraph,VR1,VR2)
+        roomHist <- computeRoomHistByDay(2,personsDataTable,roomGraph,VR1,VR2)
+        roomHist <- computeRoomEntryHistogramByDay(2,personsDataTable,roomGraph,roomHist,VR1,VR2)
         saveRDS(roomHist,file='../../res/precomputed_data/roomHistDayTwo.rds')
       }else{
         print("Loading previously roomHistDayTwo")

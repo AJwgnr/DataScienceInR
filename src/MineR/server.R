@@ -345,15 +345,11 @@ shinyServer(function(input, output, session) {
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly() 
     if (length(selectedPersons)) {
-      d = computeRoomEntryHistogramByDay(1,personsDataTable,roomGraphDataDayOne[[personsDataTable[selectedPersons, VP]]],roomHistDayOne[[personsDataTable[selectedPersons, VP]]],roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons)
-      
-      #TODO: debug + color code rooms seperately in traj??
-      
       p <- p %>%
         add_trace(
-          data = d,
-          x = d$entries,
-          y = d$name,
+          data = roomHistDayOne[[personsDataTable[selectedPersons,VP]]],
+          x = ~Entries,
+          y = ~Name,
           name = "Entries per room",
           type = "bar",
           orientation = "h"
@@ -372,7 +368,7 @@ shinyServer(function(input, output, session) {
         add_trace(
           data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
           x = ~TimeSpent,
-          y = ~name,
+          y = ~Name,
           name = "Time spent per room",
           type = "bar",
           orientation = "h"
@@ -719,7 +715,7 @@ shinyServer(function(input, output, session) {
     vr = personsDataTable[selectedPersons,firstVR]
     trj = trajectoryDataDayOne[[vp]]
     graph = roomGraphDataDayOne[[vp]]
-    hist = as.data.table(roomHistDayOne[[vp]])
+    hist = roomHistDayOne[[vp]]
     # Timings:
     trjTime = nrow(trj)*0.1
     graphTime = sum(graph$TimeSpent)
@@ -734,8 +730,7 @@ shinyServer(function(input, output, session) {
       return(NULL)
     }
     histRoomUnvisited = hist[hist[,TimeSpent==0],]$Room
-    histEntries = as.data.table(computeRoomEntryHistogramByDay(1,personsDataTable,graph,hist,roomCoordinatesVR1.0,roomCoordinatesVR2.0,selectedPersons))
-    histEntries = histEntries[histEntries[,entries==0],]$id
+    entryRoomUnvisited = hist[hist[,Entries==0],]$Room
     # Printing
     printf("For Day One: \n")
     printf("selected person id: %d vp: %d  vr: %d \n",selectedPersons, vp, vr)
@@ -744,14 +739,13 @@ shinyServer(function(input, output, session) {
     printf("Rooms not entered: \n")
     print(graphRoomUnvisited)
     print(histRoomUnvisited)
-    print(histEntries)
+    print(entryRoomUnvisited)
     printf("Difference roomGraph to roomHist:")
     print(symdiff(graphRoomUnvisited,histRoomUnvisited))
     printf("\n")
     printf("Difference roomHist to histEntries:")
-    print(symdiff(histRoomUnvisited,histEntries))
+    print(symdiff(histRoomUnvisited,entryRoomUnvisited))
     printf("\n")
-    #TODO: fix histEntrie computation!
     }
   })
   
