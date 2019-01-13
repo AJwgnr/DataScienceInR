@@ -160,6 +160,7 @@ The table data will be displayed separately using a scatter plot matrix to allow
 ### 3.1.1 Data structure
 - Describe how we load the data here
 - how we are accessing it
+- precalculating of room graph
 
 
 ### 3.1.2 Data preprocessing

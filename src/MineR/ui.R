@@ -399,10 +399,10 @@ ds_body = dashboardBody(tabItems(
                     plotlyOutput('boxplotWorldOne')),
                 box(title = "Mansion altered",
                     status = "primary",
-                    plotlyOutput('boxplotWorldTwo')),
+                    plotlyOutput('boxplotWorldThree')),
                 box(title = "Pirate ship",
                     status = "primary",
-                    plotlyOutput('boxplotWorldThree')))))
+                    plotlyOutput('boxplotWorldTwo')))))
                        
   ),
   
