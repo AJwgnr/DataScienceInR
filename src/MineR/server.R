@@ -169,16 +169,10 @@ shinyServer(function(input, output, session) {
   ######################################################################################
   
   output$gx_regression <- renderPlotly({
-    # Problem: input is char
-    p <- plot_ly()
-    if(length(input$id_pickerInputRegression)==2){
-    firstAttribute = as.integer(input$id_pickerInputRegression[1])
-    secondAttribute = as.integer(input$id_pickerInputRegression[2])
-    d = personsDataTable[,c(..firstAttribute,..secondAttribute)]
-    names(d) = c("first","second")
-    fit = lm(d)
-    p <- p %>% add_markers(data=d,x=~second,y=~first)%>%add_lines(x=~second,y=fitted(fit))
-    p}
+    d = personsDataTable[,c("Age","Sex")]
+    dx = personsDataTable[,c("Age")]
+    dy = personsDataTable[,c("Sex")]
+    plot_ly(data = d) %>% add_markers(x=dx,y=dy)
     })
   
   ######################################################################################
@@ -572,6 +566,39 @@ shinyServer(function(input, output, session) {
         )
     }
   })
+  
+  
+  
+  output$boxplotWorldOne <- renderPlotly({
+    plot_ly(
+      y = worldOneAggregatedRooms$TimeSpent,
+      name = ' 3',
+      type = 'box',
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    ) })
+  
+  output$boxplotWorldTwo <- renderPlotly({
+    plot_ly(
+      y = worldTwoAggregatedRooms$TimeSpent,
+      name = '2',
+      type = 'box',
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    ) })
+  
+  
+  output$boxplotWorldThree <- renderPlotly({
+    plot_ly(
+      y = worldThreeAggregatedRooms$TimeSpent,
+      name = '1',
+      type = 'box',
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    ) })
   
   ###****************************************************************************************************************************************************************
   ### Page 3: Experiment description and videos of the different Minecraft worlds
