@@ -572,7 +572,7 @@ shinyServer(function(input, output, session) {
   output$boxplotWorldOne <- renderPlotly({
     plot_ly(
       y = worldOneAggregatedRooms$TimeSpent,
-      name = ' 3',
+      name = 'Average Time spent in rooms: Mansion',
       type = 'box',
       boxpoints = 'all',
       jitter = 0.3,
@@ -582,7 +582,7 @@ shinyServer(function(input, output, session) {
   output$boxplotWorldTwo <- renderPlotly({
     plot_ly(
       y = worldTwoAggregatedRooms$TimeSpent,
-      name = '2',
+      name = 'Average Time spent in rooms: Pirateship',
       type = 'box',
       boxpoints = 'all',
       jitter = 0.3,
@@ -593,7 +593,7 @@ shinyServer(function(input, output, session) {
   output$boxplotWorldThree <- renderPlotly({
     plot_ly(
       y = worldThreeAggregatedRooms$TimeSpent,
-      name = '1',
+      name = 'Average Time spent in rooms: Colored Mansion',
       type = 'box',
       boxpoints = 'all',
       jitter = 0.3,
