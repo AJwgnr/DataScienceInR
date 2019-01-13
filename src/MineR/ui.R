@@ -392,6 +392,7 @@ ds_body = dashboardBody(tabItems(
               title = 'World summarys',
               width = 12,
               collapsible = T,
+              collapsed = T,
               fluidRow(
                 box(title = "Mansion",
                     status = "primary",
@@ -404,13 +405,6 @@ ds_body = dashboardBody(tabItems(
                     plotlyOutput('boxplotWorldThree')))))
                        
   ),
-  
-  
-
-      
-          
-  
-  
   
   
   ###****************************************************************************************************************************************************************
