@@ -394,15 +394,10 @@ ds_body = dashboardBody(tabItems(
               collapsible = T,
               collapsed = T,
               fluidRow(
-                box(title = "Mansion",
+                box(title = "Average Time spent per room",
+                    width = 12,
                     status = "primary",
-                    plotlyOutput('boxplotWorldOne')),
-                box(title = "Mansion altered",
-                    status = "primary",
-                    plotlyOutput('boxplotWorldThree')),
-                box(title = "Pirate ship",
-                    status = "primary",
-                    plotlyOutput('boxplotWorldTwo')))))
+                    plotlyOutput('summ')))))
                        
   ),
   

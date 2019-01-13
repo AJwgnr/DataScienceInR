@@ -569,7 +569,7 @@ shinyServer(function(input, output, session) {
   
   
   
-  output$boxplotWorldOne <- renderPlotly({
+  output$summ <- renderPlotly({
     plot_ly(
       y = worldOneAggregatedRooms$TimeSpent,
       name = 'Average Time spent in rooms: Mansion',
@@ -577,28 +577,22 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) })
-  
-  output$boxplotWorldTwo <- renderPlotly({
-    plot_ly(
+    )%>%add_trace(
       y = worldTwoAggregatedRooms$TimeSpent,
       name = 'Average Time spent in rooms: Pirateship',
       type = 'box',
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) })
+    )%>% add_trace( y = worldThreeAggregatedRooms$TimeSpent,
+                    name = 'Average Time spent in rooms: Colored Mansion',
+                    type = 'box',
+                    boxpoints = 'all',
+                    jitter = 0.3,
+                    pointpos = -1.8
+      
+    )})
   
-  
-  output$boxplotWorldThree <- renderPlotly({
-    plot_ly(
-      y = worldThreeAggregatedRooms$TimeSpent,
-      name = 'Average Time spent in rooms: Colored Mansion',
-      type = 'box',
-      boxpoints = 'all',
-      jitter = 0.3,
-      pointpos = -1.8
-    ) })
   
   ###****************************************************************************************************************************************************************
   ### Page 3: Experiment description and videos of the different Minecraft worlds
