@@ -83,9 +83,21 @@ shinyServer(function(input, output, session) {
   ###################
   ###   Features  ###
   ###################
-
-  # Compute features for each person based on trajectory and roomGraph/Time
-  # We need to use PCA at some point I'd guess;)
+    
+  # Average time per room in [0,1]
+  
+  # Average entries per room in [0,1]
+  
+  # Coverage of rooms explored in [0,1]
+  
+  # Overall Time Spent in World?
+  
+  # Append features to 
+  
+  
+  
+  # Directional change
+  
 
   ###################
   ### Clustering? ###
