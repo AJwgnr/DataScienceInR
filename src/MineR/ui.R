@@ -619,7 +619,10 @@ ds_body = dashboardBody(tabItems(
       box(
         width = 12,
         title = 'Direction of Movement',
-        collapsible = T
+        collapsible = T,
+        plotlyOutput('boxplotAvgTimePerRoomDayOne'),
+        plotlyOutput('boxplotAvgEntriesPerRoomDayOne'),
+        plotlyOutput('boxplotRoomCoverage')
       ),
       box(
         width = 12,

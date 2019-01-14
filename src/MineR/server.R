@@ -9,20 +9,21 @@ shinyServer(function(input, output, session) {
   ##########################
   #### Load & Precompute ###
   ##########################
-
+  
   # Load all stored person data
   personsDataTable <- loadPersonsDataset()
-
+  
   # Load trajectorie data for day one and day two into a key value like list
   trajectoryDataDayOne <-  loadTrajectoryByDay(1)
   trajectoryDataDayTwo <-  loadTrajectoryByDay(2)
-
+  
   # Load room coordinates of the virtual worlds
   roomCoordinatesVR1.0 <-  loadRoomsDefinitionWorld(1)
   roomCoordinatesVR2.0 <-  loadRoomsDefinitionWorld(2)
-
+  
   # Precomputes the visited rooms and also the spent time for each day for each trajectorie using a csv. file where the "rooms" of the worlds are provided
   # Creates a histogram of the visited rooms/with spent time for each day for each trajectorie
+  # CAVEAT: roomGraph return sorted entries.
   roomGraphDataDayOne <-
     loadRoomGraphByDay(
       1,
@@ -55,7 +56,7 @@ shinyServer(function(input, output, session) {
       roomCoordinatesVR1.0,
       roomCoordinatesVR2.0
     )
-
+  
   # Precompute a list of all trajectories of the two test day for each world
   roomHistWorldOneList <-
     append(roomHistDayOne[personsDataTable[personsDataTable[, firstVR == 1], VP]] , roomHistDayTwo[personsDataTable[personsDataTable[, VE_Day2 ==
@@ -66,12 +67,12 @@ shinyServer(function(input, output, session) {
   roomHistWorldThreeList <-
     append(roomHistDayOne[personsDataTable[personsDataTable[, firstVR == 3], VP]] , roomHistDayTwo[personsDataTable[personsDataTable[, VE_Day2 ==
                                                                                                                                        3], VP]])
-
+  
   # Adds all trajectories from one world together
   worldOne <- do.call('rbind', roomHistWorldOneList)
   worldTwo <- do.call('rbind', roomHistWorldTwoList)
   worldThree <- do.call('rbind', roomHistWorldThreeList)
-
+  
   # Aggregates all trajectories based on the ID (calculates SpentTime)
   worldOneAggregatedRooms <-
     worldOne[, list(TimeSpent = mean(TimeSpent),
@@ -82,14 +83,14 @@ shinyServer(function(input, output, session) {
   worldThreeAggregatedRooms <-
     worldThree[, list(TimeSpent = mean(TimeSpent),
                       Entries = mean(Entries)), by = ID]
-
-
+  
+  
   # Filter persons data table for adhd childs and the control group
   adhdChildren <-
     personsDataTable[personsDataTable$ADHD_Subtype > 0]
   controlGroup <-
     personsDataTable[personsDataTable$ADHD_Subtype == 0]
-
+  
   # Extract persons with respect to the experiment and the type of ADHD or control group
   # personsDataTable$Novelty == 1 -> Persons have seen the same world twice
   sameWorld <- personsDataTable[personsDataTable$Novelty == 1]
@@ -98,7 +99,7 @@ shinyServer(function(input, output, session) {
   sameWorldADHD2 <- sameWorld[sameWorld$ADHD_Subtype  == 2]
   sameWorldADHD3 <- sameWorld[sameWorld$ADHD_Subtype  == 3]
   sameWorldControl <- sameWorld[sameWorld$ADHD_Subtype == 0]
-
+  
   # personsDataTable$Novelty == 2 -> Persons have seen two different worlds
   newWorld <- personsDataTable[personsDataTable$Novelty == 2]
   newWorldADHD <- newWorld[newWorld$ADHD_Subtype > 0]
@@ -106,7 +107,7 @@ shinyServer(function(input, output, session) {
   newWorldADHD2 <- newWorld[newWorld$ADHD_Subtype == 2]
   newWorldADHD3 <- newWorld[newWorld$ADHD_Subtype == 3]
   newWorldControl <- newWorld[newWorld$ADHD_Subtype == 0]
-
+  
   # personsDataTable$Novelty == 3 -> Persons have seen the second time a partial new world (diffrent color of Mansion world)
   partialNewWorld <- personsDataTable[personsDataTable$Novelty == 3]
   partialNewWorldADHD <-
@@ -119,54 +120,93 @@ shinyServer(function(input, output, session) {
     partialNewWorld[partialNewWorld$ADHD_Subtype == 3]
   partialNewWorldControl <-
     partialNewWorld[partialNewWorld$ADHD_Subtype == 0]
-
+  
   ###################
   ###   Features  ###
   ###################
-
-  # Average time per room in [0,1]
-
-  # for(vp in personsDataTable$VP){
+  
+  # TODO: possible bug in computation of entries per room
+  # avgTimeSpent == avgEntries : why?
+  # > currentRoomHist = roomHistDayOne[[5]]
+  # > currentRoomHist[, list(
+  #   avgTimeSpent = mean(TimeSpent) / sum(TimeSpent),
+  #   avgEntries = mean(Entries) / sum(Entries),
+  #   RoomCoverage = sum(currentRoomHist[, TimeSpent != 0]) / .N
+  # )]
   #
-  #   currentRoomHist = roomHistDayOne[[vp]]
-  #
-  # # Average time per room in [0,1]
-  # # Average entries per room in [0,1]
-  #
-  #
-  # # Coverage of rooms explored in [0,1]
-  #
-  # # Overall Time Spent in World?
-  #
-  #
-  # }
-
-  # Coverage of rooms explored in [0,1]
-
-  # Overall Time Spent in World?
-
-  # Append features to
-
-
-
-  # Directional change
-
-
+  
+  # CAVEAT: no normalization need on roomGraph but use time on roomHist
+  
+  # Append all the features to compute as cols to personsDataTable
+  
+  personsDataTable$avgTimePerVisitDayOne = 0
+  personsDataTable$avgTimePerVisitDayTwo = 0
+  personsDataTable$avgEntriesDayOne = 0
+  personsDataTable$avgEntriesDayTwo = 0
+  personsDataTable$roomCoverageDayOne = 0
+  personsDataTable$roomCoverageDayTwo = 0
+  personsDataTable$TimeSpentDayOne = 0
+  personsDataTable$TimeSpentDayTwo = 0
+  
+  # Compute for day one and two simultanious
+  for (vp in personsDataTable$VP) {
+    # Get statistical data for day one and day two
+    currentRoomGraphDayOne = roomGraphDataDayOne[[vp]]
+    currentRoomGraphDayTwo = roomGraphDataDayTwo[[vp]]
+    currentRoomHistDayOne = roomHistDayOne[[vp]]
+    currentRoomHistDayTwo = roomHistDayTwo[[vp]]
+    
+    totalTimeDayOne = sum(currentRoomGraphDayOne$TimeSpent)
+    totalTimeDayTwo = sum(currentRoomGraphDayTwo$TimeSpent)
+    
+    # Average time per room visit in [0,1]
+    personsDataTable[VP == vp, "avgTimePerVisitDayOne"] = mean(currentRoomGraphDayOne$TimeSpent)
+    personsDataTable[VP == vp, "avgTimePerVisitDayTwo"] = mean(currentRoomGraphDayTwo$TimeSpent)
+    
+    # Average entries per room in [0,1]
+    personsDataTable[VP == vp, "avgEntriesDayOne"] = mean(currentRoomHistDayOne$Entries) /
+      totalTimeDayOne
+    personsDataTable[VP == vp, "avgEntriesDayTwo"] = mean(currentRoomHistDayTwo$Entries) /
+      totalTimeDayTwo
+    
+    # Coverage of rooms explored in [0,1]
+    personsDataTable[VP == vp, "roomCoverageDayOne"] = sum(currentRoomHistDayOne[, TimeSpent != 0]) /
+      nrow(currentRoomHistDayOne)
+    personsDataTable[VP == vp, "roomCoverageDayTwo"] = sum(currentRoomHistDayTwo[, TimeSpent != 0]) /
+      nrow(currentRoomHistDayTwo)
+    
+    # Overall Time Spent in World? -> Not really usefull but interesting
+    personsDataTable[VP == vp, "TimeSpentDayOne"] = sum(currentRoomGraphDayOne$TimeSpent)
+    personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent)
+    
+    # Awful lot of trajr features possible (if reduced to 2d traj?!)
+    
+    # Coverage of rooms explored in [0,1]
+    
+  }
+  
+  # Append features to persons data
+  
+  
+  
+  # Directional change and similiar
+  
+  
   ###################
   ### Clustering? ###
   ###################
-
+  
   # Use time normalized room coordinates as feature vector
-
+  
   ###################
   ### DecisionTree###
   ###################
-
-
+  
+  
   ###****************************************************************************************************************************************************************
   ### Page 2: Raw Data Overview; table, scatterplots,
   ###****************************************************************************************************************************************************************
-
+  
   ######################################################################################
   #Dataset Value Boxes
   ######################################################################################
@@ -212,11 +252,11 @@ shinyServer(function(input, output, session) {
              icon = icon("table"),
              color = 'blue')
   })
-
+  
   ######################################################################################
   #Person Data table Visualizations
   ######################################################################################
-
+  
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
       personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw1)), with = FALSE],
@@ -228,11 +268,11 @@ shinyServer(function(input, output, session) {
       ),
       selection = "single"
     )
-
+  
   ######################################################################################
   # Regression
   ######################################################################################
-
+  
   output$gx_regression <- renderPlotly({
     # Problem: input is char
     p <- plot_ly()
@@ -257,14 +297,14 @@ shinyServer(function(input, output, session) {
       p
     }
   })
-
+  
   ######################################################################################
   # SPLOM
   ######################################################################################
-
-
+  
+  
   # Create scatterplot matrix from persons Data tabui
-
+  
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
       SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
@@ -274,8 +314,8 @@ shinyServer(function(input, output, session) {
     p <- ggplotly(p)
     highlight(p, on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
   })
-
-
+  
+  
   ######################################################################################
   # Trajectory Plots
   ######################################################################################
@@ -322,7 +362,8 @@ shinyServer(function(input, output, session) {
       if ((vr == 1 || vr == 3) && input$showRoomInput) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
-                                                                        lower_z_filter & z < upper_z_filter)], ]
+                                                                        lower_z_filter &
+                                                                        z < upper_z_filter)], ]
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
             data = VR1coordinates,
@@ -369,12 +410,13 @@ shinyServer(function(input, output, session) {
                          VR1coordinates
                        ) - 1))
           )
-
+        
       } else if ((vr == 2) && input$showRoomInput) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
-                                                                        lower_z_filter & z < upper_z_filter)], ]
-
+                                                                        lower_z_filter &
+                                                                        z < upper_z_filter)], ]
+        
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
             data = VR2coordinates,
@@ -420,7 +462,7 @@ shinyServer(function(input, output, session) {
                        )):(4 * nrow(
                          VR2coordinates
                        ) - 1))
-
+            
           )
       } else if (input$showRoomInput) {
         print("Unexpected VR ID provided in trajectory plotting")
@@ -429,8 +471,8 @@ shinyServer(function(input, output, session) {
     }
     trjPlotDayOne
   })
-
-
+  
+  
   output$gx_3d_trajectoryDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     lower_z_filter = input$z_level[1]
@@ -474,7 +516,8 @@ shinyServer(function(input, output, session) {
       if ((vr == 1 || vr == 3) && input$showRoomInput) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
-                                                                        lower_z_filter & z < upper_z_filter)], ]
+                                                                        lower_z_filter &
+                                                                        z < upper_z_filter)], ]
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
             data = VR1coordinates,
@@ -521,12 +564,13 @@ shinyServer(function(input, output, session) {
                          VR1coordinates
                        ) - 1))
           )
-
+        
       } else if ((vr == 2) && input$showRoomInput) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
-                                                                        lower_z_filter & z < upper_z_filter)], ]
-
+                                                                        lower_z_filter &
+                                                                        z < upper_z_filter)], ]
+        
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
             data = VR2coordinates,
@@ -572,7 +616,7 @@ shinyServer(function(input, output, session) {
                        )):(4 * nrow(
                          VR2coordinates
                        ) - 1))
-
+            
           )
       } else if (input$showRoomInput) {
         print("Unexpected VR ID provided in trajectory plotting day two")
@@ -581,12 +625,12 @@ shinyServer(function(input, output, session) {
     }
     trjPlotDayTwo
   })
-
-
+  
+  
   ######################################################################################
   # Times rooms entered bar chart
   ######################################################################################
-
+  
   output$gx_roomEntriesBarDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly()
@@ -602,7 +646,7 @@ shinyServer(function(input, output, session) {
         )
     }
   })
-
+  
   output$gx_roomEntriesBarDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly()
@@ -618,7 +662,7 @@ shinyServer(function(input, output, session) {
         )
     }
   })
-
+  
   ######################################################################################
   # Time Spent per Room bar charts
   ######################################################################################
@@ -637,7 +681,7 @@ shinyServer(function(input, output, session) {
         )
     }
   })
-
+  
   output$gx_roomHistBarDayTwo <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     p <- plot_ly()
@@ -653,9 +697,9 @@ shinyServer(function(input, output, session) {
         )
     }
   })
-
-
-
+  
+  
+  
   output$summ <- renderPlotly({
     plot_ly(
       y = worldOneAggregatedRooms$TimeSpent,
@@ -678,15 +722,15 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-
+      
     )
   })
-
-
+  
+  
   ###****************************************************************************************************************************************************************
   ### Page 3: Experiment description and videos of the different Minecraft worlds
   ###****************************************************************************************************************************************************************
-
+  
   ######################################################################################
   #Memorizing Value Boxes
   ######################################################################################
@@ -733,7 +777,7 @@ shinyServer(function(input, output, session) {
       color = 'yellow'
     )
   })
-
+  
   output$sameTyp0 <- renderValueBox({
     valueBox(round((nrow(
       sameWorldControl
@@ -840,7 +884,7 @@ shinyServer(function(input, output, session) {
     icon = icon("percent"),
     color = 'red')
   })
-
+  
   ######################################################################################
   #Bar charts: Distribution of ADHD Types
   ######################################################################################
@@ -873,7 +917,7 @@ shinyServer(function(input, output, session) {
       type = "bar"
     )
   })
-
+  
   #
   output$newWorldBar <- renderPlotly({
     p <- plot_ly(
@@ -903,7 +947,7 @@ shinyServer(function(input, output, session) {
       type = "bar"
     )
   })
-
+  
   #
   output$partialNewWorldBar <- renderPlotly({
     p <- plot_ly(
@@ -934,7 +978,7 @@ shinyServer(function(input, output, session) {
       type = "bar"
     )
   })
-
+  
   ######################################################################################
   # Memorizing Boxplots
   ######################################################################################
@@ -951,9 +995,9 @@ shinyServer(function(input, output, session) {
       add_trace(y = adhdChildren$TP_DelayedRecall, name = 'ADHD TP_Delayed') %>%
       add_trace(y = controlGroup$TP_DelayedRecall, name =
                   'Control TP_Delayed')
-
+    
   })
-
+  
   output$boxplotSameWorld <- renderPlotly({
     plot_ly(
       y = sameWorldADHD$TP_DirectRecall,
@@ -966,9 +1010,9 @@ shinyServer(function(input, output, session) {
       add_trace(y = sameWorldControl$TP_DirectRecall, name = ' SameWorld TP_Direct (Control)') %>%
       add_trace(y = sameWorldADHD$TP_DelayedRecall, name = ' SameWorld TP_Delayed (ADHD)') %>%
       add_trace(y = sameWorldControl$TP_DelayedRecall, name = ' SameWorld TP_Delayed (Control)')
-
+    
   })
-
+  
   output$boxplotNewWorld <- renderPlotly({
     plot_ly(
       y = newWorldADHD$TP_DirectRecall,
@@ -982,7 +1026,7 @@ shinyServer(function(input, output, session) {
       add_trace(y = newWorldADHD$TP_DelayedRecall, name = ' NewWorld TP_Delayed (ADHD)') %>%
       add_trace(y = newWorldControl$TP_DelayedRecall, name = ' NewWorld TP_Delayed (Control)')
   })
-
+  
   output$boxplotPartialNewWorld <- renderPlotly({
     plot_ly(
       y = partialNewWorldADHD$TP_DirectRecall,
@@ -995,16 +1039,66 @@ shinyServer(function(input, output, session) {
       add_trace(y = partialNewWorldControl$TP_DirectRecall, name = ' PartialNewWorld TP_Direct (Control)') %>%
       add_trace(y = partialNewWorldADHD$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (ADHD)') %>%
       add_trace(y = partialNewWorldControl$TP_DelayedRecall, name = ' PartialNewWorld TP_Delayed (Control)')
-
+    
   })
+  
+  
+  
+  
+  ###****************************************************************************************************************************************************************
+  ### Page 4: Feature exploration
+  ###****************************************************************************************************************************************************************
+  
 
+    featureFilter = personsDataTable[, firstVR == 1]
 
-
-
+  
+  output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
+    plot_ly(
+      personsDataTable,
+      y =  ~ avgTimePerVisitDayOne,
+      color =  ~ as.factor(featureFilter),
+      type = "box",
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    ) 
+    })
+  
+  output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
+    plot_ly(
+      personsDataTable,
+      y =  ~ avgEntriesDayOne,
+      color =  ~ as.factor(featureFilter),
+      type = "box",
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    )
+  })
+  
+  output$boxplotRoomCoverage <- renderPlotly({
+    plot_ly(
+      personsDataTable,
+      y =  ~ roomCoverageDayOne,
+      color =  ~ as.factor(featureFilter),
+      type = "box",
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    )
+  })
+  
+  
+  ###****************************************************************************************************************************************************************
+  ### Debug Stuff:
+  ###****************************************************************************************************************************************************************
+  
+  
   ######################################################################################
   # Debug traj2roomGraph
   ######################################################################################
-
+  
   # Create a printf function for formattet printing
   printf <- function(...)
     cat(sprintf(...))
@@ -1061,14 +1155,15 @@ shinyServer(function(input, output, session) {
       printf("\n")
     }
   })
-
-
-  ######################################################################################
-  # Selection cupling (not really visualization stuff..)
-  ######################################################################################
-
+  
+  
+  
+  ###****************************************************************************************************************************************************************
+  ### Ui elements coupling:
+  ###****************************************************************************************************************************************************************
+  
   # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
-
+  
   # If picker1 changes update picker
   observe({
     x <- input$id_pickerInputDTpersonsRaw1
@@ -1079,6 +1174,6 @@ shinyServer(function(input, output, session) {
     y <- input$id_pickerInputDTpersonsRaw2
     updatePickerInput(session, "id_pickerInputDTpersonsRaw1", selected = y)
   })
-
-
+  
+  
 })

@@ -58,6 +58,10 @@ if(!require('pracma')){
   install.packages('pracma')
 }
 
+if(!require('trajr')){
+  install.packages('trajr')
+}
+
 # Load the libraries
 library('shiny')
 library('pracma')
@@ -75,3 +79,4 @@ library('crosstalk')
 library('GGally')
 library('reader')
 library('plyr')
+library('trajr')
