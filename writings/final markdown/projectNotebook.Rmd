@@ -197,6 +197,12 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 
 
+![optional caption text](../proposal/images/minecraft_world1.png)
+![optional caption text](../proposal/images/minecraft_world1.png)
+![optional caption text](../proposal/images/minecraft_world1.png)
+![optional caption text](../proposal/images/minecraft_world1.png)
+![optional caption text](../proposal/images/minecraft_world1.png)
+
 
 
 
