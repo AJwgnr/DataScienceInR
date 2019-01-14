@@ -176,8 +176,12 @@ shinyServer(function(input, output, session) {
     secondAttribute = as.integer(input$id_pickerInputRegression[2])
     d = personsDataTable[,c(..firstAttribute,..secondAttribute)]
     names(d) = c("first","second")
-    fit = lm(d)
-    p <- p %>% add_markers(data=d,x=~second,y=~first)%>%add_lines(x=~second,y=fitted(fit))
+    # This is not how it should be done...
+    #fit = lm(d[union(is.na(d$first)==FALSE,is.na(d$second))==FALSE,])
+    # Stupid as shit...if done before lm
+    #d$first[is.na(d$first)] = 0
+    #d$second[is.na(d$second)] = 0
+    p <- p %>% add_markers(data=d,x=~second,y=~first)#%>%add_lines(x=~second,y=fitted(fit))
     p}
     })
   
