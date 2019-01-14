@@ -197,23 +197,34 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 - Explore the raw data table
 
-![optional caption text](../proposal/images/Rawdata table.png)
+![Raw view on the dataset](../proposal/images/Rawdata table.png)
 
 - try to find linear correlation
 
-![optional caption text](../proposal/images/regression.png)
-![optional caption text](../proposal/images/regression1.png)
+![Linear correlation of attributes](../proposal/images/regression.png)
+
 - see the correlation of diffrerent attributes
 
-![optional caption text](../proposal/images/scatterplotmatrix.png)
+![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
 - visualize the trajectories and room summarys for different persons
-![optional caption text](../proposal/images/trajectoryand roomdata.png)
+
+![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
+
+
+![Memorizing experiment group distribution](../proposal/images/rooms.png)
+
+
+
 - visualize the diffrent groups of patients
-- viualize memorizing
 
-![optional caption text](../proposal/images/memorizing.png)
 
+![Memorizing experiment group distribution](../proposal/images/memorizing.png)
+
+
+- viualize memorizing results
+
+![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
 
 
 
