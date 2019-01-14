@@ -160,31 +160,36 @@ The table data will be displayed separately using a scatter plot matrix to allow
 # 3. Implementation
 The ideas and results of the concept implementation will be de detailed in the following chapter.
 
-## 3.1 Data
+## 3.1. Packages
+
+## 3.2 Data
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
 
-### 3.1.1 Data structure
+### 3.2.1 Data structure
 - Describe how we load the data here
 - how we are accessing it
 - precalculating of room graph
 
 
-### 3.1.2 Data preprocessing
+### 3.2.2 Data preprocessing
+- remove entries with NAN´s
+- rmeove entries with missing values
+-
 
 
 
-## 3.2 Algorithms and Methods
+## 3.3 Algorithms and Methods
 
-### 3.2.1 Machine Learning
+### 3.3.1 Machine Learning
+- Linear Regression
+- Clustering
 
-### 3.2.2 Visualization
-
-
-
-
-
-
-
+### 3.3.2 Visualization
+- bar charts
+- Tables
+- Scatterplot
+- 3D-Plots + Rooms (trajectory plots)
+- Boxplots
 
 
 # 4. Results
