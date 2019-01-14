@@ -30,17 +30,17 @@ Make sure that your process notebook is a standalone document that fully describ
 # 1. Introduction
 
 ## 1.1 Overview
-This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the KMD Lab . Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as an detailed time plan can be found in the project proposal . The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the dataset tab. For an interactive visualization please see our Shiny website !!!LINK!!!. The whole code for this project is stored in an public GitLab Repository.
+This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as an detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website !!!LINK!!!. The whole code for this project is stored in an public GitLab Repository.
 
 ## 1.2 Repository 
 GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
 ## 1.3 Background and motivation
-
 The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and an control group.
 For the experiment both groups (with ADHD and the control group) had to attend the study on three different days.
 On the first day, the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see one of the worlds in the image below).
 On the second day the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others. On day three the vocabularies had to be recalled again by the test persons (see the process overview in the image below). Further test persons will perform the experiment in the future and thus enlarge the data set successively.
+![optional caption text](../proposal/images/minecraft_world1.png)
 
 ## 1.4 Dataset
 The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age and others. The data set is divided into trajectory data and information of the test persons in separate csv files.
@@ -64,9 +64,9 @@ The data set of the test persons contains variables such as sex, age and others 
 | CFT                       |int +        |Intelligence Score         |
 | ADHD_Subtype              |[0;3]        |0: Control group, 1-3 ADHD type        |
 | Age                       |int +         |Age in years         |
-| Sex                       |[1;2]         |         |
+| Sex                       |[1;2]         |Sex of the person         |
 | Group                     |[1;2]         |Control, ADHD group         |
-| Novelty                   |[0;3]         |Familiar/totally novel/partial novel     |
+| Novelty                   |[1;3]         |Familiar/totally novel/partial novel     |
 | TP_DirectRecall           |[0;20]         |Words correctly recalled after learning          |
 | FP_DirectRecall           |[0;20]         |Words falsely recalled after learning         |
 | TP_DelayedRecall          |[0;20]         |Words correctly recalled after delay         |
@@ -95,8 +95,10 @@ The data set of the test persons contains variables such as sex, age and others 
 
 ### 1.4.2 Trajectory Table
 
+There should be two trajectory files for each person.
+
 | Attribute | Meaning |
-|-----------|---------|
+|:-----------:|---------|
 | time      |time stamp in milliseconds    |
 | x         |x-coordinate minecraft world  |
 | z         |z-coordinate minecraft world  |
@@ -104,6 +106,8 @@ The data set of the test persons contains variables such as sex, age and others 
 
 
 # 2. Concept
+
+The following chapter contains the general ideas that were written down in the project proposal in the beginning of the project.
 
 ## 2.1 Objectives
 
@@ -118,14 +122,15 @@ We are trying to explore and answer the following questions:
 
 ## 2.2 Relevant Papers
 
-## 2.3 Possible problems (planned):
+
+## 2.3 Possible problems
 * Only a small data set yet (can be hard to proof statistical significance)
 * Some trajectory data sets can not be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
 * Little comparable work on the feature extraction from trajectories
 * Little comparable work on the comparison of trajectories
 
 
-## 2.4 Design overview (planned)
+## 2.4 Design overview
 The design consists mainly of two parts:
 
 1. Data analysis and 
@@ -153,9 +158,10 @@ The table data will be displayed separately using a scatter plot matrix to allow
 
 
 # 3. Implementation
-
+The ideas and results of the concept implementation will be de detailed in the following chapter.
 
 ## 3.1 Data
+As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
 
 ### 3.1.1 Data structure
 - Describe how we load the data here
