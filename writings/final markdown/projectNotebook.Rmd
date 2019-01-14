@@ -195,14 +195,24 @@ As already written in the concept section, the dataset consists of two kinds of 
 # 4. Results
 
 
+- Explore the raw data table
 
+![optional caption text](../proposal/images/Rawdata table.png)
 
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
+- try to find linear correlation
 
+![optional caption text](../proposal/images/regression.png)
+![optional caption text](../proposal/images/regression1.png)
+- see the correlation of diffrerent attributes
+
+![optional caption text](../proposal/images/scatterplotmatrix.png)
+
+- visualize the trajectories and room summarys for different persons
+![optional caption text](../proposal/images/trajectoryand roomdata.png)
+- visualize the diffrent groups of patients
+- viualize memorizing
+
+![optional caption text](../proposal/images/memorizing.png)
 
 
 
