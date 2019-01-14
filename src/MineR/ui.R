@@ -392,7 +392,7 @@ ds_body = dashboardBody(tabItems(
               title = 'World summarys',
               width = 12,
               collapsible = T,
-              collapsed = T,
+              collapsed = F,
               fluidRow(
                 box(title = "Average Time spent per room",
                     width = 12,
