@@ -39,9 +39,9 @@ shinyServer(function(input, output, session) {
   worldThree <- do.call('rbind',roomHistWorldThreeList)
 
   # Aggregates all trajectories based on the ID (calculates SpentTime)
-  worldOneAggregatedRooms <- worldOne[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
-  worldTwoAggregatedRooms <- worldTwo[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
-  worldThreeAggregatedRooms <- worldThree[, list(TimeSpent = sum(TimeSpent), Entries= sum(Entries)), by = ID]
+  worldOneAggregatedRooms <- worldOne[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
+  worldTwoAggregatedRooms <- worldTwo[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
+  worldThreeAggregatedRooms <- worldThree[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
 
 
   # Filter persons data table for adhd childs and the control group
@@ -83,16 +83,23 @@ shinyServer(function(input, output, session) {
   ###################
   ###   Features  ###
   ###################
-    
-  # Average time per room in [0,1]
   
-  # Average entries per room in [0,1]
+  # for(vp in personsDataTable$VP){
+  #   
+  #   currentRoomHist = roomHistDayOne[[vp]]
+  #   
+  # # Average time per room in [0,1]
+  # # Average entries per room in [0,1]
+  # 
+  #   
+  # # Coverage of rooms explored in [0,1]
+  # 
+  # # Overall Time Spent in World?
+  #   
+  #   
+  # }
   
-  # Coverage of rooms explored in [0,1]
-  
-  # Overall Time Spent in World?
-  
-  # Append features to 
+  # Append features to persons data table
   
   
   
