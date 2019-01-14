@@ -147,6 +147,10 @@ shinyServer(function(input, output, session) {
   personsDataTable$roomCoverageDayTwo = 0
   personsDataTable$TimeSpentDayOne = 0
   personsDataTable$TimeSpentDayTwo = 0
+  personsDataTable$CorrectedSinousityDayOne = 0
+  personsDataTable$CorrectedSinousityDayTwo = 0
+  personsDataTable$TrajStraightnessDayOne = 0
+  personsDataTable$TrajStraightnessDayTwo = 0
   
   # Compute for day one and two simultanious
   for (vp in personsDataTable$VP) {
@@ -180,6 +184,21 @@ shinyServer(function(input, output, session) {
     personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent)
     
     # Awful lot of trajr features possible (if reduced to 2d traj?!)
+    
+    currentTrajCoordinatesDayOne = trajectoryDataDayOne[[vp]]
+    currentTrajCoordinatesDayTwo = trajectoryDataDayTwo[[vp]]
+    currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[,list(x,y)]
+    currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[,list(x,y)]
+    # convert to trajr format
+    currentTrajCoordinatesDayOne = TrajFromCoords(currentTrajCoordinatesDayOne,fps=10)
+    currentTrajCoordinatesDayTwo = TrajFromCoords(currentTrajCoordinatesDayTwo,fps=10)
+    
+    # Compute various trajr features
+    personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
+    personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
+    
+    personsDataTable[VP==vp,'TrajStraightnessDayOne'] = TrajStraightness(currentTrajCoordinatesDayOne)
+    personsDataTable[VP==vp,'TrajStraightnessDayTwo'] = TrajStraightness(currentTrajCoordinatesDayTwo)
     
     # Coverage of rooms explored in [0,1]
     
@@ -1051,7 +1070,7 @@ shinyServer(function(input, output, session) {
   
 
     featureFilter = personsDataTable[, Novelty == 1 & (firstVR == 1 | firstVR == 3)]
-    
+    featureFilter = personsDataTable[,ADHD_Subtype]
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
@@ -1091,6 +1110,34 @@ shinyServer(function(input, output, session) {
       pointpos = -1.8
     )%>% add_trace(
       y = ~ personsDataTable$roomCoverageDayTwo
+    ) %>% layout(boxmode = "group")
+  })
+  
+  output$boxplotCorrectedSinus <- renderPlotly({
+    plot_ly(
+      personsDataTable,
+      y =  ~ CorrectedSinousityDayOne,
+      color =  ~ as.factor(featureFilter),
+      type = "box",
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    )%>% add_trace(
+      y = ~ personsDataTable$CorrectedSinousityDayTwo
+    ) %>% layout(boxmode = "group")
+  })
+  
+  output$boxplotStraightness <- renderPlotly({
+    plot_ly(
+      personsDataTable,
+      y =  ~ TrajStraightnessDayOne,
+      color =  ~ as.factor(featureFilter),
+      type = "box",
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
+    )%>% add_trace(
+      y = ~ personsDataTable$TrajStraightnessDayTwo
     ) %>% layout(boxmode = "group")
   })
   

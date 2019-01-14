@@ -641,6 +641,18 @@ ds_body = dashboardBody(tabItems(
       ),
       box(
         width = 12,
+        title = 'Corrected sinuosity', #(Benhamou, 2004)
+        collapsible = T,
+        plotlyOutput('boxplotCorrectedSinus')
+      ),
+      box(
+        width = 12,
+        title = 'Straightness', #Straightness index  (Batschelet, 1981)
+        collapsible = T,
+        plotlyOutput('boxplotStraightness')
+      ),
+      box(
+        width = 12,
         title = 'Overall time spent in the world',
         collapsible = T
       )
