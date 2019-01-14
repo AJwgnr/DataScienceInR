@@ -120,7 +120,11 @@ We are trying to explore and answer the following questions:
 * Can the ADHD type be predicted from the trajectory data (features)?
 * Which interactive visualization can be created for the data set?
 
-## 2.2 Relevant Papers
+## 2.2 Relevant Literature
+
+* https://pdfs.semanticscholar.org/f73d/a038fe121e56fca15cadceea35398ba95063.pdf
+* https://arxiv.org/pdf/1303.1585.pdf
+* http://crpit.com/confpapers/CRPITV137Wang.pdf
 
 
 ## 2.3 Possible problems
@@ -185,7 +189,7 @@ As already written in the concept section, the dataset consists of two kinds of 
 ### 3.2.1 Data structure
 - Describe how we load the data here
 - how we are accessing it
-- precalculating of room graph
+- precalculating of room graph -> stored in .rds files for faster access than xlsx files
 
 
 ### 3.2.2 Data preprocessing
@@ -211,10 +215,13 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 # 4. Results
 
+The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (INSERT LINK).The following plots are screenshots captured from the webpage.
 
-- Explore the raw data table
+The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project In troduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
 
+The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the person data table (See the image below).
 ![Raw view on the dataset](../proposal/images/Rawdata table.png)
+
 
 - try to find linear correlation
 
