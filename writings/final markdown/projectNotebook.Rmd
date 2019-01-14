@@ -161,6 +161,23 @@ The table data will be displayed separately using a scatter plot matrix to allow
 The ideas and results of the concept implementation will be de detailed in the following chapter.
 
 ## 3.1. Packages
+We use the following R packages for the implementation:
+
+* pracma
+* tibble
+* shinydashboard
+* shinyWidgets
+* data.table
+* ggplot2
+* plotly
+* dtplyr
+* readxl
+* stringr
+* DT
+* crosstalk
+* GGally
+* reader
+* plyr
 
 ## 3.2 Data
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
@@ -195,15 +212,37 @@ As already written in the concept section, the dataset consists of two kinds of 
 # 4. Results
 
 
+- Explore the raw data table
+
+![Raw view on the dataset](../proposal/images/Rawdata table.png)
+
+- try to find linear correlation
+
+![Linear correlation of attributes](../proposal/images/regression.png)
+
+- see the correlation of diffrerent attributes
+
+![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
+
+- visualize the trajectories and room summarys for different persons
+
+![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
+
+-overview on the visited rooms
+
+![Memorizing experiment group distribution](../proposal/images/rooms.png)
 
 
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
-![optional caption text](../proposal/images/minecraft_world1.png)
+
+- visualize the diffrent groups of patients
 
 
+![Memorizing experiment group distribution](../proposal/images/memorizing.png)
+
+
+- viualize memorizing results
+
+![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
 
 
 
