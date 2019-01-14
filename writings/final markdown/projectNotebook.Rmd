@@ -213,6 +213,11 @@ As already written in the concept section, the dataset consists of two kinds of 
 - Boxplots
 
 
+## 3.4 Tests
+
+
+
+
 # 4. Results
 
 The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (INSERT LINK).The following plots are screenshots captured from the webpage.
@@ -220,18 +225,25 @@ The results of our analysis can be viewed in our interactive Shiny web applicati
 The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project In troduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
 
 The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the person data table (See the image below).
+
 ![Raw view on the dataset](../proposal/images/Rawdata table.png)
 
+There are different possibilities for the user to analyse the dataset. The data can just be viewed as displayed in the image above but the correlation tab allow to choose any two variables from the data and to plot the may existing linear relationship.(image below)
 
-- try to find linear correlation
 
 ![Linear correlation of attributes](../proposal/images/regression.png)
 
-- see the correlation of diffrerent attributes
+It is the task of the user to choose meaningful attributes. Nevertheless we found that the following variable combinations yield some linear correlation (see next XX images):
+
+INSERT IMAGES OF CORRELATED VARIABles HERE
+
+
+Besides the option of plotting only two dependet variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can may disturb the analysis when many features are used.
 
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
-- visualize the trajectories and room summarys for different persons
+When an entry from the person dataset is choosen by the user the two availiable trajectory files are plotted using a 3D plot. 
+
 
 ![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
 
@@ -254,6 +266,20 @@ The dataset tab on the website covers the basic interaction and visualization wi
 
 
 
+# 5. Conclusions
 
-# 5. Conclusion
+
+# 5.1 Advantages
+* allows to prototype very fast
+
+# 5.2. Disadvantages
+* Steep learning curve
+* Not very clear how to structure R projects/ or specially Shiny projects (more than 3000 lines of code)
+* Requires a lot of dependecies/packages
+* Error messages are really bad because they are in the final rendered html and not in the real R code
+* Shiny Dashboard is not responsive
+* Problems when using different Shiny, R or package versions
+
+
+# 5.3 Final Insights
 
