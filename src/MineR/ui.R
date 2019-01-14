@@ -619,25 +619,25 @@ ds_body = dashboardBody(tabItems(
       box(
         width = 12,
         title = 'Direction of Movement',
-        collapsible = T,
-        plotlyOutput('boxplotAvgTimePerRoomDayOne'),
-        plotlyOutput('boxplotAvgEntriesPerRoomDayOne'),
-        plotlyOutput('boxplotRoomCoverage')
+        collapsible = T
       ),
       box(
         width = 12,
         title = 'Average time per room',
-        collapsible = T
+        collapsible = T,
+        plotlyOutput('boxplotAvgTimePerRoomDayOne')
       ),
       box(
         width = 12,
         title = 'Percentage of rooms visited',
-        collapsible = T
+        collapsible = T,
+        plotlyOutput('boxplotRoomCoverage')
       ),
       box(
         width = 12,
         title = 'Rooms visited multiple times',
-        collapsible = T
+        collapsible = T,
+        plotlyOutput('boxplotAvgEntriesPerRoomDayOne')
       ),
       box(
         width = 12,

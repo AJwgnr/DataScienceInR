@@ -1050,19 +1050,20 @@ shinyServer(function(input, output, session) {
   ###****************************************************************************************************************************************************************
   
 
-    featureFilter = personsDataTable[, firstVR == 1]
-
+    featureFilter = personsDataTable[, Novelty == 1 & (firstVR == 1 | firstVR == 3)]
+    
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
-      personsDataTable,
-      y =  ~ avgTimePerVisitDayOne,
+      y =  ~ personsDataTable$avgTimePerVisitDayOne,
       color =  ~ as.factor(featureFilter),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) 
+    ) %>% add_trace(
+      y = ~ personsDataTable$avgTimePerVisitDayTwo
+    ) %>% layout(boxmode = "group")
     })
   
   output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
@@ -1074,7 +1075,9 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )
+    )%>% add_trace(
+      y = ~ personsDataTable$avgEntriesDayTwo
+    ) %>% layout(boxmode = "group")
   })
   
   output$boxplotRoomCoverage <- renderPlotly({
@@ -1086,7 +1089,9 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )
+    )%>% add_trace(
+      y = ~ personsDataTable$roomCoverageDayTwo
+    ) %>% layout(boxmode = "group")
   })
   
   
