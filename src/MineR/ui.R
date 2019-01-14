@@ -590,7 +590,6 @@ ds_body = dashboardBody(tabItems(
             status = "primary",
             plotlyOutput("boxplotPartialNewWorld")
           ),
-          fluidRow(
             box(
               title = "New World",
               status = "primary",
@@ -601,7 +600,7 @@ ds_body = dashboardBody(tabItems(
               status = "primary",
               plotlyOutput("boxplotSameWorld")
             )
-          )
+          
           
         )
       )

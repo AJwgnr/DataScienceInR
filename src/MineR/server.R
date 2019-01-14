@@ -23,25 +23,65 @@ shinyServer(function(input, output, session) {
 
   # Precomputes the visited rooms and also the spent time for each day for each trajectorie using a csv. file where the "rooms" of the worlds are provided
   # Creates a histogram of the visited rooms/with spent time for each day for each trajectorie
-  roomGraphDataDayOne <-  loadRoomGraphByDay(1,personsDataTable,trajectoryDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomGraphDataDayTwo <-  loadRoomGraphByDay(2,personsDataTable,trajectoryDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomHistDayOne <-  loadRoomHistByDay(1,personsDataTable,roomGraphDataDayOne,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
-  roomHistDayTwo <-  loadRoomHistByDay(2,personsDataTable,roomGraphDataDayTwo,roomCoordinatesVR1.0,roomCoordinatesVR2.0)
+  roomGraphDataDayOne <-
+    loadRoomGraphByDay(
+      1,
+      personsDataTable,
+      trajectoryDataDayOne,
+      roomCoordinatesVR1.0,
+      roomCoordinatesVR2.0
+    )
+  roomGraphDataDayTwo <-
+    loadRoomGraphByDay(
+      2,
+      personsDataTable,
+      trajectoryDataDayTwo,
+      roomCoordinatesVR1.0,
+      roomCoordinatesVR2.0
+    )
+  roomHistDayOne <-
+    loadRoomHistByDay(
+      1,
+      personsDataTable,
+      roomGraphDataDayOne,
+      roomCoordinatesVR1.0,
+      roomCoordinatesVR2.0
+    )
+  roomHistDayTwo <-
+    loadRoomHistByDay(
+      2,
+      personsDataTable,
+      roomGraphDataDayTwo,
+      roomCoordinatesVR1.0,
+      roomCoordinatesVR2.0
+    )
 
   # Precompute a list of all trajectories of the two test day for each world
-  roomHistWorldOneList <- append(roomHistDayOne[personsDataTable[personsDataTable[,firstVR==1], VP]] ,roomHistDayTwo[personsDataTable[personsDataTable[,VE_Day2==1], VP]])
-  roomHistWorldTwoList <- append(roomHistDayOne[personsDataTable[personsDataTable[,firstVR==2], VP]] ,roomHistDayTwo[personsDataTable[personsDataTable[,VE_Day2==2], VP]])
-  roomHistWorldThreeList <- append(roomHistDayOne[personsDataTable[personsDataTable[,firstVR==3], VP]] ,roomHistDayTwo[personsDataTable[personsDataTable[,VE_Day2==3], VP]])
+  roomHistWorldOneList <-
+    append(roomHistDayOne[personsDataTable[personsDataTable[, firstVR == 1], VP]] , roomHistDayTwo[personsDataTable[personsDataTable[, VE_Day2 ==
+                                                                                                                                       1], VP]])
+  roomHistWorldTwoList <-
+    append(roomHistDayOne[personsDataTable[personsDataTable[, firstVR == 2], VP]] , roomHistDayTwo[personsDataTable[personsDataTable[, VE_Day2 ==
+                                                                                                                                       2], VP]])
+  roomHistWorldThreeList <-
+    append(roomHistDayOne[personsDataTable[personsDataTable[, firstVR == 3], VP]] , roomHistDayTwo[personsDataTable[personsDataTable[, VE_Day2 ==
+                                                                                                                                       3], VP]])
 
   # Adds all trajectories from one world together
-  worldOne <- do.call('rbind',roomHistWorldOneList)
-  worldTwo <- do.call('rbind',roomHistWorldTwoList)
-  worldThree <- do.call('rbind',roomHistWorldThreeList)
+  worldOne <- do.call('rbind', roomHistWorldOneList)
+  worldTwo <- do.call('rbind', roomHistWorldTwoList)
+  worldThree <- do.call('rbind', roomHistWorldThreeList)
 
   # Aggregates all trajectories based on the ID (calculates SpentTime)
-  worldOneAggregatedRooms <- worldOne[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
-  worldTwoAggregatedRooms <- worldTwo[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
-  worldThreeAggregatedRooms <- worldThree[, list(TimeSpent = mean(TimeSpent), Entries= mean(Entries)), by = ID]
+  worldOneAggregatedRooms <-
+    worldOne[, list(TimeSpent = mean(TimeSpent),
+                    Entries = mean(Entries)), by = ID]
+  worldTwoAggregatedRooms <-
+    worldTwo[, list(TimeSpent = mean(TimeSpent),
+                    Entries = mean(Entries)), by = ID]
+  worldThreeAggregatedRooms <-
+    worldThree[, list(TimeSpent = mean(TimeSpent),
+                      Entries = mean(Entries)), by = ID]
 
 
   # Filter persons data table for adhd childs and the control group
@@ -83,28 +123,34 @@ shinyServer(function(input, output, session) {
   ###################
   ###   Features  ###
   ###################
-  
+
+  # Average time per room in [0,1]
+
   # for(vp in personsDataTable$VP){
-  #   
+  #
   #   currentRoomHist = roomHistDayOne[[vp]]
-  #   
+  #
   # # Average time per room in [0,1]
   # # Average entries per room in [0,1]
-  # 
-  #   
+  #
+  #
   # # Coverage of rooms explored in [0,1]
-  # 
+  #
   # # Overall Time Spent in World?
-  #   
-  #   
+  #
+  #
   # }
-  
-  # Append features to persons data table
-  
-  
-  
+
+  # Coverage of rooms explored in [0,1]
+
+  # Overall Time Spent in World?
+
+  # Append features to
+
+
+
   # Directional change
-  
+
 
   ###################
   ### Clustering? ###
@@ -148,7 +194,7 @@ shinyServer(function(input, output, session) {
   })
   output$trajectoryFiles <- renderValueBox({
     valueBox(
-      length(trajectoryDataDayTwo)+length(trajectoryDataDayOne),
+      length(trajectoryDataDayTwo) + length(trajectoryDataDayOne),
       "Files",
       icon = icon("file-excel-o"),
       color = 'blue'
@@ -190,17 +236,27 @@ shinyServer(function(input, output, session) {
   output$gx_regression <- renderPlotly({
     # Problem: input is char
     p <- plot_ly()
-    if(length(input$id_pickerInputRegression)==2){
-    firstAttribute = as.integer(input$id_pickerInputRegression[1])
-    secondAttribute = as.integer(input$id_pickerInputRegression[2])
-    d = personsDataTable[,c(..firstAttribute,..secondAttribute)]
-    names(d) = c("first","second")
-    d = na.omit(d)
-    fit = lm(d)
-    colNames = colnames(personsDataTable)
-    p <- p %>% add_markers(data=d,x=~second,y=~first,showlegend = FALSE)%>%add_lines(x=~second,y=fitted(fit),name="Fitted linear model") %>% layout(xaxis = list(title=colNames[secondAttribute]), yaxis = list(title=colNames[firstAttribute]))
-    p}
-    })
+    if (length(input$id_pickerInputRegression) == 2) {
+      firstAttribute = as.integer(input$id_pickerInputRegression[1])
+      secondAttribute = as.integer(input$id_pickerInputRegression[2])
+      d = personsDataTable[, c(..firstAttribute, ..secondAttribute)]
+      names(d) = c("first", "second")
+      d = na.omit(d)
+      fit = lm(d)
+      colNames = colnames(personsDataTable)
+      p <-
+        p %>% add_markers(
+          data = d,
+          x =  ~ second,
+          y =  ~ first,
+          showlegend = FALSE
+        ) %>% add_lines(x =  ~ second,
+                        y = fitted(fit),
+                        name = "Fitted linear model") %>% layout(xaxis = list(title = colNames[secondAttribute]),
+                                                                 yaxis = list(title = colNames[firstAttribute]))
+      p
+    }
+  })
 
   ######################################################################################
   # SPLOM
@@ -208,6 +264,7 @@ shinyServer(function(input, output, session) {
 
 
   # Create scatterplot matrix from persons Data tabui
+
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
       SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
@@ -222,9 +279,6 @@ shinyServer(function(input, output, session) {
   ######################################################################################
   # Trajectory Plots
   ######################################################################################
-
-
-  ### TODO: abstract plotting into functions -> currently exact same plotting is done for day one and two...
   output$gx_3d_trajectoryDayOne <- renderPlotly({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     lower_z_filter = input$z_level[1]
@@ -236,7 +290,8 @@ shinyServer(function(input, output, session) {
       trjPlotDayOne <- plot_ly()
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
-      z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
+      z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
+                                                             z < upper_z_filter)], ]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -264,9 +319,10 @@ shinyServer(function(input, output, session) {
         ),
         mode = 'lines'
       )
-      if ((vr == 1 || vr == 3) && input$showRoomInput ) {
+      if ((vr == 1 || vr == 3) && input$showRoomInput) {
         # z selection must be done here
-        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
+                                                                        lower_z_filter & z < upper_z_filter)], ]
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
             data = VR1coordinates,
@@ -316,7 +372,8 @@ shinyServer(function(input, output, session) {
 
       } else if ((vr == 2) && input$showRoomInput) {
         # z selection must be done here to work
-        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
+                                                                        lower_z_filter & z < upper_z_filter)], ]
 
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
@@ -365,7 +422,7 @@ shinyServer(function(input, output, session) {
                        ) - 1))
 
           )
-      } else if(input$showRoomInput){
+      } else if (input$showRoomInput) {
         print("Unexpected VR ID provided in trajectory plotting")
         print(toString(vr))
       }
@@ -385,7 +442,8 @@ shinyServer(function(input, output, session) {
       trjPlotDayTwo <- plot_ly()
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]]
-      z_filtered_traj = z_filtered_traj[z_filtered_traj[,(z>lower_z_filter & z<upper_z_filter)],]
+      z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
+                                                             z < upper_z_filter)], ]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -415,7 +473,8 @@ shinyServer(function(input, output, session) {
       )
       if ((vr == 1 || vr == 3) && input$showRoomInput) {
         # z selection must be done here
-        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
+                                                                        lower_z_filter & z < upper_z_filter)], ]
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
             data = VR1coordinates,
@@ -465,7 +524,8 @@ shinyServer(function(input, output, session) {
 
       } else if ((vr == 2) && input$showRoomInput) {
         # z selection must be done here to work
-        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[,(z>lower_z_filter & z<upper_z_filter)],]
+        VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
+                                                                        lower_z_filter & z < upper_z_filter)], ]
 
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
@@ -514,7 +574,7 @@ shinyServer(function(input, output, session) {
                        ) - 1))
 
           )
-      } else if(input$showRoomInput){
+      } else if (input$showRoomInput) {
         print("Unexpected VR ID provided in trajectory plotting day two")
         print(toString(vr))
       }
@@ -533,9 +593,9 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayOne[[personsDataTable[selectedPersons,VP]]],
-          x = ~Entries,
-          y = ~Name,
+          data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
+          x = ~ Entries,
+          y = ~ Name,
           name = "Entries per room",
           type = "bar",
           orientation = "h"
@@ -549,9 +609,9 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayTwo[[personsDataTable[selectedPersons,VP]]],
-          x = ~Entries,
-          y = ~Name,
+          data = roomHistDayTwo[[personsDataTable[selectedPersons, VP]]],
+          x = ~ Entries,
+          y = ~ Name,
           name = "Entries per room",
           type = "bar",
           orientation = "h"
@@ -569,8 +629,8 @@ shinyServer(function(input, output, session) {
       p <- p %>%
         add_trace(
           data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
-          x = ~TimeSpent,
-          y = ~Name,
+          x = ~ TimeSpent,
+          y = ~ Name,
           name = "Time spent per room",
           type = "bar",
           orientation = "h"
@@ -585,8 +645,8 @@ shinyServer(function(input, output, session) {
       p <- p %>%
         add_trace(
           data = roomHistDayTwo[[personsDataTable[selectedPersons, VP]]],
-          x = ~TimeSpent,
-          y = ~Name,
+          x = ~ TimeSpent,
+          y = ~ Name,
           name = "Time spent per room",
           type = "bar",
           orientation = "h"
@@ -604,21 +664,23 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>%add_trace(
+    ) %>% add_trace(
       y = worldTwoAggregatedRooms$TimeSpent,
       name = 'Average Time spent in rooms: Pirateship',
       type = 'box',
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>% add_trace( y = worldThreeAggregatedRooms$TimeSpent,
-                    name = 'Average Time spent in rooms: Colored Mansion',
-                    type = 'box',
-                    boxpoints = 'all',
-                    jitter = 0.3,
-                    pointpos = -1.8
+    ) %>% add_trace(
+      y = worldThreeAggregatedRooms$TimeSpent,
+      name = 'Average Time spent in rooms: Colored Mansion',
+      type = 'box',
+      boxpoints = 'all',
+      jitter = 0.3,
+      pointpos = -1.8
 
-    )})
+    )
+  })
 
 
   ###****************************************************************************************************************************************************************
@@ -646,24 +708,20 @@ shinyServer(function(input, output, session) {
     )
   })
   output$sameWorldBox <- renderValueBox({
-    valueBox(
-      paste(round((
-        nrow(sameWorld) / nrow(personsDataTable)
-      ) * 100, 2), '%'),
-      "Same world",
-      icon = icon("percent"),
-      color = 'green'
-    )
+    valueBox(paste(round((
+      nrow(sameWorld) / nrow(personsDataTable)
+    ) * 100, 2), '%'),
+    "Same world",
+    icon = icon("percent"),
+    color = 'green')
   })
   output$newWorldBox <- renderValueBox({
-    valueBox(
-      paste(round((
-        nrow(newWorld) / nrow(personsDataTable)
-      ) * 100, 2), ' %'),
-      "New world",
-      icon = icon("percent"),
-      color = 'green'
-    )
+    valueBox(paste(round((
+      nrow(newWorld) / nrow(personsDataTable)
+    ) * 100, 2), ' %'),
+    "New world",
+    icon = icon("percent"),
+    color = 'green')
   })
   output$partialNewWorldBox <- renderValueBox({
     valueBox(
@@ -948,49 +1006,59 @@ shinyServer(function(input, output, session) {
   ######################################################################################
 
   # Create a printf function for formattet printing
-  printf <- function(...) cat(sprintf(...))
+  printf <- function(...)
+    cat(sprintf(...))
   # Create symmetric diff function
-  symdiff <- function( x, y) { setdiff( union(x, y), intersect(x, y))}
+  symdiff <-
+    function(x, y) {
+      setdiff(union(x, y), intersect(x, y))
+    }
   # Print debug information of selected VP
   observe({
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     # Only day one beeing checked
-    if(length(selectedPersons)){
-    vp = personsDataTable[selectedPersons,VP]
-    vr = personsDataTable[selectedPersons,firstVR]
-    trj = trajectoryDataDayOne[[vp]]
-    graph = roomGraphDataDayOne[[vp]]
-    hist = roomHistDayOne[[vp]]
-    # Timings:
-    trjTime = nrow(trj)*0.1
-    graphTime = sum(graph$TimeSpent)
-    histTime = sum(hist$TimeSpent)
-    # Unentered Rooms: (depends on VR version)
-    if(vr == 1 || 3){
-      graphRoomUnvisited = symdiff(roomCoordinatesVR1.0$id,graph$Room)
-    }else if(vr == 2){
-      graphRoomUnvisited = symdiff(roomCoordinatesVR2.0$id,graph$Room)
-    }else{
-      print("abort in debug observing: wrong vr id")
-      return(NULL)
-    }
-    histRoomUnvisited = hist[hist[,TimeSpent==0],]$Room
-    entryRoomUnvisited = hist[hist[,Entries==0],]$Room
-    # Printing
-    printf("For Day One: \n")
-    printf("selected person id: %d vp: %d  vr: %d \n",selectedPersons, vp, vr)
-    printf("Time: trj = %4.1f rGraph = %4.1f rHist = %4.1f \n", trjTime,graphTime,histTime)
-    # Print unvisited rooms
-    printf("Rooms not entered: \n")
-    print(graphRoomUnvisited)
-    print(histRoomUnvisited)
-    print(entryRoomUnvisited)
-    printf("Difference roomGraph to roomHist:")
-    print(symdiff(graphRoomUnvisited,histRoomUnvisited))
-    printf("\n")
-    printf("Difference roomHist to histEntries:")
-    print(symdiff(histRoomUnvisited,entryRoomUnvisited))
-    printf("\n")
+    if (length(selectedPersons)) {
+      vp = personsDataTable[selectedPersons, VP]
+      vr = personsDataTable[selectedPersons, firstVR]
+      trj = trajectoryDataDayOne[[vp]]
+      graph = roomGraphDataDayOne[[vp]]
+      hist = roomHistDayOne[[vp]]
+      # Timings:
+      trjTime = nrow(trj) * 0.1
+      graphTime = sum(graph$TimeSpent)
+      histTime = sum(hist$TimeSpent)
+      # Unentered Rooms: (depends on VR version)
+      if (vr == 1 || 3) {
+        graphRoomUnvisited = symdiff(roomCoordinatesVR1.0$id, graph$Room)
+      } else if (vr == 2) {
+        graphRoomUnvisited = symdiff(roomCoordinatesVR2.0$id, graph$Room)
+      } else{
+        print("abort in debug observing: wrong vr id")
+        return(NULL)
+      }
+      histRoomUnvisited = hist[hist[, TimeSpent == 0], ]$Room
+      entryRoomUnvisited = hist[hist[, Entries == 0], ]$Room
+      # Printing
+      printf("For Day One: \n")
+      printf("selected person id: %d vp: %d  vr: %d \n",
+             selectedPersons,
+             vp,
+             vr)
+      printf("Time: trj = %4.1f rGraph = %4.1f rHist = %4.1f \n",
+             trjTime,
+             graphTime,
+             histTime)
+      # Print unvisited rooms
+      printf("Rooms not entered: \n")
+      print(graphRoomUnvisited)
+      print(histRoomUnvisited)
+      print(entryRoomUnvisited)
+      printf("Difference roomGraph to roomHist:")
+      print(symdiff(graphRoomUnvisited, histRoomUnvisited))
+      printf("\n")
+      printf("Difference roomHist to histEntries:")
+      print(symdiff(histRoomUnvisited, entryRoomUnvisited))
+      printf("\n")
     }
   })
 
