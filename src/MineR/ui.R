@@ -387,30 +387,20 @@ ds_body = dashboardBody(tabItems(
         )
       )
     ),
-    fluidRow(
-      width = 12,
-      box(
-        width = 12,
-        title = 'World summarys',
-        collapsible = T,
-        collapsed = T,
-        fluidRow(
-          width = 12,
-          title = 'Different worlds',
-          column(width = 4,
-                 box(title = "Mansion",
-                     status = "primary")),
-          column(width = 4,
-                 box(title = "Mansion altered",
-                     status = "primary")),
-          column(width = 4,
-                 box(title = "Pirate ship",
-                     status = "primary"))
-          
-        )
-      )
-    )
+          fluidRow(
+            box(
+              title = 'World summarys',
+              width = 12,
+              collapsible = T,
+              collapsed = T,
+              fluidRow(
+                box(title = "Average Time spent per room",
+                    width = 12,
+                    status = "primary",
+                    plotlyOutput('summ')))))
+                       
   ),
+  
   
   ###****************************************************************************************************************************************************************
   ### Page 3: Experiment description and videos of the different Minecraft worlds
