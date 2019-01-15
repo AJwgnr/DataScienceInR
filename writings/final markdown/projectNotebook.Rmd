@@ -189,6 +189,7 @@ As already written in the concept section, the dataset consists of two kinds of 
 ### 3.2.1 Data structure
 - Describe how we load the data here
 - how we are accessing it
+- converting of coordinates/identification of rooms
 - precalculating of room graph -> stored in .rds files for faster access than xlsx files
 
 
@@ -214,7 +215,7 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 
 ## 3.4 Tests
-We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other visualizations on a Linux and on windows systems using different browsers. 
+We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other charts on a Linux and on windows systems using different browsers. 
 With respect to the usability we found that some parts of our Shiny web application are not repsonsive in every browser. But this is only limited to some layouting problems.
 Having a look at the performance of our app we can see that there are possibilities for improvement. The first time loading the webpage and preprocessing of the data takes around one minute. Using the precomputed data we can get the loading time below 15 seconds.
 
@@ -224,21 +225,20 @@ Having a look at the performance of our app we can see that there are possibilit
 
 The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (INSERT LINK).The following plots are screenshots captured from the webpage.
 
-The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project In troduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
+The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
 
-The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the person data table (See the image below).
+The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the data table containing the data of the test persons (See the image below).
 
 ![Raw view on the dataset](../proposal/images/Rawdata table.png)
 
 
-There are different possibilities for the user to analyse the dataset. The data can just be viewed as displayed in the image above but the correlation tab allow to choose any two variables from the data and to plot the may existing linear relationship.(image below)
+There are different possibilities for the user to analyse the dataset. The data can just be viewed as displayed in the image above but the correlation tab allows to choose any two variables from the data and to plot the may existing linear relationship.(image below)
 
 
 ![Linear correlation of attributes](../proposal/images/regression.png)
 
 
 It is the task of the user to choose meaningful attributes. Nevertheless we found that the following variable combinations yield some linear correlation (see next XX images):
-
 INSERT IMAGES OF CORRELATED VARIABles HERE
 
 
@@ -247,18 +247,19 @@ Besides the option of plotting only two dependet variables, the webpage also off
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
 
-When an entry from the person dataset is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (Height). 
+When an entry from the raw dataset tab is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (e.g. to plot only the first floor of the buildings in the virtual world). 
 
 
 ![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
 
 
-Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the patient spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered again. Both graphics are plotted using bar charts.
+Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the patient spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
 
 ![Memorizing experiment group distribution](../proposal/images/rooms.png)
 
-The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of this website tab the most important figures of the data are shown:
-* people had to recall 20 vocabularies
+The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of this website tab the most important figures of the experiment are shown:
+
+* Patient had to recall 20 vocabularies
 * Average direct recall was: 11.5 words
 * Average delayed recall was: 8.7 words
 
@@ -266,17 +267,29 @@ The following charts are dealing with the analyzation of the results of the memo
 * Group 2: Children having seen a new world on the second day: 41.27 %
 * Group 3: Children having seen a partial new world on the second day: 19.05 %
 
-Fruthermore the bar charts below those figures show the distribution of the ADHD type of the patient with respect to the three diffrent groups.
+Furthermore the bar charts below those figures show the distribution of the ADHD type of the patient with respect to the three different groups.
 
-IMPORTANT:
+IMPORTANT INSIGHTS:
 - Less people in partial new group -> also only control group there
 - less ADHD patients than control group
 
 
 ![Memorizing experiment group distribution](../proposal/images/memorizing.png)
 
+The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group patient. 
+
+* Group 1: Children having only seen the same world twice
+* Group 2: Children having seen a new world on the second day
+* Group 3: Children having seen a partial new world on the second day 
+* Group 4: Overall summary
 
 - viualize memorizing results
+
+IMPORTANT INSIGHTS:
+- Non adhd patients can memorize words better
+- there are ADHD patients in the partial new world yet
+
+
 
 ![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
 
