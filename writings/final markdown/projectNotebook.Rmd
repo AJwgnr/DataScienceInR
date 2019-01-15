@@ -232,13 +232,13 @@ The files contain the following attributes:
 
 Since the geometry of world one and three is equal the number of rooms is equal as well. For the worlds one and two this does not hold.
 The geometry only allows for rectangular rooms consisting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1<x2 and y1<y2. This is checked and corrected within the loading function. The rooms contain only the lower z coordinate which is sufficient for both plotting of the rooms and converting the trajectory data to a room based graph. The rooms must be sorted by increasing z externally to work correctly. This cannot be done at loading time to allow the description of complex geometry such as round stairways with the simple model of rectangles.
-The id and name of the room both identify the room but can occur multiple time in the geometry file to form non rectangular rooms.
+The id and name of the room both identify the room but can occur multiple time in the geometry file to form non rectangular rooms. The id counts all the rooms from zero to #rooms and contains minus one as special id reserved as entry for trajectory coordinates outside all room coordinates.
 The room type specifies the appearance of the room within the world. For outside regions such as gardens it is difficult to divide the area into regions similar to rooms. The borders are rather soft and the entry or leaving of one region is not comparable to entering a room through a door. Another special case are stairways which are not always rooms on their own but also probably noteworthy. To allow the analysis in respect to the various room types this column has been added but not found much use in the current program due to a lack of time to implement the necessary filters.
 
 With all the external data loaded further crucial data can be derived.
 These include the computation of a room based graph from cartesian trajectories, a histogram like summary of the room based graph data, the conversion to trajr object to derive trajr features such as straightness and the computation of several internal used summary statistics.
 
-The data.table roomGraphData and roomHistData are stored similar to the trajectory data in two lists, one for each day. Following their structure:
+The data.table roomGraphData and roomHistData are computed for each test person from the specific trajectory file and are stored similar to the trajectory data in lists, one for each day. Following their structure:
 
 # RoomGrahData table
 
@@ -257,6 +257,8 @@ The data.table roomGraphData and roomHistData are stored similar to the trajecto
 | Entries     | number       |
 | TimeSpent   | room type from geometry (integer,[0,1,2]) |
 | Name        | room name (char) from geometry   |
+
+The
 
 - describe traj2graph
 
