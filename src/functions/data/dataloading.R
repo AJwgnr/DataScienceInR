@@ -181,7 +181,7 @@ loadRoomHistByDay <-
         roomHist <-
           computeRoomHistByDay(1, personsDataTable, roomGraph, VR1, VR2)
         roomHist <-
-          computeRoomEntryHistogramByDay(1, personsDataTable, roomGraph, roomHist, VR1, VR2)
+          computeRoomEntryHistogramByDay(1, personsDataTable, roomGraph, roomHist)
         saveRDS(roomHist, file = '../../res/precomputed_data/roomHistDayOne.rds')
       } else{
         print("Loading previously computed roomHistDayOne")
@@ -196,7 +196,7 @@ loadRoomHistByDay <-
         roomHist <-
           computeRoomHistByDay(2, personsDataTable, roomGraph, VR1, VR2)
         roomHist <-
-          computeRoomEntryHistogramByDay(2, personsDataTable, roomGraph, roomHist, VR1, VR2)
+          computeRoomEntryHistogramByDay(2, personsDataTable, roomGraph, roomHist)
         saveRDS(roomHist, file = '../../res/precomputed_data/roomHistDayTwo.rds')
       } else{
         print("Loading previously roomHistDayTwo")

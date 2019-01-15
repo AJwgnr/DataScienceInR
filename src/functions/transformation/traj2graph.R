@@ -149,31 +149,10 @@ computeRoomEntryHistogramByDay <-
   function(day,
            personsData,
            roomGraph,
-           roomHist,
-           VR1,
-           VR2) {
+           roomHist) {
     roomEntryHist <- list()
-    # iterate over all persons
-    for (vp in personsData$VP) {
-      # get the vr id depending on the day
-      if (day == 1) {
-        vr = personsData[VP == vp, firstVR]
-      } else if (day == 2) {
-        vr = personsData[VP == vp, VE_Day2]
-      } else{
-        print("Unexpected day provided in computeRoomHistByDay")
-      }
-      
-      # Distinguish the roomEntryHist calculation based on the virtual world id
-      #TODO: FIXME (hard)
-      if (vr == 1 || vr == 3) {
+    for(vp in personsData$VP){
         roomEntryHist[[vp]] = as.data.table(roomHist2roomEntry(roomGraph[[vp]], roomHist[[vp]]))
-      } else if (vr == 2) {
-        roomEntryHist[[vp]] = as.data.table(roomHist2roomEntry(roomGraph[[vp]], roomHist[[vp]]))
-      } else{
-        print("Unexpected VR provided in computeRoomHistByDay")
-        return(NULL)
-      }
     }
     return(roomEntryHist)
   }
