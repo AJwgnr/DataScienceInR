@@ -1,10 +1,10 @@
 ---
 title: "Analyzing Trajectory Data to Understand the Effects of Video Games on Human Short- and Long-Term Memory"
 output:
-  html_document:
-    df_print: paged
   html_notebook: default
   pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 An important part of your project is your R Markdown process notebook. Your notebook details all your steps in developing your solution, including how you collected the data, alternative solutions you tried, describing machine learning algorithms/techniques you used, and the insights you got. It is strongly recommended to include many visualizations. Your process notebook should include the following topics:
@@ -95,14 +95,18 @@ The data set of the test persons contains variables such as sex, age and others 
 
 ### 1.4.2 Trajectory Table
 
-There should be two trajectory files for each person.
+There should be two trajectory files for each person. One for each day of exploration. The worlds explored can be the same or different between both days.
+The logging step size was 10 fps the resulting trajectory files contain around 7000 entries. The cartesian coordinates are given in double precision.
+Following the data structure of the trajectory files provided.
 
-| Attribute | Meaning |
+| Attribute | Description |
 |:-----------:|---------|
-| time      |time stamp in milliseconds    |
-| x         |x-coordinate minecraft world  |
-| z         |z-coordinate minecraft world  |
-| y         |y-coordinate minecraft world  |
+| time      |time stamp in milliseconds (unix time)   |
+| x         |x-coordinate minecraft world (cartesian) |
+| z         |z-coordinate minecraft world (cartesian) |
+| y         |y-coordinate minecraft world (cartesian) |
+
+
 
 
 # 2. Concept
@@ -138,7 +142,7 @@ We are trying to explore and answer the following questions:
 The design consists mainly of two parts:
 
 1. Data analysis and 
-2. (interactive) visualization
+2. Interactive visualization
 
 For the first part we will make use of algorithms and packages specialized for trajectory data, clustering and correlation analysis as well as regression fitting.
 An important role is the extraction of features from the trajectory data. Since there is not much related work available, this task contains defining, testing and implementing possible features such as:
@@ -167,13 +171,14 @@ The ideas and results of the concept implementation will be de detailed in the f
 ## 3.1. Packages
 We use the following R packages for the implementation:
 
+* **shiny**
 * pracma
 * tibble
-* shinydashboard
-* shinyWidgets
-* data.table
+* **shinydashboard**
+* **shinyWidgets**
+* **data.table**
 * ggplot2
-* plotly
+* **plotly**
 * dtplyr
 * readxl
 * stringr
@@ -182,6 +187,14 @@ We use the following R packages for the implementation:
 * GGally
 * reader
 * plyr
+* **trajr**
+
+The packages are listet in the order they are loaded.
+We wont go into detail about every package since there is a lot of information available on all of them online.
+To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handel large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
+We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only for special cases.
+Probably the most unknown important package in the list is trajr. It is originally designd to analyse 2d animal trajectory. Althou our data contains 3d trajectory data the trajr package has provided usefull in feature computation.
+The packages not mentioned here are used for minor computations throuout the program and could be replaced with similar in most cases.
 
 ## 3.2 Data
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
@@ -193,6 +206,18 @@ As already written in the concept section, the dataset consists of two kinds of 
 - how we are accessing it
 - converting of coordinates/identification of rooms
 - precalculating of room graph -> stored in .rds files for faster access than xlsx files
+
+To work with the trajr package the trajectory files have to be converesed to a trajr object using the TrajFromCoords function provided by trajr. 
+The conversion results in the following data structure:
+
+| Attribute | Description |
+|:-----------:|---------|
+|x                | x-coordinate (cartesian)
+|y                | y-coordinate (cartesian)
+|time             | time in decisecond starting at 0
+|displacementTime | here same as time
+|polar            | polar coordinates (complex)
+|displacement     | displacement vector between consecutive points (complex)
 
 
 ### 3.2.2 Data preprocessing
@@ -286,8 +311,8 @@ The following four boxplots show the comparison of the average TP_Direct_Recall 
 * Group 4: Overall summary
 
 IMPORTANT INSIGHTS:
-- Non adhd patients can memorize words better
-- there are ADHD patients in the partial new world yet
+- Non ADHD persons can memorize words better
+- there are ADHD persons in the partial new world yet
 
 
 

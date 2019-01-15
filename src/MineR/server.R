@@ -1071,7 +1071,7 @@ shinyServer(function(input, output, session) {
   
   featureFilter = personsDataTable[, Novelty == 1 &
                                      (firstVR == 1 | firstVR == 3)]
-  featureFilter = personsDataTable[, ADHD_Subtype]
+ # featureFilter = personsDataTable[, ADHD_Subtype]
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
