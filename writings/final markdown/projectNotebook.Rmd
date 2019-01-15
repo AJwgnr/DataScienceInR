@@ -1,10 +1,10 @@
 ---
 title: "Analyzing Trajectory Data to Understand the Effects of Video Games on Human Short- and Long-Term Memory"
 output:
-  html_notebook: default
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
+  html_notebook: default
 ---
 
 An important part of your project is your R Markdown process notebook. Your notebook details all your steps in developing your solution, including how you collected the data, alternative solutions you tried, describing machine learning algorithms/techniques you used, and the insights you got. It is strongly recommended to include many visualizations. Your process notebook should include the following topics:
@@ -111,7 +111,7 @@ Following the data structure of the trajectory files provided.
 
 # 2. Concept
 
-The following chapter contains the general ideas that were written down in the project proposal in the beginning of the project.
+The following chapter contains the summarized general project plan that was written down in the project proposal in the beginning of the project. The description of the real implementation and the result can be found in section 3.
 
 ## 2.1 Objectives
 
@@ -189,12 +189,12 @@ We use the following R packages for the implementation:
 * plyr
 * **trajr**
 
-The packages are listet in the order they are loaded.
-We wont go into detail about every package since there is a lot of information available on all of them online.
-To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handel large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
-We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only for special cases.
-Probably the most unknown important package in the list is trajr. It is originally designd to analyse 2d animal trajectory. Althou our data contains 3d trajectory data the trajr package has provided usefull in feature computation.
-The packages not mentioned here are used for minor computations throuout the program and could be replaced with similar in most cases.
+The packages are listed in the order they are loaded.
+We won´t go into detail about every package since there is a lot of information available on all of them online.
+To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
+We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only in special cases.
+Probably the most unknown important package in this list is trajr. It is originally designd to analyse 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved usefull in feature computation.
+The packages not mentioned here are used for minor computations throughout the program and could be replaced with similar packages in most cases.
 
 ## 3.2 Data
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
