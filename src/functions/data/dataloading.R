@@ -23,7 +23,7 @@ CSV_ROOM_WORLD_TWO_COORDINATE_PATH <-
 # Loads and returns the dataset containing all persons attributes into a data table
 loadPersonsDataset <- function() {
   # reads from the above defined path constant
-  persons <- as.data.table(read_excel(CSV_PERSONS_FOLDER_PATH))
+  persons <- as.data.table(fread(CSV_PERSONS_FOLDER_PATH))
   return(persons)
 }
 

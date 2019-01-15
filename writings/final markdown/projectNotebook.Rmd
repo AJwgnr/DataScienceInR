@@ -258,13 +258,18 @@ The data.table roomGraphData and roomHistData are computed for each test person 
 | TimeSpent   | room type from geometry (integer,[0,1,2]) |
 | Name        | room name (char) from geometry   |
 
-The
+The conversion from cartesian trajectory files to room graph based description is done for each trajectory file using the corresponding room geometry file.
+During the conversion the room geometry file is iterated for each trajectory file and the corresponding room id is stored for each trajectory entry. Since the room geometry is sorted by z only the highest room survives after iterating all rooms.
+The resulting room graph contains a list of all rooms visited in the order of visit. Since rooms can be reentered multiple times the room graph may contain more entries than there are rooms. Similar to the trajectory files the number of entries most likely differs between different test persons or days of experiment.
+For entry the time spent at that specific visit is stored along the room id and name.
 
-- describe traj2graph
+The room history data.table is similar to the room graph data.table but summarizes information in a histogram like manner per room. Thus the length of the room hist is equal to the number of rooms in the specific world and the same for different test persons (as long as they visited the same world).
+For each room the total time spent within the room, the total number of entries into the room, id and name. It is possible to store the average time spent in the rooms per visit along side but this is not implemented.
 
-- describe -1 room
+Both the room graph and room history are stored in two lists each similar to the trajectory files.
 
-- describe graph2hist
+Because the computation, especially the conversion from trajectory to room graph description takes a lot of time. Therefore the files are both stored in /precomputed as
+
 
 To work with the trajr package the trajectory files have to be converesed to a trajr object using the TrajFromCoords function provided by trajr.
 The conversion results in the following data structure:
