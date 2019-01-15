@@ -268,11 +268,14 @@ For each room the total time spent within the room, the total number of entries 
 
 Both the room graph and room history are stored in two lists each similar to the trajectory files.
 
-Because the computation, especially the conversion from trajectory to room graph description takes a lot of time. Therefore the files are both stored in /precomputed as
+Because the computation, especially the conversion from trajectory to room graph description takes a lot of time. Therefore the files are both stored in /precomputed and only computed if not accessible for loading. Currently it does not contain any functionality to detect changes to the data loading or processing and thus the precomputed data must be removed by hand to force the recomputation. This should be fixed to avoid possible future errors.
 
-
-To work with the trajr package the trajectory files have to be converesed to a trajr object using the TrajFromCoords function provided by trajr.
+One more conversion of the trajectory data was introduced in the data processing step to allow the computation of trajectory features using the trajr package.
+It is important to note the omitting of the z coordinate. This is forced by trajr which only allows for 2d trajectories. The conversion is debatable and may lead to wrong conclusions but for as a prove of concept shows that it is in general possible to use trajr.
+There is no precomputation done prior to conversion to tarjr expect the omitting of z. We are aware of the error this creates especially around stairways and due to false intersections introduced by collapsing the trajectory along z. However be thing this is acceptable since the movement is mostly along the x-y plane and players are bound to walk and have no means of flying or similar.
 The conversion results in the following data structure:
+
+# Trajr object
 
 | Attribute | Description |
 |:-----------:|------------------------------------|
@@ -283,7 +286,7 @@ The conversion results in the following data structure:
 |polar            | polar coordinates (complex)|
 |displacement     | displacement vector between consecutive points (complex)|
 
-
+Since the trajr object contains similar data compared to the trajectory data described previous....
 
 - Describe how we load the data here
 - how we are accessing it
