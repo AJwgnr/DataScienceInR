@@ -1,20 +1,34 @@
-# PATH DECLARATIONS
+###########################################################
+
+# Responsible for all functions that load data
+
+###########################################################
+# Path definitions to our data
+# Folder with all trajectorie data
 CSV_TRAJECTORIES_FOLDER_PATH <- "../../res/position_data/"
+
+# Path to the .xlsx with the information about all test persons
 CSV_PERSONS_FOLDER_PATH <-
   ("../../res/person_data/minecraft_all_subjects.xlsx")
+
+# CSV defining the coordinates of the rooms in world one
 CSV_ROOM_WORLD_ONE_COORDINATE_PATH <-
   ("../../res/SortedRooms_V1.0.csv")
+
+# CSV defining the coordinates of the rooms in world two
 CSV_ROOM_WORLD_TWO_COORDINATE_PATH <-
   ("../../res/SortedRooms_V2.0.csv")
 
 
 # Loads and returns the dataset containing all persons attributes into a data table
 loadPersonsDataset <- function() {
+  # reads from the above defined path constant
   persons <- as.data.table(read_excel(CSV_PERSONS_FOLDER_PATH))
   return(persons)
 }
 
 # Loads a dataframe which contains the coordinates of the rooms in the minecraft world
+# Don´t change this function because it sorts the coordinates in the end, which is really crucial for the later trajectorie processing
 loadRoomsDefinitionWorld <- function(world_id) {
   if (world_id == 1) {
     rooms <- fread(CSV_ROOM_WORLD_ONE_COORDINATE_PATH)
@@ -65,7 +79,7 @@ loadRoomsDefinitionWorld <- function(world_id) {
 
 
 
-# Loads all .csv files contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
+# Loads all .csv files (trajectories) contained in the CSV_TRAJECTORIES_FOLDER_PATH specified directory
 # Returns a list of data tables of csv files
 loadCompleteTrajectorieDataset <- function() {
   # filenames of the .csv files in the CSV_TRAJECTORIES_FOLDER_PATH directory
@@ -92,6 +106,7 @@ loadTrajectoryByDay <- function(day) {
                full.names = TRUE)
   # Filter files by the provided day variable
   if ((day == 1 | day == 2)) {
+    # filter files for the specfied day
     fileNames <-
       fileNames[grepl(paste("*minecraft_pos_log_VP.*_Tag", day, "_neu.csv", sep =
                               ""),
@@ -106,7 +121,6 @@ loadTrajectoryByDay <- function(day) {
       value[, y := -y]
       # Don't append an ID or similar here..just creats a bunch of problems on it's own...
       trajectoryData[[key]] = value
-      # maybe names(mylist) <- c(VP1..VPi..VPn) is more robust/faster?
     }
     return(trajectoryData)
   } else{
@@ -117,6 +131,7 @@ loadTrajectoryByDay <- function(day) {
 }
 
 # Function to precompute room graph data only once and load it from storage every secutive run
+# Data is stored in .rds files because it is much faster
 loadRoomGraphByDay <-
   function(day,
            personsDataTable,
@@ -125,7 +140,6 @@ loadRoomGraphByDay <-
            VR2) {
     if (day == 1) {
       # Compute data if not present in directory
-      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if (find.file('roomGraphDayOne.rds', "../../res/precomputed_data/") ==
           "") {
         print("Precomputing roomGraphDayOne")
@@ -139,7 +153,6 @@ loadRoomGraphByDay <-
       }
     } else if (day == 2) {
       # Compute data if not present in directory
-      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if (find.file('roomGraphDayTwo.rds', "../../res/precomputed_data/") ==
           "") {
         print("Precomputing roomGraphDayTwo")
@@ -154,7 +167,6 @@ loadRoomGraphByDay <-
     } else{
       print("Unexpected day provided in loadRoomGraph")
     }
-    
     return(roomGraph)
   }
 
@@ -163,7 +175,6 @@ loadRoomHistByDay <-
   function(day, personsDataTable, roomGraph, VR1, VR2) {
     if (day == 1) {
       # Compute data if not present in directory
-      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if (find.file('roomHistDayOne.rds', "../../res/precomputed_data/") ==
           "") {
         print("Precomputing roomHistDayOne")
@@ -179,7 +190,6 @@ loadRoomHistByDay <-
       }
     } else if (day == 2) {
       # Compute data if not present in directory
-      # TODO: also compare timestemp of data with dataloading.R and recompute if necessary
       if (find.file('roomHistDayTwo.rds', "../../res/precomputed_data/") ==
           "") {
         print("Precomputing roomHistDayTwo")

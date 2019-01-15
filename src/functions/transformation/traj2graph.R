@@ -1,6 +1,10 @@
-# Trajectory function
+###########################################################
 
-# Compute roomGraph for whole trajectorieSet of Day One
+# Responsible for all functions that process the trajectory data
+
+###########################################################
+
+# Compute roomGraph for the whole trajectorie set of day One
 computeRoomGraphByDay <-
   function(day,
            personsDataTable,
@@ -11,19 +15,21 @@ computeRoomGraphByDay <-
     for (vp in personsDataTable$VP) {
       # get vr from personsDataTable
       if (day == 1) {
+        # get id of virtual world on first day
         vr = personsDataTable[VP == vp, firstVR]
       } else if (day == 2) {
+        # get id of virtual world on second day
         vr = personsDataTable[VP == vp, VE_Day2]
       } else{
         print("Unexpected day provided in computeRoomGraphByDay")
         return(NULL)
       }
       
-      
+      # id 1 and 3 relate to the world 1 (normal and colored world)
       if (vr == 1 || vr == 3) {
         roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR1coordinates)
       } else if (vr == 2)
-      {
+      { # id 2 relates to the world 2 
         roomGraphData[[vp]] = traj2graph(trajectoryData[[vp]], VR2coordinates)
       } else{
         print("Unexpected vr id provided in computeRoomGraphByDay")
@@ -46,7 +52,7 @@ traj2graph <- function(trajectorie, rooms) {
   trajectorie$RoomHeight <-  -100
   trajectorie$RoomType <- -1
   
-  # Iterate rooms and create id entry for each row in trajectory. (speed up via vectorization might be possible)
+  # Iterate over all rooms and create id entry for each row in trajectory. (speed up via vectorization might be possible)
   for (rows in 1:nrow(rooms)) {
     # Compare position with room coordinates
     condition <-
@@ -56,7 +62,6 @@ traj2graph <- function(trajectorie, rooms) {
           trajectorie$y >= rooms[rows, y1] &
           trajectorie$y <= rooms[rows, y2] &
           trajectorie$z >= rooms[rows, z] - 1
-        # &trajectorie$z <= rooms[rows, z] + 4 # Set maximum room height: usefull for debuggin, may produce false negatives on stairs
       )
     # Store room ID ('plane sweep' along z axis is used to compute correct room id. Only highest possible room ID survives)
     trajectorie[condition == TRUE, "Room"] = rooms[rows, "id"]
@@ -75,12 +80,13 @@ traj2graph <- function(trajectorie, rooms) {
       by.y = "id",
       all.x = TRUE
     )
-  return(trajectorie) # 0.1 sec spentd per trajectory row/timestemp
+  return(trajectorie) # 0.1 sec spent per trajectory row/timestemp
 }
 
 # Create list containing data.table with ID, Name and TimeSpent per Room (person wise)
 computeRoomHistByDay <-
   function(day, personsData, roomGraph, VR1, VR2) {
+    # get unique rooms
     roomNamesVR1.0 = unique(VR1[, c("id", "name")])
     roomNamesVR2.0 = unique(VR2[, c("id", "name")])
     names(roomNamesVR1.0) = c("ID", "Name")
@@ -88,6 +94,7 @@ computeRoomHistByDay <-
     
     roomHist <- list()
     for (vp in personsData$VP) {
+      # filter by day
       if (day == 1) {
         vr = personsData[VP == vp, firstVR]
       } else if (day == 2) {
@@ -96,6 +103,7 @@ computeRoomHistByDay <-
         print("Unexpected day provided in computeRoomHistByDay")
       }
       
+      # use the different room files depending on the vr id
       if (vr == 1 || vr == 3) {
         roomHist[[vp]] = as.data.table(roomGraph2roomHist(roomGraph[[vp]], VR1, roomNamesVR1.0))
       } else if (vr == 2) {
@@ -145,7 +153,9 @@ computeRoomEntryHistogramByDay <-
            VR1,
            VR2) {
     roomEntryHist <- list()
+    # iterate over all persons
     for (vp in personsData$VP) {
+      # get the vr id depending on the day
       if (day == 1) {
         vr = personsData[VP == vp, firstVR]
       } else if (day == 2) {
@@ -154,6 +164,8 @@ computeRoomEntryHistogramByDay <-
         print("Unexpected day provided in computeRoomHistByDay")
       }
       
+      # Distinguish the roomEntryHist calculation based on the virtual world id
+      #TODO: FIXME (hard)
       if (vr == 1 || vr == 3) {
         roomEntryHist[[vp]] = as.data.table(roomHist2roomEntry(roomGraph[[vp]], roomHist[[vp]]))
       } else if (vr == 2) {

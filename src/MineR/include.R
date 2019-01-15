@@ -1,5 +1,5 @@
 # Include librarys for UI and SERVER
-# Check if the packages were already installed, otherwise installs them
+# Checks if the packages were already installed, otherwise installs them
 if (!require('yaml')) {
   install.packages('yaml')
 }

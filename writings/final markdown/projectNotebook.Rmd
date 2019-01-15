@@ -1,10 +1,10 @@
 ---
 title: "Analyzing Trajectory Data to Understand the Effects of Video Games on Human Short- and Long-Term Memory"
 output:
-  html_notebook: default
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
+  html_notebook: default
 ---
 
 An important part of your project is your R Markdown process notebook. Your notebook details all your steps in developing your solution, including how you collected the data, alternative solutions you tried, describing machine learning algorithms/techniques you used, and the insights you got. It is strongly recommended to include many visualizations. Your process notebook should include the following topics:
@@ -111,7 +111,7 @@ Following the data structure of the trajectory files provided.
 
 # 2. Concept
 
-The following chapter contains the general ideas that were written down in the project proposal in the beginning of the project.
+The following chapter contains the summarized general project plan that was written down in the project proposal in the beginning of the project. The description of the real implementation and the result can be found in section 3.
 
 ## 2.1 Objectives
 
@@ -189,12 +189,12 @@ We use the following R packages for the implementation:
 * plyr
 * **trajr**
 
-The packages are listet in the order they are loaded.
-We wont go into detail about every package since there is a lot of information available on all of them online.
-To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handel large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
-We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only for special cases.
-Probably the most unknown important package in the list is trajr. It is originally designd to analyse 2d animal trajectory. Althou our data contains 3d trajectory data the trajr package has provided usefull in feature computation.
-The packages not mentioned here are used for minor computations throuout the program and could be replaced with similar in most cases.
+The packages are listed in the order they are loaded.
+We won´t go into detail about every package since there is a lot of information available on all of them online.
+To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
+We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only in special cases.
+Probably the most unknown important package in this list is trajr. It is originally designd to analyse 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved usefull in feature computation.
+The packages not mentioned here are used for minor computations throughout the program and could be replaced with similar packages in most cases.
 
 ## 3.2 Data
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values.
@@ -279,6 +279,7 @@ The results of our analysis can be viewed in our interactive Shiny web applicati
 
 The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
 
+## 4.1 The Dataset
 The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the data table containing the data of the test persons (See the image below).
 
 ![Raw view on the dataset](../proposal/images/Rawdata table.png)
@@ -294,7 +295,7 @@ It is the task of the user to choose meaningful attributes. Nevertheless we foun
 INSERT IMAGES OF CORRELATED VARIABles HERE
 
 
-Besides the option of plotting only two dependet variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can may disturb the analysis when many features are used.
+Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can may disturb the analysis when many features are used.
 
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
@@ -309,6 +310,7 @@ Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs all
 
 ![Memorizing experiment group distribution](../proposal/images/rooms.png)
 
+## 4.2 Memorizing Experiment
 The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of this website tab the most important figures of the experiment are shown:
 
 * Patient had to recall 20 vocabularies
@@ -344,17 +346,25 @@ IMPORTANT INSIGHTS:
 ![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
 
 
+## 4.3 Trajectory Features
+
+
+
 # 5. Conclusions
 
+Recapitulating this whole project, we followed the steps of an general data science project. At first we analyzed the data we got, thought about algorithms that can be applied, cleaned and preprocessed the data, calculated features, created visualizations and finally an interactive shiny web application that offers experts the ability to analyze the data.
 
-* We created a shiny web app
-* we abstracted basic functionalities for trajectorie processing and feature calculation into several .R files
-* we encapsulated the visualization from the underlying data (data is accessed dynamically within an .R file und just needs to be changed/added)
+While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage we also allow to reuse those files independently of the webpage. This not only allows to continue developing the further analysis of the data without a shiny webpage but also to apply our function to completely new data (like other trajectories).
 
+Overall our web application lacks 
+- not that many machien learning algortihms, no classification etc.
+- trajectory feature computation was complicated.
 
+In the following two sections
 
 # 5.1 Advantages
 * allows to prototype very fast
+*
 
 # 5.2. Disadvantages
 * Steep learning curve
@@ -373,6 +383,10 @@ IMPORTANT INSIGHTS:
 # 5.4 Future Work
 
 
-
+# 6 Course Feedback
+* Period for the project was far too short (after the proposal review meeting there were only 8 weeks with 2 weeks christmas holiday in between)
+* No really clear requirements for the final project (maybe offer an example of how a final project should look like)
+* Setup a fixed appointment after half of the project time (students can get feedback if they are working in the right direction)
+* Screencast of the application doesn´t really make sense
 
 

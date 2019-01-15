@@ -389,6 +389,9 @@ ds_body = dashboardBody(tabItems(
         )
       )
     ),
+    #======================================
+    # Page 2: fluidRow 6: Trajectory summary of the different worlds
+    #======================================
     fluidRow(
       box(
         title = 'World summarys',
@@ -400,7 +403,7 @@ ds_body = dashboardBody(tabItems(
             title = "Average Time spent per room",
             width = 12,
             status = "primary",
-            plotlyOutput('summ')
+            plotlyOutput('trajecWorldSummary')
           )
         )
       )
