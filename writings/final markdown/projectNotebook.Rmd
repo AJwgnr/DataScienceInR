@@ -187,6 +187,8 @@ We use the following R packages for the implementation:
 As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
 
 ### 3.2.1 Data structure
+
+
 - Describe how we load the data here
 - how we are accessing it
 - converting of coordinates/identification of rooms
@@ -296,7 +298,8 @@ IMPORTANT INSIGHTS:
 
 
 * We created a shiny web app
-* we encapsulated the visualization from the underlying data (data is accessed dynamically und just needs to be changed/added)
+* we abstracted basic functionalities for trajectorie processing and feature calculation into several .R files
+* we encapsulated the visualization from the underlying data (data is accessed dynamically within an .R file und just needs to be changed/added)
 
 
 
@@ -318,3 +321,8 @@ IMPORTANT INSIGHTS:
 
 
 # 5.4 Future Work
+
+
+
+
+
