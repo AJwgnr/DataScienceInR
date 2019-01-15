@@ -197,9 +197,41 @@ Probably the most unknown important package in the list is trajr. It is original
 The packages not mentioned here are used for minor computations throuout the program and could be replaced with similar in most cases.
 
 ## 3.2 Data
-As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values
+As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values.
+- Data loading and computation is done seperatly from data
+- New data and even attributes can be added easily
+- Trajectory feature computation works independed of data (can be used for animal studies etc. as well as long as the same data structrues are used)
 
-### 3.2.1 Data structure
+### 3.2.1 Data preprocessing
+- remove entries with NAN´s
+- rmeove entries with missing values
+- remove persons
+- remove trajectory files
+- rename files
+- create room coordinate files
+
+### 3.2.2 Data structure and loading
+
+The test persons data table described in 1.4.1 is the first data loaded into a data.table object using the fread function of the beloning package. The data table contains all the attributes listet in 1.4.1. Those attributes and column names remain unchanged throughout the program. The persons data table is the most crucial part of data and used for various plots and analysis tasks. 
+
+The second data loaded into are the trajectory files stored in csv format. Since they the trajectory files contain a different number of rows each and are based on several virtual minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons VP number. There is no seperation made between the different virtual worlds at this step. The trajectories them selfes are stored as data.table using fread to gain a significant speed up compared to the inbuild loading function and storage into data.frame.
+
+The last data loaded from file by default are two files containing the geometry of the virtual worlds. There are three worlds but only differ geometrically where as world one and three only differ in color and apperance.
+The files contain the following attributes:
+
+| Attribute | Description |
+|:-----------:|----------------------------------------------|
+| z         |z coordinate minecraft world (cartesian, floor level)   |
+| x1        |lower x coordinate minecraft world (cartesian) |
+| x2        |upper x coordinate minecraft world (cartesian) |
+| y1        |lower y coordinate minecraft world (cartesian) |
+| y2        |upper y coordinate minecraft world (cartesian) |
+| id        |room identification number (integer,[-1,#rooms])|
+|name       |room name (char) |
+|RoomType   |room type: inside/closed, outside/open, stairway/level change (integer,[0,1,2])|
+
+Since the geometrie of world one and three is equal the number of rooms is equal as well. For the worlds one and two this does not hold. 
+The geometrie only allows for rectangular rooms consiting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1<x2 and y1<y2. This is checked and corrected within the loading function. 
 
 
 - Describe how we load the data here
@@ -211,20 +243,13 @@ To work with the trajr package the trajectory files have to be converesed to a t
 The conversion results in the following data structure:
 
 | Attribute | Description |
-|:-----------:|---------|
-|x                | x-coordinate (cartesian)
-|y                | y-coordinate (cartesian)
-|time             | time in decisecond starting at 0
-|displacementTime | here same as time
-|polar            | polar coordinates (complex)
-|displacement     | displacement vector between consecutive points (complex)
-
-
-### 3.2.2 Data preprocessing
-- remove entries with NAN´s
-- rmeove entries with missing values
--
-
+|:-----------:|------------------------------------|
+|x                | x-coordinate (cartesian)|
+|y                | y-coordinate (cartesian)|
+|time             | time in decisecond starting at 0|
+|displacementTime | here same as time|
+|polar            | polar coordinates (complex)|
+|displacement     | displacement vector between consecutive points (complex)|
 
 
 ## 3.3 Algorithms and Methods
