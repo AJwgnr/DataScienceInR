@@ -322,10 +322,6 @@ shinyServer(function(input, output, session) {
   ######################################################################################
   # SPLOM
   ######################################################################################
-  
-  
-  # Create scatterplot matrix from persons Data tabui
-  
   output$gx_splom_personsDataTable <- renderPlotly({
     d <-
       SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
@@ -719,9 +715,11 @@ shinyServer(function(input, output, session) {
     }
   })
   
+  ######################################################################################
+  # Boxplot trajectory world summary
+  ######################################################################################
   
-  
-  output$summ <- renderPlotly({
+  output$trajecWorldSummary <- renderPlotly({
     plot_ly(
       y = worldOneAggregatedRooms$TimeSpent,
       name = 'Average Time spent in rooms: Mansion',

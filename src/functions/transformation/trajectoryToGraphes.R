@@ -1,3 +1,9 @@
+
+
+
+#TODO: Delete
+
+
 # This file convertes trajectories to room based graphes
 # x,y,z,time -> roomeId,roomeName,timeSpent (on this single entry(multiple entries stored seperately))
 
