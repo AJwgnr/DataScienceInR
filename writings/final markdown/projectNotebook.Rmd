@@ -348,6 +348,11 @@ It is the task of the user to choose meaningful attributes. Nevertheless we foun
 INSERT IMAGES OF CORRELATED VARIABles HERE
 
 
+**Important Insights:**
+
+* blah 
+* blah
+
 Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can may disturb the analysis when many features are used.
 
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
@@ -364,11 +369,24 @@ Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs all
 ![Time spent per room and number of entrances per room](../proposal/images/rooms.png)
 
 
--world summarys
 
+**Important Insights:**
+
+* blah 
+* blah
+
+
+The data of the time each person has spend in the rooms of the world can be further aggregated over the two days with respect to the virtual world´s. By doing that we can get the boxplot (image below) that shows the average time that was spent per room in each of the worlds. On the webpage the rooms of the world are displayed when the mouse is hovered over the data points.
 
 
 ![Summary of time spent per world for each of the virtual world´s](../proposal/images/worlds.png)
+
+
+
+**Important Insights:**
+
+* blah 
+* blah
 
 ## 4.2 Memorizing Experiment
 The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
@@ -383,43 +401,42 @@ The following charts are dealing with the analyzation of the results of the memo
 
 Furthermore the bar charts below those figures show the distribution of the ADHD type of the test person with respect to the three different groups.
 
-IMPORTANT INSIGHTS:
-- Less people in partial new group -> also only control group there
-- less ADHD test persons than persons in control group
-
 
 ![Memorizing experiment group distribution](../proposal/images/memorizing.png)
 
-The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group test persons.
+**Important Insights:**
+
+* Less people in partial new group -> also only control group there
+* less ADHD test persons than persons in control group
+
+The following four boxplots show the comparison of the TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group test persons.
 
 * Group 1: Test persons having only seen the same world twice
 * Group 2: Test persons having seen a new world on the second day
 * Group 3: Test persons having seen a partial new world on the second day
 * Group 4: Overall summary
 
-IMPORTANT INSIGHTS:
-- Non ADHD persons can memorize words better
-- there are ADHD persons in the partial new world yet
-
-
-
 ![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
+
+**Important Insights:**
+
+* Non ADHD persons can memorize words better
+* there are ADHD persons in the partial new world yet
 
 
 ## 4.3 Trajectory Features
 
+**Important Insights:**
 
 
 # 5. Conclusions
 
-Recapitulating this whole project, we followed the steps of an general data science project. At first we analyzed the data we got, thought about algorithms that can be applied, cleaned and preprocessed the data, calculated features, created visualizations and finally an interactive shiny web application that offers experts the ability to analyze the data.
+Recapitulating this whole project, we followed the steps of a general data science project. At first we analyzed the data we got, thought about algorithms that can be applied, cleaned and preprocessed the data, calculated features, created visualizations and finally an interactive shiny web application that offers experts the ability to analyze the data.
 
-While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage we also allow to reuse those files independently of the webpage. This not only allows to continue developing the further analysis of the data without a shiny webpage but also to apply our function to completely new data (like other trajectories).
+While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage, we also allow to reuse those files independently of the webpage. This allows not only to continue developing the further analysis of the data without a shiny webpage but also to apply our functions to completely new data (like other trajectories).
 
-Overall our web application lacks
-- not that many machien learning algortihms, no classification etc.
-- trajectory feature computation was complicated.
-- not statistical tests
+Since the analysis and computation of the trajectury features as well as the building of the shiny webapp was quite complicated our project lacks further machine learning methods. We only applied XXXXXX.
+Not only due to time reasons but also because our dataset was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive bayes.
 
 
 # 5.1 R Feedback
@@ -435,10 +452,10 @@ In the following section we describe our experiences with the R programming lang
 **Disadvantages**:
 
 * Steep learning curve
-* Not very clear how to structure R projects or especially Shiny projects (more than 2500 lines of code in our project)
+* Not very clear how to structure bigger R projects or especially Shiny projects (more than 2500 lines of code in our project)
 * Error messages are really bad because they are in the final rendered html and not in the real R code
-* Shiny Dashboard is not responsive
-* Problems when using different Shiny, R or package versions
+* Shiny Dashboard is not responsive in all components in every browser
+* Problems when using different Shiny, R or package versions among developers
 
 
 # 5.2 Final Insights
