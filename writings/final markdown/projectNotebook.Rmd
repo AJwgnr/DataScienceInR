@@ -286,12 +286,24 @@ The conversion results in the following data structure:
 |polar            | polar coordinates (complex)|
 |displacement     | displacement vector between consecutive points (complex)|
 
-Since the trajr object contains similar data compared to the trajectory data described previous....
+Since the trajr object contains similar data compared to the trajectory data described previous and is well documented we will not further discuss it here.
 
-- Describe how we load the data here
-- how we are accessing it
-- converting of coordinates/identification of rooms
-- precalculating of room graph -> stored in .rds files for faster access than xlsx files
+The last step worth mentioning in the computation of data before analysis and visualization tasks is the computation of trajectory features to allow a comparison of trajectories and as such clustering and others.
+
+Therefore we already provided the room graph an room hist data.table as well as the conversion to trajr trajectories. From these data sets we computed the following features:
+
+# Trajectory features
+
+| Feature | Description |
+|:-----------:|------------------------------------|
+| Average time per room visit | Average time spent per visit of all rooms (sec)|
+| Average entries | Average of passes between all rooms (double) |
+| Room coverage | Number of visited rooms (percent)|
+| Corrected sinuosity | Mean cosine of turning angles by Benhamou (2004) |
+| straightness | Distance from start to end over length (bullshit) |
+| Total Time Spent | (sec) |
+
+The features are computed using the above stated data.tables for each day and person separately. Instead of storing the features in a list they are simply added as columns to the test persons data.table and read from there. The corrected sinuosity and straightness features are computed using trajr functions.
 
 ## 3.3 Algorithms and Methods
 
