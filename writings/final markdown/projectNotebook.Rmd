@@ -283,8 +283,6 @@ The following four boxplots show the comparison of the average TP_Direct_Recall 
 * Group 3: Children having seen a partial new world on the second day 
 * Group 4: Overall summary
 
-- viualize memorizing results
-
 IMPORTANT INSIGHTS:
 - Non adhd patients can memorize words better
 - there are ADHD patients in the partial new world yet
@@ -295,6 +293,11 @@ IMPORTANT INSIGHTS:
 
 
 # 5. Conclusions
+
+
+* We created a shiny web app
+* we encapsulated the visualization from the underlying data (data is accessed dynamically und just needs to be changed/added)
+
 
 
 # 5.1 Advantages
@@ -311,3 +314,7 @@ IMPORTANT INSIGHTS:
 
 # 5.3 Final Insights
 - summarize the most important insights about the dataset here!
+
+
+
+# 5.4 Future Work
