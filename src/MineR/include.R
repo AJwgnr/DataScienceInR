@@ -1,64 +1,64 @@
 # Include librarys for UI and SERVER
 # Check if the packages were already installed, otherwise installs them
-if(!require('yaml')){
+if (!require('yaml')) {
   install.packages('yaml')
 }
-if(!require('shiny')){
+if (!require('shiny')) {
   install.packages('shiny')
 }
-if(!require('lazyeval')){
+if (!require('lazyeval')) {
   install.packages('lazyeval')
 }
-if(!require('shinydashboard')){
+if (!require('shinydashboard')) {
   install.packages('shinydashboard')
 }
-if(!require('shinyWidgets')){
+if (!require('shinyWidgets')) {
   install.packages('shinyWidgets')
 }
-if(!require('data.table')){
+if (!require('data.table')) {
   install.packages('data.table')
 }
-if(!require('ggplot2')){
+if (!require('ggplot2')) {
   install.packages('ggplot2')
 }
-if(!require('plotly')){
-  install.packages('plotly')       
+if (!require('plotly')) {
+  install.packages('plotly')
 }
-if(!require('dtplyr')){
+if (!require('dtplyr')) {
   install.packages('dtplyr')
 }
-if(!require('readxl')){
+if (!require('readxl')) {
   install.packages('readxl')
 }
-if(!require('stringr')){
+if (!require('stringr')) {
   install.packages('stringr')
 }
-if(!require('DT')){
+if (!require('DT')) {
   install.packages('DT')
 }
-if(!require('crosstalk')){
+if (!require('crosstalk')) {
   install.packages('crosstalk')
 }
-if(!require('GGally')){
+if (!require('GGally')) {
   install.packages('GGally')
 }
-if(!require('tibble')){
+if (!require('tibble')) {
   install.packages('tibble')
 }
 
-if(!require('reader')){
+if (!require('reader')) {
   install.packages('reader')
 }
 
-if(!require('plyr')){
+if (!require('plyr')) {
   install.packages('plyr')
 }
 
-if(!require('pracma')){
+if (!require('pracma')) {
   install.packages('pracma')
 }
 
-if(!require('trajr')){
+if (!require('trajr')) {
   install.packages('trajr')
 }
 

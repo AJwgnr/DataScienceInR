@@ -187,18 +187,20 @@ shinyServer(function(input, output, session) {
     
     currentTrajCoordinatesDayOne = trajectoryDataDayOne[[vp]]
     currentTrajCoordinatesDayTwo = trajectoryDataDayTwo[[vp]]
-    currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[,list(x,y)]
-    currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[,list(x,y)]
+    currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y)]
+    currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[, list(x, y)]
     # convert to trajr format
-    currentTrajCoordinatesDayOne = TrajFromCoords(currentTrajCoordinatesDayOne,fps=10)
-    currentTrajCoordinatesDayTwo = TrajFromCoords(currentTrajCoordinatesDayTwo,fps=10)
+    currentTrajCoordinatesDayOne = TrajFromCoords(currentTrajCoordinatesDayOne, fps =
+                                                    10)
+    currentTrajCoordinatesDayTwo = TrajFromCoords(currentTrajCoordinatesDayTwo, fps =
+                                                    10)
     
     # Compute various trajr features
     personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
     personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
     
-    personsDataTable[VP==vp,'TrajStraightnessDayOne'] = TrajStraightness(currentTrajCoordinatesDayOne)
-    personsDataTable[VP==vp,'TrajStraightnessDayTwo'] = TrajStraightness(currentTrajCoordinatesDayTwo)
+    personsDataTable[VP == vp, 'TrajStraightnessDayOne'] = TrajStraightness(currentTrajCoordinatesDayOne)
+    personsDataTable[VP == vp, 'TrajStraightnessDayTwo'] = TrajStraightness(currentTrajCoordinatesDayTwo)
     
     # Coverage of rooms explored in [0,1]
     
@@ -350,7 +352,7 @@ shinyServer(function(input, output, session) {
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
-                                                             z < upper_z_filter)], ]
+                                                             z < upper_z_filter)],]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -382,7 +384,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)], ]
+                                                                        z < upper_z_filter)],]
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
             data = VR1coordinates,
@@ -434,7 +436,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)], ]
+                                                                        z < upper_z_filter)],]
         
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
@@ -504,7 +506,7 @@ shinyServer(function(input, output, session) {
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
-                                                             z < upper_z_filter)], ]
+                                                             z < upper_z_filter)],]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -536,7 +538,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)], ]
+                                                                        z < upper_z_filter)],]
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
             data = VR1coordinates,
@@ -588,7 +590,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)], ]
+                                                                        z < upper_z_filter)],]
         
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
@@ -1068,9 +1070,10 @@ shinyServer(function(input, output, session) {
   ### Page 4: Feature exploration
   ###****************************************************************************************************************************************************************
   
-
-    featureFilter = personsDataTable[, Novelty == 1 & (firstVR == 1 | firstVR == 3)]
-    featureFilter = personsDataTable[,ADHD_Subtype]
+  
+  featureFilter = personsDataTable[, Novelty == 1 &
+                                     (firstVR == 1 | firstVR == 3)]
+  featureFilter = personsDataTable[, ADHD_Subtype]
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
@@ -1080,10 +1083,8 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(
-      y = ~ personsDataTable$avgTimePerVisitDayTwo
-    ) %>% layout(boxmode = "group")
-    })
+    ) %>% add_trace(y = ~ personsDataTable$avgTimePerVisitDayTwo) %>% layout(boxmode = "group")
+  })
   
   output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
     plot_ly(
@@ -1094,9 +1095,7 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>% add_trace(
-      y = ~ personsDataTable$avgEntriesDayTwo
-    ) %>% layout(boxmode = "group")
+    ) %>% add_trace(y = ~ personsDataTable$avgEntriesDayTwo) %>% layout(boxmode = "group")
   })
   
   output$boxplotRoomCoverage <- renderPlotly({
@@ -1108,9 +1107,7 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>% add_trace(
-      y = ~ personsDataTable$roomCoverageDayTwo
-    ) %>% layout(boxmode = "group")
+    ) %>% add_trace(y = ~ personsDataTable$roomCoverageDayTwo) %>% layout(boxmode = "group")
   })
   
   output$boxplotCorrectedSinus <- renderPlotly({
@@ -1122,9 +1119,7 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>% add_trace(
-      y = ~ personsDataTable$CorrectedSinousityDayTwo
-    ) %>% layout(boxmode = "group")
+    ) %>% add_trace(y = ~ personsDataTable$CorrectedSinousityDayTwo) %>% layout(boxmode = "group")
   })
   
   output$boxplotStraightness <- renderPlotly({
@@ -1136,9 +1131,7 @@ shinyServer(function(input, output, session) {
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )%>% add_trace(
-      y = ~ personsDataTable$TrajStraightnessDayTwo
-    ) %>% layout(boxmode = "group")
+    ) %>% add_trace(y = ~ personsDataTable$TrajStraightnessDayTwo) %>% layout(boxmode = "group")
   })
   
   
@@ -1182,8 +1175,8 @@ shinyServer(function(input, output, session) {
         print("abort in debug observing: wrong vr id")
         return(NULL)
       }
-      histRoomUnvisited = hist[hist[, TimeSpent == 0], ]$Room
-      entryRoomUnvisited = hist[hist[, Entries == 0], ]$Room
+      histRoomUnvisited = hist[hist[, TimeSpent == 0],]$Room
+      entryRoomUnvisited = hist[hist[, Entries == 0],]$Room
       # Printing
       printf("For Day One: \n")
       printf("selected person id: %d vp: %d  vr: %d \n",

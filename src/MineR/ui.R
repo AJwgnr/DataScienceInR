@@ -99,9 +99,10 @@ ds_body = dashboardBody(tabItems(
         "This webpage is the result of the semester project of the course",
         tags$b("Data Science with R"),
         "held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the",
-        tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab",target="_blank"),
+        tags$a(href = "http://www.kmd.ovgu.de", "KMD Lab", target = "_blank"),
         ". Further details regarding the lecture can be found on the official",
-        tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website",target="_blank"),
+        tags$a(href = "https://kmd.cs.ovgu.de/teaching/DataSciR/index.html", "course website", target =
+                 "_blank"),
         ".",
         "This project was done as a team consisting of the members",
         tags$b("Johannes Dambacher"),
@@ -109,17 +110,20 @@ ds_body = dashboardBody(tabItems(
         tags$b("Alexander Wagner"),
         ".",
         "The general project idea as well as an detailed time plan can be found in the " ,
-        tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal",target="_blank"),
+        tags$a(href = "https://drive.google.com/file/d/14JyjdShlHViJ199tRS3etAleqFE1tPem/view?usp=sharing", "project proposal", target =
+                 "_blank"),
         ".",
         "The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the ",
         tags$a(
           href = " http://www.kkjp.ovgu.de/Forschung.html",
-          "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)",target="_blank"
+          "Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP)",
+          target = "_blank"
         ),
         "at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the experiment tab. The dataset itself can be explored in the dataset tab.",
         
         "The whole code for this project is stored in this",
-        tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository",target="_blank"),
+        tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository", target =
+                 "_blank"),
         ".",
         "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
         "If you want to get a short introduction for this application, please see the video below.",
@@ -304,9 +308,7 @@ ds_body = dashboardBody(tabItems(
             label = "Select columns to display:",
             choices = columChoicesPersonsTable[-1],
             multiple = TRUE,
-            options = pickerOptions(
-              maxOptions = 2
-            ),
+            options = pickerOptions(maxOptions = 2),
             selected = columChoicesPersonsTable[2:3]
           ),
           plotlyOutput("gx_regression")
@@ -387,18 +389,23 @@ ds_body = dashboardBody(tabItems(
         )
       )
     ),
-          fluidRow(
-            box(
-              title = 'World summarys',
-              width = 12,
-              collapsible = T,
-              collapsed = F,
-              fluidRow(
-                box(title = "Average Time spent per room",
-                    width = 12,
-                    status = "primary",
-                    plotlyOutput('summ')))))
-                       
+    fluidRow(
+      box(
+        title = 'World summarys',
+        width = 12,
+        collapsible = T,
+        collapsed = F,
+        fluidRow(
+          box(
+            title = "Average Time spent per room",
+            width = 12,
+            status = "primary",
+            plotlyOutput('summ')
+          )
+        )
+      )
+    )
+    
   ),
   
   
@@ -590,16 +597,16 @@ ds_body = dashboardBody(tabItems(
             status = "primary",
             plotlyOutput("boxplotPartialNewWorld")
           ),
-            box(
-              title = "New World",
-              status = "primary",
-              plotlyOutput("boxplotNewWorld")
-            ),
-            box(
-              title = "Same World",
-              status = "primary",
-              plotlyOutput("boxplotSameWorld")
-            )
+          box(
+            title = "New World",
+            status = "primary",
+            plotlyOutput("boxplotNewWorld")
+          ),
+          box(
+            title = "Same World",
+            status = "primary",
+            plotlyOutput("boxplotSameWorld")
+          )
           
           
         )
@@ -641,13 +648,15 @@ ds_body = dashboardBody(tabItems(
       ),
       box(
         width = 12,
-        title = 'Corrected sinuosity', #(Benhamou, 2004)
+        title = 'Corrected sinuosity',
+        #(Benhamou, 2004)
         collapsible = T,
         plotlyOutput('boxplotCorrectedSinus')
       ),
       box(
         width = 12,
-        title = 'Straightness', #Straightness index  (Batschelet, 1981)
+        title = 'Straightness',
+        #Straightness index  (Batschelet, 1981)
         collapsible = T,
         plotlyOutput('boxplotStraightness')
       ),
@@ -661,28 +670,31 @@ ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
   ### Page 6: Clustering plus visualization
   ###****************************************************************************************************************************************************************
-  tabItem(tabName = "clustering",
-          h1("Clustering"),
-          fluidRow(
-            title = 'clustering',
-            width = 12,
-            box(
-              title = 'Description',
-              width = 12,
-              collapsible = T
-            )
-          ,
-            box(
-              title = 'Clustering results',
-              width = 12,
-              collapsible = T
-            ),
-          box(
-            title = 'Clustering analysis',
-            width = 12,
-            collapsible = T
-          ))
-)))
+  tabItem(
+    tabName = "clustering",
+    h1("Clustering"),
+    fluidRow(
+      title = 'clustering',
+      width = 12,
+      box(
+        title = 'Description',
+        width = 12,
+        collapsible = T
+      )
+      ,
+      box(
+        title = 'Clustering results',
+        width = 12,
+        collapsible = T
+      ),
+      box(
+        title = 'Clustering analysis',
+        width = 12,
+        collapsible = T
+      )
+    )
+  )
+))
 
 ################################################################################
 ### DashboardPage: (must be last)
