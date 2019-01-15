@@ -364,15 +364,18 @@ Overall our web application lacks
 
 # 5.1 R Feedback
 
-In the following two sections we describe our experiences with the R programming language and the Shiny package.
+In the following section we describe our experiences with the R programming language and the Shiny package.
 
 **Advantages**:
-* allows to prototype very fast
-* offers many packages that can be used
+
+* Allows to prototype very fast
+* Offers many packages that can be used
+* Nice visualizations can be created easily
 
 **Disadvantages**:
+
 * Steep learning curve
-* Not very clear how to structure R projects/ or specially Shiny projects (more than 3000 lines of code)
+* Not very clear how to structure R projects or especially Shiny projects (more than 2500 lines of code in our project)
 * Error messages are really bad because they are in the final rendered html and not in the real R code
 * Shiny Dashboard is not responsive
 * Problems when using different Shiny, R or package versions
@@ -384,14 +387,20 @@ In the following two sections we describe our experiences with the R programming
 
 
 # 5.3 Future Work
-* include more data of test persons
-* use statistical tests
-* apply classification techniqeus to trajectory features to try to separate ADHD and non-ADHD test persons
+
+For the further development of this project, we identified the three following tasks:
+
+* Include more data of test persons
+* Use statistical tests
+* Apply classification techniqeus to trajectory features to try to separate ADHD and non-ADHD test persons
 
 
 # 6 Course Feedback
+
+Since it is the first time this course was offered, we thought about several things that can be improved for the next course:
+
 * Period for the project was far too short (after the proposal review meeting there were only 8 weeks with 2 weeks christmas holiday in between)
-* No really clear requirements for the final project (maybe offer an example of how a final project should look like)
+* No really clear requirements for the final project result (maybe offer an example of how a final project should look like)
 * Setup a fixed appointment after half of the project time (students can get feedback if they are working in the right direction)
 * Screencast of the application doesn´t really make sense
 
