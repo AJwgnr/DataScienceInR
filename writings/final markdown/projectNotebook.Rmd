@@ -214,7 +214,9 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 
 ## 3.4 Tests
-
+We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other visualizations on a Linux and on windows systems using different browsers. 
+With respect to the usability we found that some parts of our Shiny web application are not repsonsive in every browser. But this is only limited to some layouting problems.
+Having a look at the performance of our app we can see that there are possibilities for improvement. The first time loading the webpage and preprocessing of the data takes around one minute. Using the precomputed data we can get the loading time below 15 seconds.
 
 
 
@@ -228,10 +230,12 @@ The dataset tab on the website covers the basic interaction and visualization wi
 
 ![Raw view on the dataset](../proposal/images/Rawdata table.png)
 
+
 There are different possibilities for the user to analyse the dataset. The data can just be viewed as displayed in the image above but the correlation tab allow to choose any two variables from the data and to plot the may existing linear relationship.(image below)
 
 
 ![Linear correlation of attributes](../proposal/images/regression.png)
+
 
 It is the task of the user to choose meaningful attributes. Nevertheless we found that the following variable combinations yield some linear correlation (see next XX images):
 
@@ -242,18 +246,31 @@ Besides the option of plotting only two dependet variables, the webpage also off
 
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
-When an entry from the person dataset is choosen by the user the two availiable trajectory files are plotted using a 3D plot. 
+
+When an entry from the person dataset is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (Height). 
 
 
 ![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
 
--overview on the visited rooms
+
+Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the patient spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered again. Both graphics are plotted using bar charts.
 
 ![Memorizing experiment group distribution](../proposal/images/rooms.png)
 
+The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of this website tab the most important figures of the data are shown:
+* people had to recall 20 vocabularies
+* Average direct recall was: 11.5 words
+* Average delayed recall was: 8.7 words
 
+* Group 1: Children having only seen the same world twice: 39.68  %
+* Group 2: Children having seen a new world on the second day: 41.27 %
+* Group 3: Children having seen a partial new world on the second day: 19.05 %
 
-- visualize the diffrent groups of patients
+Fruthermore the bar charts below those figures show the distribution of the ADHD type of the patient with respect to the three diffrent groups.
+
+IMPORTANT:
+- Less people in partial new group -> also only control group there
+- less ADHD patients than control group
 
 
 ![Memorizing experiment group distribution](../proposal/images/memorizing.png)
@@ -262,8 +279,6 @@ When an entry from the person dataset is choosen by the user the two availiable 
 - viualize memorizing results
 
 ![Memorizing experiment results](../proposal/images/experimentBoxplot.jpg)
-
-
 
 
 # 5. Conclusions
@@ -282,4 +297,4 @@ When an entry from the person dataset is choosen by the user the two availiable 
 
 
 # 5.3 Final Insights
-
+- summarize the most important insights about the dataset here!
