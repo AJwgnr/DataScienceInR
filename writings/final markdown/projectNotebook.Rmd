@@ -402,10 +402,8 @@ Recapitulating this whole project, we followed the steps of a general data scien
 
 While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage, we also allow to reuse those files independently of the webpage. This allows not only to continue developing the further analysis of the data without a shiny webpage but also to apply our functions to completely new data (like other trajectories).
 
-Overall our web application lacks
-- not that many machien learning algortihms, no classification etc.
-- trajectory feature computation was complicated.
-- not statistical tests
+Since the analysis and computation of the trajectury features as well as the building of the shiny webapp was quite complicated our project lacks further machine learning methods. We only applied XXXXXX.
+Not only due to time reasons but also because our dataset was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive bayes.
 
 
 # 5.1 R Feedback
