@@ -306,35 +306,35 @@ When an entry from the raw dataset tab is choosen by the user the two availiable
 ![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
 
 
-Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the patient spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
+Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the test persons spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
 
 ![Memorizing experiment group distribution](../proposal/images/rooms.png)
 
 ## 4.2 Memorizing Experiment
-The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of this website tab the most important figures of the experiment are shown:
+The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
 
-* Patient had to recall 20 vocabularies
+* Testpersons had to recall 20 vocabularies
 * Average direct recall was: 11.5 words
 * Average delayed recall was: 8.7 words
 
-* Group 1: Children having only seen the same world twice: 39.68  %
-* Group 2: Children having seen a new world on the second day: 41.27 %
-* Group 3: Children having seen a partial new world on the second day: 19.05 %
+* Group 1: Test persons having only seen the same world twice: 39.68  %
+* Group 2: Test persons having seen a new world on the second day: 41.27 %
+* Group 3: Test persons having seen a partial new world on the second day: 19.05 %
 
-Furthermore the bar charts below those figures show the distribution of the ADHD type of the patient with respect to the three different groups.
+Furthermore the bar charts below those figures show the distribution of the ADHD type of the test person with respect to the three different groups.
 
 IMPORTANT INSIGHTS:
 - Less people in partial new group -> also only control group there
-- less ADHD patients than control group
+- less ADHD test persons than persons in control group
 
 
 ![Memorizing experiment group distribution](../proposal/images/memorizing.png)
 
-The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group patient. 
+The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group test persons. 
 
-* Group 1: Children having only seen the same world twice
-* Group 2: Children having seen a new world on the second day
-* Group 3: Children having seen a partial new world on the second day 
+* Group 1: Test persons having only seen the same world twice
+* Group 2: Test persons having seen a new world on the second day
+* Group 3: Test persons having seen a partial new world on the second day 
 * Group 4: Overall summary
 
 IMPORTANT INSIGHTS:
