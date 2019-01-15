@@ -1,9 +1,9 @@
 ---
 title: "Analyzing Trajectory Data to Understand the Effects of Video Games on Human Short- and Long-Term Memory"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
   html_notebook: default
 ---
 
@@ -32,7 +32,7 @@ Make sure that your process notebook is a standalone document that fully describ
 ## 1.1 Overview
 This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke university Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as an detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the university of Magdeburg. Further information regarding the process how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website !!!LINK!!!. The whole code for this project is stored in an public GitLab Repository.
 
-## 1.2 Repository 
+## 1.2 Repository
 GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 
 ## 1.3 Background and motivation
@@ -141,14 +141,14 @@ We are trying to explore and answer the following questions:
 ## 2.4 Design overview
 The design consists mainly of two parts:
 
-1. Data analysis and 
+1. Data analysis and
 2. Interactive visualization
 
 For the first part we will make use of algorithms and packages specialized for trajectory data, clustering and correlation analysis as well as regression fitting.
 An important role is the extraction of features from the trajectory data. Since there is not much related work available, this task contains defining, testing and implementing possible features such as:
 
-* Time spent per room 
-* Time spent inside or outside house 
+* Time spent per room
+* Time spent inside or outside house
 * Overall time spent in the world
 * Repeated visit of same the place/room
 * Steadiness vs roughness of motion
@@ -212,11 +212,11 @@ As already written in the concept section, the dataset consists of two kinds of 
 
 ### 3.2.2 Data structure and loading
 
-The test persons data table described in 1.4.1 is the first data loaded into a data.table object using the fread function of the beloning package. The data table contains all the attributes listet in 1.4.1. Those attributes and column names remain unchanged throughout the program. The persons data table is the most crucial part of data and used for various plots and analysis tasks. 
+The test persons data table described in 1.4.1 is the first data loaded into a data.table object using the fread function of the belonging package. The data table contains all the attributes listed in 1.4.1. Those attributes and column names remain unchanged throughout the program. The persons data table is the most crucial part of data and used for various plots and analysis tasks.
 
-The second data loaded into are the trajectory files stored in csv format. Since they the trajectory files contain a different number of rows each and are based on several virtual minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons VP number. There is no seperation made between the different virtual worlds at this step. The trajectories them selfes are stored as data.table using fread to gain a significant speed up compared to the inbuild loading function and storage into data.frame.
+The second data loaded into are the trajectory files stored in csv format. Since they the trajectory files contain a different number of rows each and are based on several virtual minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons VP number. There is no separation made between the different virtual worlds at this step. The trajectories themselves are stored as data.table using fread to gain a significant speed up compared to the inbuilt loading function and storage into data.frame.
 
-The last data loaded from file by default are two files containing the geometry of the virtual worlds. There are three worlds but only differ geometrically where as world one and three only differ in color and apperance.
+The last data loaded from file by default are two files containing the geometry of the virtual worlds. There are three worlds but only differ geometrically where as world one and three only differ in color and appearance.
 The files contain the following attributes:
 
 | Attribute | Description |
@@ -230,16 +230,41 @@ The files contain the following attributes:
 |name       |room name (char) |
 |RoomType   |room type: inside/closed, outside/open, stairway/level change (integer,[0,1,2])|
 
-Since the geometrie of world one and three is equal the number of rooms is equal as well. For the worlds one and two this does not hold. 
-The geometrie only allows for rectangular rooms consiting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1<x2 and y1<y2. This is checked and corrected within the loading function. 
+Since the geometry of world one and three is equal the number of rooms is equal as well. For the worlds one and two this does not hold.
+The geometry only allows for rectangular rooms consisting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1<x2 and y1<y2. This is checked and corrected within the loading function. The rooms contain only the lower z coordinate which is sufficient for both plotting of the rooms and converting the trajectory data to a room based graph. The rooms must be sorted by increasing z externally to work correctly. This cannot be done at loading time to allow the description of complex geometry such as round stairways with the simple model of rectangles.
+The id and name of the room both identify the room but can occur multiple time in the geometry file to form non rectangular rooms.
+The room type specifies the appearance of the room within the world. For outside regions such as gardens it is difficult to divide the area into regions similar to rooms. The borders are rather soft and the entry or leaving of one region is not comparable to entering a room through a door. Another special case are stairways which are not always rooms on their own but also probably noteworthy. To allow the analysis in respect to the various room types this column has been added but not found much use in the current program due to a lack of time to implement the necessary filters.
 
+With all the external data loaded further crucial data can be derived.
+These include the computation of a room based graph from cartesian trajectories, a histogram like summary of the room based graph data, the conversion to trajr object to derive trajr features such as straightness and the computation of several internal used summary statistics.
 
-- Describe how we load the data here
-- how we are accessing it
-- converting of coordinates/identification of rooms
-- precalculating of room graph -> stored in .rds files for faster access than xlsx files
+The data.table roomGraphData and roomHistData are stored similar to the trajectory data in two lists, one for each day. Following their structure:
 
-To work with the trajr package the trajectory files have to be converesed to a trajr object using the TrajFromCoords function provided by trajr. 
+# RoomGrahData table
+
+| Attribute | Description |
+|:-----------:|----------------------------------------------|
+| Room        | room identification number from geometry (integer,[-1,#rooms])                        |
+| TimeSpent   | time spent at this visit within the room (decisecond)        |
+| RoomType    | room type from geometry (integer,[0,1,2]) |
+| name        |room name (char) from geometry   |
+
+# RoomHistData table
+
+| Attribute | Description |
+|:-----------:|----------------------------------------------|
+| ID          | room identification number from geometry (integer,[-1 to #rooms])                        |
+| Entries     | number       |
+| TimeSpent   | room type from geometry (integer,[0,1,2]) |
+| Name        | room name (char) from geometry   |
+
+- describe traj2graph
+
+- describe -1 room
+
+- describe graph2hist
+
+To work with the trajr package the trajectory files have to be converesed to a trajr object using the TrajFromCoords function provided by trajr.
 The conversion results in the following data structure:
 
 | Attribute | Description |
@@ -251,6 +276,12 @@ The conversion results in the following data structure:
 |polar            | polar coordinates (complex)|
 |displacement     | displacement vector between consecutive points (complex)|
 
+
+
+- Describe how we load the data here
+- how we are accessing it
+- converting of coordinates/identification of rooms
+- precalculating of room graph -> stored in .rds files for faster access than xlsx files
 
 ## 3.3 Algorithms and Methods
 
@@ -267,7 +298,7 @@ The conversion results in the following data structure:
 
 
 ## 3.4 Tests
-We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other charts on a Linux and on windows systems using different browsers. 
+We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other charts on a Linux and on windows systems using different browsers.
 With respect to the usability we found that some parts of our Shiny web application are not repsonsive in every browser. But this is only limited to some layouting problems.
 Having a look at the performance of our app we can see that there are possibilities for improvement. The first time loading the webpage and preprocessing of the data takes around one minute. Using the precomputed data we can get the loading time below 15 seconds.
 
@@ -300,7 +331,7 @@ Besides the option of plotting only two dependent variables, the webpage also of
 ![Scatterplot matrix of person data attributes](../proposal/images/scatterplotmatrix.png)
 
 
-When an entry from the raw dataset tab is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (e.g. to plot only the first floor of the buildings in the virtual world). 
+When an entry from the raw dataset tab is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (e.g. to plot only the first floor of the buildings in the virtual world).
 
 
 ![Trajectorie visualization](../proposal/images/trajectoryand roomdata.png)
@@ -330,11 +361,11 @@ IMPORTANT INSIGHTS:
 
 ![Memorizing experiment group distribution](../proposal/images/memorizing.png)
 
-The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group patient. 
+The following four boxplots show the comparison of the average TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group patient.
 
 * Group 1: Children having only seen the same world twice
 * Group 2: Children having seen a new world on the second day
-* Group 3: Children having seen a partial new world on the second day 
+* Group 3: Children having seen a partial new world on the second day
 * Group 4: Overall summary
 
 IMPORTANT INSIGHTS:
@@ -356,7 +387,7 @@ Recapitulating this whole project, we followed the steps of an general data scie
 
 While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage we also allow to reuse those files independently of the webpage. This not only allows to continue developing the further analysis of the data without a shiny webpage but also to apply our function to completely new data (like other trajectories).
 
-Overall our web application lacks 
+Overall our web application lacks
 - not that many machien learning algortihms, no classification etc.
 - trajectory feature computation was complicated.
 
@@ -388,5 +419,3 @@ In the following two sections
 * No really clear requirements for the final project (maybe offer an example of how a final project should look like)
 * Setup a fixed appointment after half of the project time (students can get feedback if they are working in the right direction)
 * Screencast of the application doesn´t really make sense
-
-
