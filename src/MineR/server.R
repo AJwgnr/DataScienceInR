@@ -76,13 +76,13 @@ shinyServer(function(input, output, session) {
   # Aggregates all trajectories based on the ID (calculates SpentTime)
   worldOneAggregatedRooms <-
     worldOne[, list(TimeSpent = mean(TimeSpent),
-                    Entries = mean(Entries)), by = ID]
+                    Entries = mean(Entries), name = Name), by = list(ID,Name)]
   worldTwoAggregatedRooms <-
     worldTwo[, list(TimeSpent = mean(TimeSpent),
-                    Entries = mean(Entries)), by = ID]
+                    Entries = mean(Entries), name = Name), by = list(ID,Name)]
   worldThreeAggregatedRooms <-
     worldThree[, list(TimeSpent = mean(TimeSpent),
-                      Entries = mean(Entries)), by = ID]
+                      Entries = mean(Entries), name = Name), by = list(ID,Name)]
   
   
   # Filter persons data table for adhd childs and the control group
@@ -721,23 +721,26 @@ shinyServer(function(input, output, session) {
   
   output$trajecWorldSummary <- renderPlotly({
     plot_ly(
-      y = worldOneAggregatedRooms$TimeSpent,
+      y = worldOneAggregatedRooms[-1,TimeSpent],
       name = 'Average Time spent in rooms: Mansion',
       type = 'box',
       boxpoints = 'all',
+      text = ~paste('Room ID: ', worldOneAggregatedRooms[-1,Name]),
       jitter = 0.3,
       pointpos = -1.8
     ) %>% add_trace(
-      y = worldTwoAggregatedRooms$TimeSpent,
+      y = worldTwoAggregatedRooms[-1,TimeSpent],
       name = 'Average Time spent in rooms: Pirateship',
       type = 'box',
       boxpoints = 'all',
+      text = ~paste('Room ID: ', worldTwoAggregatedRooms[-1,Name]),
       jitter = 0.3,
       pointpos = -1.8
     ) %>% add_trace(
-      y = worldThreeAggregatedRooms$TimeSpent,
+      y = worldThreeAggregatedRooms[-1,TimeSpent],
       name = 'Average Time spent in rooms: Colored Mansion',
       type = 'box',
+      text = ~paste('Room ID: ', worldThreeAggregatedRooms[-1,Name]),
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
