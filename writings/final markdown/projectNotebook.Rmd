@@ -334,28 +334,34 @@ While implementing the application, we separated the visualizations from the und
 Overall our web application lacks 
 - not that many machien learning algortihms, no classification etc.
 - trajectory feature computation was complicated.
+- not statistical tests
 
-In the following two sections
 
-# 5.1 Advantages
+# 5.1 R Feedback
+
+In the following two sections we describe our experiences with the R programming language and the Shiny package.
+
+**Advantages**:
 * allows to prototype very fast
-*
+* offers many packages that can be used
 
-# 5.2. Disadvantages
+**Disadvantages**:
 * Steep learning curve
 * Not very clear how to structure R projects/ or specially Shiny projects (more than 3000 lines of code)
-* Requires a lot of dependecies/packages
 * Error messages are really bad because they are in the final rendered html and not in the real R code
 * Shiny Dashboard is not responsive
 * Problems when using different Shiny, R or package versions
 
 
-# 5.3 Final Insights
+# 5.2 Final Insights
 - summarize the most important insights about the dataset here!
 
 
 
-# 5.4 Future Work
+# 5.3 Future Work
+* include more data of test persons
+* use statistical tests
+* apply classification techniqeus to trajectory features to try to separate ADHD and non-ADHD test persons
 
 
 # 6 Course Feedback
