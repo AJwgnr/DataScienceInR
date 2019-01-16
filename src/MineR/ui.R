@@ -69,14 +69,6 @@ ds_sidebar = dashboardSidebar(
       "Trajectory feature exploration",
       tabName = "trjFeatures",
       icon = icon("rocket")
-    ),
-    ###**************************
-    ### MenueItem 6: Clustering
-    ###**************************
-    menuItem(
-      "Clustering",
-      tabName = "clustering",
-      icon = icon("chart-pie")
     )
   )
 )
@@ -682,33 +674,6 @@ ds_body = dashboardBody(tabItems(
         title = 'Overall time spent in the world',
         collapsible = T,
         plotlyOutput("boxplotOverallTimeSpent")
-      )
-    )
-  ),
-  ###****************************************************************************************************************************************************************
-  ### Page 6: Clustering plus visualization
-  ###****************************************************************************************************************************************************************
-  tabItem(
-    tabName = "clustering",
-    h1("Clustering"),
-    fluidRow(
-      title = 'clustering',
-      width = 12,
-      box(
-        title = 'Description',
-        width = 12,
-        collapsible = T
-      )
-      ,
-      box(
-        title = 'Clustering results',
-        width = 12,
-        collapsible = T
-      ),
-      box(
-        title = 'Clustering analysis',
-        width = 12,
-        collapsible = T
       )
     )
   )

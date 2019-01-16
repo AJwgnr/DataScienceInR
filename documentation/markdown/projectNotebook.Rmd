@@ -313,7 +313,6 @@ The features are computed using the above stated data.tables for each day and pe
 We are applying different machine learning and visualization techniques to gain new insights from the data. Table views are used to allow interactive exploration of the raw dataset. By using scatterplot matrixes and linear regression, linear relationships between attributes can be identified.
 Furthermore, 3D-plots of the trajectories are used to not only get an impression on how the person moved in the world but also to compare the different movements on either different days or different persons. Several bar charts are used to plot more detailed information about the trajectory files like the average time a person has spent in each room of the world or how often a room was entered. The comparison of the features of the different groups of test persons is done using boxplots. The results of all those algorithms and visualizations can be viewed interactively on our webpage but also in section 4 Results in this markdown document.
 
-- Clustering
 
 ## 3.4 Tests
 We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore, we also checked all the other charts on a Linux and on Windows systems using different browsers.
@@ -341,7 +340,7 @@ There are different possibilities for the user to analyze the dataset. The data 
 
 
 It is the task of the user to choose meaningful attributes. Nevertheless, we have found that the following variable combinations yield some linear correlation (see next XX images):
-INSERT IMAGES OF CORRELATED VARIABles HERE
+
 
 
 **Important Insights:**
@@ -457,6 +456,8 @@ It is questionable how much information can be gaind by analyzing the time spent
 * Clustering without resonable features and few data points is crappy
 * percentage
 
+
+## 4.4 Clustering
 
 
 
