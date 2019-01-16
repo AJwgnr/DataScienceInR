@@ -134,20 +134,8 @@ shinyServer(function(input, output, session) {
   ###   Features  ###
   ###################
   
-  # TODO: possible bug in computation of entries per room
-  # avgTimeSpent == avgEntries : why?
-  # > currentRoomHist = roomHistDayOne[[5]]
-  # > currentRoomHist[, list(
-  #   avgTimeSpent = mean(TimeSpent) / sum(TimeSpent),
-  #   avgEntries = mean(Entries) / sum(Entries),
-  #   RoomCoverage = sum(currentRoomHist[, TimeSpent != 0]) / .N
-  # )]
-  #
-  
   # CAVEAT: no normalization need on roomGraph but use time on roomHist
-  
   # Append all the features to compute as cols to personsDataTable
-  
   personsDataTable$avgTimePerVisitDayOne = 0
   personsDataTable$avgTimePerVisitDayTwo = 0
   personsDataTable$avgEntriesDayOne = 0
@@ -193,8 +181,6 @@ shinyServer(function(input, output, session) {
     personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent) /
       60
     
-    # Awful lot of trajr features possible (if reduced to 2d traj?!)
-    
     currentTrajCoordinatesDayOne = trajectoryDataDayOne[[vp]]
     currentTrajCoordinatesDayTwo = trajectoryDataDayTwo[[vp]]
     currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y)]
@@ -212,12 +198,6 @@ shinyServer(function(input, output, session) {
     # Coverage of rooms explored in [0,1]
     
   }
-  
-  # Append features to persons data
-  
-  
-  
-  # Directional change and similiar
   
   
   ###################
@@ -249,7 +229,10 @@ shinyServer(function(input, output, session) {
   # clusterRes = pam(clusterMe,2)
   # 
   # plot_ly(data.table(clusterPca["x"][[1]]),x=~PC1,y=~PC2,type="scatter",mode="markers",color=as.factor(personsDataTable$ADHD_Subtype))
-  # 
+
+  
+  
+  
   ###****************************************************************************************************************************************************************
   ### Page 2: Raw Data Overview; table, scatterplots,
   ###****************************************************************************************************************************************************************
@@ -1235,15 +1218,36 @@ shinyServer(function(input, output, session) {
     )
   })
   
+  ###****************************************************************************************************************************************************************
+  ### Ui elements coupling:
+  ###****************************************************************************************************************************************************************
+  
+  # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
+  # If picker1 changes update picker
+  observe({
+    x <- input$id_pickerInputDTpersonsRaw1
+    updatePickerInput(session, "id_pickerInputDTpersonsRaw2", selected = x)
+  })
+  # Vice versa
+  observe({
+    y <- input$id_pickerInputDTpersonsRaw2
+    updatePickerInput(session, "id_pickerInputDTpersonsRaw1", selected = y)
+  })
+  
   
   ###****************************************************************************************************************************************************************
   ### Debug Stuff:
   ###****************************************************************************************************************************************************************
   
-  
-  ######################################################################################
-  # Debug traj2roomGraph
-  ######################################################################################
+  # TODO: possible bug in computation of entries per room
+  # avgTimeSpent == avgEntries : why?
+  # > currentRoomHist = roomHistDayOne[[5]]
+  # > currentRoomHist[, list(
+  #   avgTimeSpent = mean(TimeSpent) / sum(TimeSpent),
+  #   avgEntries = mean(Entries) / sum(Entries),
+  #   RoomCoverage = sum(currentRoomHist[, TimeSpent != 0]) / .N
+  # )]
+  #
   
   # Create a printf function for formattet printing
   printf <- function(...)
@@ -1301,25 +1305,5 @@ shinyServer(function(input, output, session) {
       printf("\n")
     }
   })
-  
-  
-  
-  ###****************************************************************************************************************************************************************
-  ### Ui elements coupling:
-  ###****************************************************************************************************************************************************************
-  
-  # Couple id_pickerInputDTpersonsRaw1 and id_pickerInputDTpersonsRaw2 to show same selection of cols and update each other
-  
-  # If picker1 changes update picker
-  observe({
-    x <- input$id_pickerInputDTpersonsRaw1
-    updatePickerInput(session, "id_pickerInputDTpersonsRaw2", selected = x)
-  })
-  # Vice versa
-  observe({
-    y <- input$id_pickerInputDTpersonsRaw2
-    updatePickerInput(session, "id_pickerInputDTpersonsRaw1", selected = y)
-  })
-  
   
 })
