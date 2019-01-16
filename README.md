@@ -4,7 +4,7 @@ Semester project (winter semester 2018/2019) of the course Data Science in R at 
 
 # Members
 
-Johannes Dambacher
+Johannes Dambacher   
 Alexander Wagner
 
 # Instructions
