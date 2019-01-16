@@ -131,6 +131,7 @@ ds_body = dashboardBody(tabItems(
         tags$br()
       )
     ),
+
     #======================================
     # Page 1: fluidRow 2: Screencast
     #======================================
@@ -188,7 +189,7 @@ ds_body = dashboardBody(tabItems(
       box(
         title = 'Key Figures',
         width = 12,
-        collapsible = 12,
+        collapsible = T,
         fluidRow(
           valueBoxOutput('personFiles'),
           valueBoxOutput('personAttributes'),
