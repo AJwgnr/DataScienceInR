@@ -117,7 +117,8 @@ ds_body = dashboardBody(tabItems(
         tags$a(href = "https://gitlab.com/vornamenachname/datascience_r", "GitLab Repository", target =
                  "_blank"),
         ".",
-        "All visualizations as well as the generating code can also be viewed in this R Markdown document.",
+        "All visualizations as well as the generating code can also be viewed in this",tags$a(href = "https://drive.google.com/open?id=1orvFSkq6_LvyTB8C1M5F8f6IU3ny8PO6", " R Markdown document.", target =
+                                                                                                                     "_blank"),
         "If you want to get a short introduction for this application, please see the video below.",
         tags$br(),
         tags$br()

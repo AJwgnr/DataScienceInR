@@ -317,14 +317,7 @@ There are different possibilities for the user to analyze the data set. The data
 ![Linear correlation of attributes](../images/regression.png)
 
 
-It is the task of the user to choose meaningful attributes. Nevertheless, we have found that the following variable combinations yield some linear correlation (see next XX images):
-
-
-
-**Important Insights:**
-
-* blah
-* blah
+It is the task of the user to choose meaningful attributes.
 
 Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot matrix of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can disturb the analysis when many features are used.
 
@@ -459,20 +452,19 @@ The control group spends more time median time in the worlds.
 
 ## 4.4 Clustering
 
-In the very beginning of the project and the project proposal we were excited to cluster the data and analyze the results.
-One of the goals was to cluster the persons data attributes such as the TP_recall, VLMT and NV measures on one hand and the features retrieved from the trajectory data set such straightness, roughness. The resulting clusters than should be compared to one another in respect of distance between the test persons in each room and cluster membership. The clustering results would also have been compared to attributes like ADHD_Subtype.
+In the very beginning of the project and the project proposal, we were excited to cluster the data and analyze the results.
+One of the goals was to cluster the person data attributes such as the TP_recall, VLMT and NV measures on one hand and the features retrieved from the trajectory data set such straightness, roughness. The resulting clusters should be compared to one another with respect of distance between the test persons in each room and cluster membership. The clustering results would also have been compared to attributes like ADHD_Subtype.
 The final goal was a classification based on the trajectory based features or even a prediction of the ADHD_Subtype, NV score or others.
-Several problems arouse during the analysis forcing us to drop the idea of clustering completely,
+Several problems arose during the analysis forcing us to drop the idea of clustering completely.
 First of all the data set contained considerable few test persons to cluster on.
-The Exclusion_Position_Data column showed problems in the logging of several trajcetory files further reducing the number of data points available for clustering.
+The Exclusion_Position_Data column showed problems in the logging of several trajectory files further reducing the number of data points available for clustering.
 Some of the VLMT attributes contained NAs for test persons removing them as well. To avoid this the VLMT based attributes were dropped as input into clustering.
-During analysis of the data attributes like age and sex were dropped from clustering since the clustering results were expected to be not usefulness using those. Other attributes like Gaming_Experience or Novelty had to be dropped out because of a lack of variance or consisting of True/False entries only.
-With the few remaining attributes clustering of those was error prone and the clustering results were unstable and showed no meaningful insight on further investigation.
-For the trajcetory based features the result was similar in the end. The trjr package seemed promising first but was only able to work on 2d data reducing the reliability on the computed features.
+During the analysis of the data attributes like age and sex were dropped from clustering since the clustering results were expected to be not useful. Other attributes like Gaming_Experience or Novelty had to be dropped out because of a lack of variance or consisting of True/False entries only.
+With the few remaining attributes clustering was error prone and the clustering results were unstable and showed no meaningful insight for further investigation.
+For the trajectory based features the result was similar in the end. The trjr package seemed promising first but was only able to work on 2d data reducing the reliability of the computed features.
 The computed features like room coverage proved to be highly correlated and often hard to normalize into useful ranges without corrupting the data distribution.
-The clustering result on those were as useless as the prior one.
-However the clustering of trajectory data seems still promising and doable considering the vast amount of features commutable using the trajectory data.
-
+The clustering result on those was as useless as the prior one.
+However, the clustering of trajectory data seems still promising and doable considering the vast amount of features commutable using the trajectory data.
 
 # 5. Conclusions
 
@@ -505,12 +497,7 @@ In the following section, we describe our experiences with the R programming lan
 * Causing problems when using different Shiny, R or package versions among developers
 
 
-# 5.2 Final Insights
-- summarize the most important insights about the dataset here!
-
-
-
-# 5.3 Future Work
+# 5.2 Future Work
 
 For the further development of this project, we identified the following tasks:
 
