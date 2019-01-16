@@ -628,8 +628,21 @@ ds_body = dashboardBody(tabItems(
       title = '',
       box(
         width = 12,
-        title = 'Direction of Movement',
-        collapsible = T
+        title = 'Description and Filtering',
+        collapsible = T,
+        'The figures here show the distribution of the trajectory feature attributes among the test persons. We included several filters which can be switched interactively here.',
+        dropdownButton(
+          tags$h3("List of Input"),
+          circle = TRUE,
+          status = "primary",
+          icon = icon("gear"),
+          width = "300px",
+          tooltip = tooltipOptions(title = "Click to see inputs !"),
+          checkboxInput("filterByDay", "Filter by day", value = TRUE),
+          checkboxInput("filterByWorld1is3", "Filter by world (World ID 1=3)", value = FALSE),
+          #checkboxInput("filterByWorld1not3", "Show rooms", value = FALSE),
+          checkboxInput("filterByADHDType","Filter by ADHD-Subtype (ADHD typ 2 omitted)",value=TRUE)
+        )
       ),
       box(
         width = 12,
@@ -656,17 +669,18 @@ ds_body = dashboardBody(tabItems(
         collapsible = T,
         plotlyOutput('boxplotCorrectedSinus')
       ),
-      box(
-        width = 12,
-        title = 'Straightness',
-        #Straightness index  (Batschelet, 1981)
-        collapsible = T,
-        plotlyOutput('boxplotStraightness')
-      ),
+      # box(
+      #   width = 12,
+      #   title = 'Straightness',
+      #   #Straightness index  (Batschelet, 1981)
+      #   collapsible = T,
+      #   plotlyOutput('boxplotStraightness')
+      # ),
       box(
         width = 12,
         title = 'Overall time spent in the world',
-        collapsible = T
+        collapsible = T,
+        plotlyOutput("boxplotOverallTimeSpent")
       )
     )
   ),

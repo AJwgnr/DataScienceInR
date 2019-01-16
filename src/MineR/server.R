@@ -75,14 +75,23 @@ shinyServer(function(input, output, session) {
   
   # Aggregates all trajectories based on the ID (calculates SpentTime)
   worldOneAggregatedRooms <-
-    worldOne[, list(TimeSpent = mean(TimeSpent),
-                    Entries = mean(Entries), name = Name), by = list(ID,Name)]
+    worldOne[, list(
+      TimeSpent = mean(TimeSpent),
+      Entries = mean(Entries),
+      name = Name
+    ), by = list(ID, Name)]
   worldTwoAggregatedRooms <-
-    worldTwo[, list(TimeSpent = mean(TimeSpent),
-                    Entries = mean(Entries), name = Name), by = list(ID,Name)]
+    worldTwo[, list(
+      TimeSpent = mean(TimeSpent),
+      Entries = mean(Entries),
+      name = Name
+    ), by = list(ID, Name)]
   worldThreeAggregatedRooms <-
-    worldThree[, list(TimeSpent = mean(TimeSpent),
-                      Entries = mean(Entries), name = Name), by = list(ID,Name)]
+    worldThree[, list(
+      TimeSpent = mean(TimeSpent),
+      Entries = mean(Entries),
+      name = Name
+    ), by = list(ID, Name)]
   
   
   # Filter persons data table for adhd childs and the control group
@@ -149,8 +158,7 @@ shinyServer(function(input, output, session) {
   personsDataTable$TimeSpentDayTwo = 0
   personsDataTable$CorrectedSinousityDayOne = 0
   personsDataTable$CorrectedSinousityDayTwo = 0
-  personsDataTable$TrajStraightnessDayOne = 0
-  personsDataTable$TrajStraightnessDayTwo = 0
+  
   
   # Compute for day one and two simultanious
   for (vp in personsDataTable$VP) {
@@ -180,8 +188,8 @@ shinyServer(function(input, output, session) {
       nrow(currentRoomHistDayTwo)
     
     # Overall Time Spent in World? -> Not really usefull but interesting
-    personsDataTable[VP == vp, "TimeSpentDayOne"] = sum(currentRoomGraphDayOne$TimeSpent)
-    personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent)
+    personsDataTable[VP == vp, "TimeSpentDayOne"] = sum(currentRoomGraphDayOne$TimeSpent)/60
+    personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent)/60
     
     # Awful lot of trajr features possible (if reduced to 2d traj?!)
     
@@ -198,9 +206,6 @@ shinyServer(function(input, output, session) {
     # Compute various trajr features
     personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
     personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
-    
-    personsDataTable[VP == vp, 'TrajStraightnessDayOne'] = TrajStraightness(currentTrajCoordinatesDayOne)
-    personsDataTable[VP == vp, 'TrajStraightnessDayTwo'] = TrajStraightness(currentTrajCoordinatesDayTwo)
     
     # Coverage of rooms explored in [0,1]
     
@@ -348,7 +353,7 @@ shinyServer(function(input, output, session) {
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
-                                                             z < upper_z_filter)],]
+                                                             z < upper_z_filter)], ]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -380,7 +385,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)],]
+                                                                        z < upper_z_filter)], ]
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
             data = VR1coordinates,
@@ -432,7 +437,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)],]
+                                                                        z < upper_z_filter)], ]
         
         trjPlotDayOne <- trjPlotDayOne %>%
           add_trace(
@@ -502,7 +507,7 @@ shinyServer(function(input, output, session) {
       # adapt for z sliding
       z_filtered_traj = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
-                                                             z < upper_z_filter)],]
+                                                             z < upper_z_filter)], ]
       # create colorscale
       n = nrow(z_filtered_traj)
       sRl = input$colorInput[1]
@@ -534,7 +539,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here
         VR1coordinates = roomCoordinatesVR1.0[roomCoordinatesVR1.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)],]
+                                                                        z < upper_z_filter)], ]
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
             data = VR1coordinates,
@@ -586,7 +591,7 @@ shinyServer(function(input, output, session) {
         # z selection must be done here to work
         VR2coordinates = roomCoordinatesVR2.0[roomCoordinatesVR2.0[, (z >
                                                                         lower_z_filter &
-                                                                        z < upper_z_filter)],]
+                                                                        z < upper_z_filter)], ]
         
         trjPlotDayTwo <- trjPlotDayTwo %>%
           add_trace(
@@ -721,26 +726,26 @@ shinyServer(function(input, output, session) {
   
   output$trajecWorldSummary <- renderPlotly({
     plot_ly(
-      y = worldOneAggregatedRooms[-1,TimeSpent],
+      y = worldOneAggregatedRooms[-1, TimeSpent],
       name = 'Average Time spent in rooms: Mansion',
       type = 'box',
       boxpoints = 'all',
-      text = ~paste('Room ID: ', worldOneAggregatedRooms[-1,Name]),
+      text = ~ paste('Room ID: ', worldOneAggregatedRooms[-1, Name]),
       jitter = 0.3,
       pointpos = -1.8
     ) %>% add_trace(
-      y = worldTwoAggregatedRooms[-1,TimeSpent],
+      y = worldTwoAggregatedRooms[-1, TimeSpent],
       name = 'Average Time spent in rooms: Pirateship',
       type = 'box',
       boxpoints = 'all',
-      text = ~paste('Room ID: ', worldTwoAggregatedRooms[-1,Name]),
+      text = ~ paste('Room ID: ', worldTwoAggregatedRooms[-1, Name]),
       jitter = 0.3,
       pointpos = -1.8
     ) %>% add_trace(
-      y = worldThreeAggregatedRooms[-1,TimeSpent],
+      y = worldThreeAggregatedRooms[-1, TimeSpent],
       name = 'Average Time spent in rooms: Colored Mansion',
       type = 'box',
-      text = ~paste('Room ID: ', worldThreeAggregatedRooms[-1,Name]),
+      text = ~ paste('Room ID: ', worldThreeAggregatedRooms[-1, Name]),
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
@@ -1071,69 +1076,123 @@ shinyServer(function(input, output, session) {
   ### Page 4: Feature exploration
   ###****************************************************************************************************************************************************************
   
+  featureFitlerNames = reactiveVal("")
+  featureFilter = reactiveVal(FALSE)
   
-  featureFilter = personsDataTable[, Novelty == 1 &
-                                     (firstVR == 1 | firstVR == 3)]
- # featureFilter = personsDataTable[, ADHD_Subtype]
+  # Day one and day two are given as y to the box plotting function thus 2*nrow(personsDataTable) to get the number of points drawn
+  observe({
+    # input$filterByDay
+    # input$filterByWorld1is3
+    # input$filterByADHDType
+    
+    # filter by world only (treat 1==3)
+    if (input$filterByWorld1is3) {
+      filterWorld= c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      nameWorld = str_replace(as.character(filterWorld),"TRUE","PirateShip ")
+      nameWorld = str_replace(nameWorld,"FALSE","Mansion ")
+      filterWorld = nameWorld
+    }else{
+      # Compute name regardless of selection
+      filterWorld= c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      nameWorld = str_replace(as.character(filterWorld),"TRUE","PirateShip ")
+      nameWorld = str_replace(nameWorld,"FALSE","Mansion ")
+      # Supress filterign by world
+      filterWorld = character(2*nrow(personsDataTable))
+    }
+    
+    # filter by day only
+    if (input$filterByDay) {
+      nameDay = c(rep("Day One ",nrow(personsDataTable)),rep("Day Two ", nrow(personsDataTable)))
+      filterDay = nameDay
+      }else{
+      filterDay= character(2*nrow(personsDataTable))
+      # Compute name regardless of selection
+      nameDay = c(rep("Day One ",nrow(personsDataTable)),rep("Day Two ", nrow(personsDataTable)))
+    }
+    
+    # filter by ADHD-subtype only
+    if (input$filterByADHDType) {
+      filterColumn = c(personsDataTable[, ADHD_Subtype == 0], personsDataTable[, ADHD_Subtype == 0])
+      nameColumn = str_replace(as.character(filterColumn),"FALSE","ADHD ")
+      nameColumn = str_replace(nameColumn,"TRUE","Control ")
+      filterColumn = nameColumn
+    }else{
+      # Compute name regardless of selection
+      filterColumn = c(personsDataTable[, ADHD_Subtype != 0], personsDataTable[, ADHD_Subtype != 0])
+      nameColumn = str_replace(as.character(filterColumn),"FALSE","Control ")
+      nameColumn = str_replace(nameColumn,"TRUE","ADHD ")
+      # Supress filtering by ADHD-subtype
+      filterColumn = character(2*nrow(personsDataTable))
+    }
+    # Set values for printing
+    featureFilter(str_replace_all(interaction(filterDay,filterWorld,filterColumn),'\\.',''))
+    featureFitlerNames(str_replace_all(interaction(nameDay,nameWorld,nameColumn),'\\.',''))
+  })
+  
+  
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
-      y =  ~ personsDataTable$avgTimePerVisitDayOne,
-      color =  ~ as.factor(featureFilter),
+      y =  c(personsDataTable$avgTimePerVisitDayOne,personsDataTable$avgTimePerVisitDayTwo),
+      color =  as.factor(featureFilter()),
+      text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(y = ~ personsDataTable$avgTimePerVisitDayTwo) %>% layout(boxmode = "group")
+    )
   })
   
   output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  ~ avgEntriesDayOne,
-      color =  ~ as.factor(featureFilter),
+      y =  c(personsDataTable$avgEntriesDayOne,personsDataTable$avgEntriesDayTwo),
+      color =  as.factor(featureFilter()),
+      text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(y = ~ personsDataTable$avgEntriesDayTwo) %>% layout(boxmode = "group")
+    )
   })
   
   output$boxplotRoomCoverage <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  ~ roomCoverageDayOne,
-      color =  ~ as.factor(featureFilter),
+      y =  c(personsDataTable$roomCoverageDayOne,personsDataTable$roomCoverageDayTwo),
+      color =  as.factor(featureFilter()),
+      text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(y = ~ personsDataTable$roomCoverageDayTwo) %>% layout(boxmode = "group")
+    )
   })
   
   output$boxplotCorrectedSinus <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  ~ CorrectedSinousityDayOne,
-      color =  ~ as.factor(featureFilter),
+      y =  c(personsDataTable$CorrectedSinousityDayOne , personsDataTable$CorrectedSinousityDayTwo),
+      color = as.factor(featureFilter()),
+      text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(y = ~ personsDataTable$CorrectedSinousityDayTwo) %>% layout(boxmode = "group")
+    )
   })
   
-  output$boxplotStraightness <- renderPlotly({
+  output$boxplotOverallTimeSpent <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  ~ TrajStraightnessDayOne,
-      color =  ~ as.factor(featureFilter),
+      y = c(personsDataTable$TimeSpentDayOne,personsDataTable$TimeSpentDayTwo),
+      color = as.factor(featureFilter()),
+      text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    ) %>% add_trace(y = ~ personsDataTable$TrajStraightnessDayTwo) %>% layout(boxmode = "group")
-  })
+    )})
   
   
   ###****************************************************************************************************************************************************************
@@ -1176,8 +1235,8 @@ shinyServer(function(input, output, session) {
         print("abort in debug observing: wrong vr id")
         return(NULL)
       }
-      histRoomUnvisited = hist[hist[, TimeSpent == 0],]$Room
-      entryRoomUnvisited = hist[hist[, Entries == 0],]$Room
+      histRoomUnvisited = hist[hist[, TimeSpent == 0], ]$Room
+      entryRoomUnvisited = hist[hist[, Entries == 0], ]$Room
       # Printing
       printf("For Day One: \n")
       printf("selected person id: %d vp: %d  vr: %d \n",
