@@ -191,32 +191,30 @@ We use the following R packages for the implementation:
 
 The packages are listed in the order they are loaded.
 We won´t go into detail about every package since there is a lot of information available on all of them online.
-To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuild data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
-We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we prefered it over ggplot2 which we used only in special cases.
-Probably the most unknown important package in this list is trajr. It is originally designd to analyse 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved usefull in feature computation.
+To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuilt data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
+We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we preferred it over ggplot2 which we used only in special cases.
+Probably the most unknown important package in this list is trajr. It is originally designed to analyze 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved useful in feature computation.
 The packages not mentioned here are used for minor computations throughout the program and could be replaced with similar packages in most cases.
 
 ## 3.2 Data
-As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discuss how we load and store the data while section 3.1.2 describes how we deal with the missing values.
-- Data loading and computation is done seperatly from data
-- New data and even attributes can be added easily
-- Trajectory feature computation works independed of data (can be used for animal studies etc. as well as long as the same data structrues are used)
+As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore, it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discusses how we load and store the data while section 3.1.2 describes how we deal with the missing values.
+One general remark is that we separated the analysis from the underlying data. The data is loaded through a .R script that searches for data in defined paths. By doing this new data and even attributes can be added easily. 
 
 ### 3.2.1 Data preprocessing
 
-The data preprocessing could be done manually for the persons data table introduced in 1.4.1 and consisted mainly of the removal of ill suited entries and filling in of empty data where possible.
-The reason rows or test persons had to be excluded was the missing of trajectory data for those and impacted two entries. The filling of missing entries could be done for columns like VE_Day2 in cases where the missing was redundant and computable by looking at firstVR and Novelty columns.
-Another preprocessing step was the renameing and unifing of the trajectory fileanmes and the removal of trajectory files of test persons not listet in the persons data table.
+The data preprocessing could be done manually for the person's data table introduced in 1.4.1 and consisted mainly of the removal of faulty entries and filling in of empty data where possible.
+The reason that test person entries had to be excluded was the lack of trajectory data for those entries. This only applied to two entries. The calculation of missing entries could be done for columns like "VE_Day2" in cases where the missing value was redundant and computable by looking at "firstVR" and "Novelty" columns.
+Another preprocessing step was the renaming and unifying of the trajectory filenames and the removal of trajectory files of test persons not listed in the person's data table.
 
-The most crucial and lager preprocessing step was to manually retrieve the room coordinates of the two world geometries. This includes the exploration of the minecraft world, cutting the world geometry into rectangular patches and noting the coordinates and id of the patches.
+The most crucial and lager preprocessing step was to manually retrieve the room coordinates of the two virtual world geometries. This includes the exploration of the Minecraft worlds, cutting the world geometry into rectangular patches and noting the coordinates and id of the patches into a .csv file.
 
 ### 3.2.2 Data structure and loading
 
-The test persons data table described in 1.4.1 is the first data loaded into a data.table object using the fread function of the belonging package. The data table contains all the attributes listed in 1.4.1. Those attributes and column names remain unchanged throughout the program. The persons data table is the most crucial part of data and used for various plots and analysis tasks.
+The test person data table described in 1.4.1 is loaded into a data.table object using the fread function of the corresponding package. The data table contains all the attributes listed in 1.4.1. Those attributes and column names remain unchanged throughout the program. The person's data table is the most crucial part of data and used for various plots and analysis tasks.
 
-The second data loaded into are the trajectory files stored in csv format. Since they the trajectory files contain a different number of rows each and are based on several virtual minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons VP number. There is no separation made between the different virtual worlds at this step. The trajectories themselves are stored as data.table using fread to gain a significant speed up compared to the inbuilt loading function and storage into data.frame.
+The second dataset contains the trajectory files stored in CSV format. Since the trajectory files contain a different number of rows each and are based on different virtual Minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons "VP" attribute. There is no separation made between the different virtual worlds at this step. The trajectories themselves are stored as data.table using fread to gain a significant speedup compared to the inbuilt loading function and storage into a data.frame.
 
-The last data loaded from file by default are two files containing the geometry of the virtual worlds. There are three worlds but only differ geometrically where as world one and three only differ in color and appearance.
+The last data that is loaded from the filesystem are two files containing the geometry of the virtual worlds. There are three worlds but only two differ geometrically. World one and world three only differ in color and appearance of the buildings in the world.
 The files contain the following attributes:
 
 #### Room geometry data
@@ -232,10 +230,10 @@ The files contain the following attributes:
 |name       |room name (char) |
 |RoomType   |room type: inside/closed, outside/open, stairway/level change (integer,[0,1,2])|
 
-Since the geometry of world one and three is equal the number of rooms is equal as well. For the worlds one and two this does not hold.
+Since the geometry of world one and three is equal the number of rooms in this world is equal as well. For the worlds one and two, this assumption does not hold.
 The geometry only allows for rectangular rooms consisting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1 &lt;derp> x2 and y1 &lt;derp< y2. This is checked and corrected within the loading function. The rooms contain only the lower z coordinate which is sufficient for both plotting of the rooms and converting the trajectory data to a room based graph. The rooms must be sorted by increasing z externally to work correctly. This cannot be done at loading time to allow the description of complex geometry such as round stairways with the simple model of rectangles.
-The id and name of the room both identify the room but can occur multiple time in the geometry file to form non rectangular rooms. The id counts all the rooms from zero to #rooms and contains minus one as special id reserved as entry for trajectory coordinates outside all room coordinates.
-The room type specifies the appearance of the room within the world. For outside regions such as gardens it is difficult to divide the area into regions similar to rooms. The borders are rather soft and the entry or leaving of one region is not comparable to entering a room through a door. Another special case are stairways which are not always rooms on their own but also probably noteworthy. To allow the analysis in respect to the various room types this column has been added but not found much use in the current program due to a lack of time to implement the necessary filters.
+The id and name of the room both identify the room but can occur multiple time in the geometry file to form nonrectangular rooms. The id counts all the rooms from zero to the number of rooms and contains minus one as a special id reserved as an entry for trajectory coordinates outside all room coordinates.
+The room type specifies the appearance of the room within the world. For outside regions such as gardens, it is difficult to divide the area into regions similar to rooms. The borders are rather soft and the entry or leaving of one region is not comparable to entering a room through a door. Another special case are stairways which are not always rooms on their own but also probably noteworthy. To allow the analysis in respect to the various room types this column has been added but not found much use in the current program due to a lack of time to implement the necessary filters.
 
 With all the external data loaded further crucial data can be derived.
 These include the computation of a room based graph from cartesian trajectories, a histogram like summary of the room based graph data, the conversion to trajr object to derive trajr features such as straightness and the computation of several internal used summary statistics.
@@ -260,21 +258,18 @@ The data.table roomGraphData and roomHistData are computed for each test person 
 | TimeSpent   | room type from geometry (integer,[0,1,2]) |
 | Name        | room name (char) from geometry   |
 
-The conversion from cartesian trajectory files to room graph based description is done for each trajectory file using the corresponding room geometry file.
-During the conversion the room geometry file is iterated for each trajectory file and the corresponding room id is stored for each trajectory entry. Since the room geometry is sorted by z only the highest room survives after iterating all rooms.
-The resulting room graph contains a list of all rooms visited in the order of visit. Since rooms can be reentered multiple times the room graph may contain more entries than there are rooms. Similar to the trajectory files the number of entries most likely differs between different test persons or days of experiment.
-For entry the time spent at that specific visit is stored along the room id and name.
+The conversion from the cartesian trajectory files to the room graph based description is done for each trajectory file using the corresponding room geometry file.
+During the conversion, the room geometry file is iterated for each trajectory file and the corresponding room id is stored for each trajectory entry. Since the room geometry is sorted by z only the highest room survives after iterating all rooms.
+The resulting room graph contains a list of all rooms visited in the order of visit. Since rooms can be re-entered multiple times the room graph may contain more entries than there are rooms. Similar to the trajectory files the number of entries most likely differs between different test persons or days of the experiment.
 
-The room history data.table is similar to the room graph data.table but summarizes information in a histogram like manner per room. Thus the length of the room hist is equal to the number of rooms in the specific world and the same for different test persons (as long as they visited the same world).
-For each room the total time spent within the room, the total number of entries into the room, id and name. It is possible to store the average time spent in the rooms per visit along side but this is not implemented.
+The room history data.table is similar to the room graph data.table but summarizes information in a histogram with respect to each room. Thus the length of the room histogram is equal to the number of rooms in the specific world and the same for different test persons (as long as they visited the same world). 
+Both the room graph and the room history are stored in two lists (one for each day).
 
-Both the room graph and room history are stored in two lists each similar to the trajectory files.
+Because the computation, especially the conversion from trajectory to room graph takes a lot of time the files are precomputed and stored in the "precomputed" directory. They are only calculated if the directory is empty. Currently, it does not contain any functionality to detect changes to the data loading or processing and thus the precomputed data must be removed by hand to force the recomputation. This should be fixed in the future to avoid possible errors.
 
-Because the computation, especially the conversion from trajectory to room graph description takes a lot of time. Therefore the files are both stored in /precomputed and only computed if not accessible for loading. Currently it does not contain any functionality to detect changes to the data loading or processing and thus the precomputed data must be removed by hand to force the recomputation. This should be fixed to avoid possible future errors.
-
-One more conversion of the trajectory data was introduced in the data processing step to allow the computation of trajectory features using the trajr package.
-It is important to note the omitting of the z coordinate. This is forced by trajr which only allows for 2d trajectories. The conversion is debatable and may lead to wrong conclusions but for as a prove of concept shows that it is in general possible to use trajr.
-There is no precomputation done prior to conversion to tarjr expect the omitting of z. We are aware of the error this creates especially around stairways and due to false intersections introduced by collapsing the trajectory along z. However be thing this is acceptable since the movement is mostly along the x-y plane and players are bound to walk and have no means of flying or similar.
+Another conversion of the trajectory data was introduced in the data processing step to allow the computation of trajectory features using the trajr package.
+It is important to omitt the z coordinate of the trajectory data. This is forced by trajr which only works with 2d trajectories. The conversion is debatable and may lead to wrong conclusions but as a proof of concept, it shows that it is in general possible to use trajr.
+There is no precomputation done prior to the conversion to tarjr expect the omitting of z. We are aware of the error this creates especially around stairways and due to false intersections introduced by collapsing the trajectory along z. However, this is acceptable since the movement is mostly along the x-y plane and players are bound to walk and have no means of flying or similar.
 The conversion results in the following data structure:
 
 #### Trajr object
@@ -288,11 +283,11 @@ The conversion results in the following data structure:
 |polar            | polar coordinates (complex)|
 |displacement     | displacement vector between consecutive points (complex)|
 
-Since the trajr object contains similar data compared to the trajectory data described previous and is well documented we will not further discuss it here.
+Since the trajr object contains similar data compared to the trajectory data described previously and is well documented we will not further discuss it here.
 
-The last step worth mentioning in the computation of data before analysis and visualization tasks is the computation of trajectory features to allow a comparison of trajectories and as such clustering and others.
+The last step worth mentioning in the computation of data before analysis and visualization tasks is the computation of trajectory features to allow a comparison of trajectories and clustering of those features.
 
-Therefore we already provided the room graph an room hist data.table as well as the conversion to trajr trajectories. From these data sets we computed the following features:
+We already described the room graph, the room hist data.table as well as the conversion to trajr trajectories. From these data sets we compute the following features:
 
 #### Trajectory features
 
@@ -305,18 +300,18 @@ Therefore we already provided the room graph an room hist data.table as well as 
 | straightness | Distance from start to end over length (bullshit) |
 | Total Time Spent | (sec) |
 
-The features are computed using the above stated data.tables for each day and person separately. Instead of storing the features in a list they are simply added as columns to the test persons data.table and read from there. The corrected sinuosity and straightness features are computed using trajr functions.
+The features are computed using the above stated data.tables for each day and person separately. Instead of storing the features in a list they are added to the test persons data.table as columns. The sinuosity feature is computed using functions of the trajr package .
 
 ## 3.3 Algorithms and Methods
 
-We are applying different machine learning and visualization techniqeus to gain new insights from the data. Table views are used to allow an interactive exploration of the raw dataset. By using scatterplot matrixes and linear regression, linear relationship between attributes can be identified. 
-Furthermore 3D-plots of the trajectories are used to not only get an impression on how the person moved in the world but also to compare the different movements on either different days or different persons. Several bar charts are used to plot more detailed information about the trajectory files like the average time a person has spent in each room of the world or how often a room was entered. The comparison of features of different group of test persons is done usin boxplots. The results of all those algorithms and visualizations can be viewed interactively on our webpage but also in section 4 Results in this markdown document.
+We are applying different machine learning and visualization techniques to gain new insights from the data. Table views are used to allow interactive exploration of the raw dataset. By using scatterplot matrixes and linear regression, linear relationships between attributes can be identified. 
+Furthermore, 3D-plots of the trajectories are used to not only get an impression on how the person moved in the world but also to compare the different movements on either different days or different persons. Several bar charts are used to plot more detailed information about the trajectory files like the average time a person has spent in each room of the world or how often a room was entered. The comparison of the features of the different groups of test persons is done using boxplots. The results of all those algorithms and visualizations can be viewed interactively on our webpage but also in section 4 Results in this markdown document.
 
 - Clustering
 
 ## 3.4 Tests
-We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore we also checked all the other charts on a Linux and on windows systems using different browsers.
-With respect to the usability we found that some parts of our Shiny web application are not repsonsive in every browser. But this is only limited to some layouting problems.
+We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore, we also checked all the other charts on a Linux and on Windows systems using different browsers.
+With respect to the usability, we found that some parts of our Shiny web application are not responsive in every browser. But this is only limited to some layout problems.
 Having a look at the performance of our app we can see that there are possibilities for improvement. The first time loading the webpage and preprocessing of the data takes around one minute. Using the precomputed data we can get the loading time below 15 seconds.
 
 
