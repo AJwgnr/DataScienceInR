@@ -440,22 +440,44 @@ It is questionable how much information can be gained by analyzing the time spen
 
 ![Percentage of rooms the test person have explored](../images/percentOfRoomsVisited.png)
 
+The second tab gives an overview of the fraction of rooms explored.
+The number of rooms is different for each world (Mansion: 59, PirateShip: 64).
+The worlds consist of several very small and hard to reach rooms like stairs making it difficult to reach a coverage close to one without extensive effort.
+
 **Important Insights:**
 
 * With over 50% minimum room coverage on day two this is worth mentioning taking the complex geometry and short amount of exploration time into account
 * On both worlds the median coverage of rooms is higher for the control group (79.6% vs 84.6%) regardless of days
 
-![Rooms visited multiple times](../images/roomsMultipleTimes.png)
+![Average entries of rooms per second](../images/roomsMultipleTimes.png)
 
-![Corrected sinuosity](../images/sinousity.png)
-
-![Overall time spent in the world](../images/overallTimeinWorld.png)
+The third tab shows the number of entries of rooms regardless of time spent during the visits counting reentering. The feature is normalized using the total time spent by the test person to make it comparable to others.
 
 **Important Insights:**
 
-* Wuuhuuuu
-* Clustering without resonable features and few data points is crappy
-* percentage
+* The spread in values on the PirateShip world exceeds those of the Mansion world.
+* Total minimum and maximum over all persons and worlds are both recorded in the PirateShip world.
+
+![Corrected sinuosity](../images/sinousity.png)
+
+The fourth tab gives an overview of the corrected sinousity feature computed using the trajr package. The corrected version was introduced by Benhamou (2004).
+It is a measurement of the straightness of the trajectory.
+
+ **Important Insights:**
+
+ * The median sinuosity is higher on day two regardless of the world.
+ * The median sinuosity of the PirateShip is higher compared to the Mansion  both days.
+
+![Overall time spent in the world](../images/overallTimeinWorld.png)
+
+The last tab gives an overview of the total time spent by the test persons in the world in minuets.
+The median time spent in the world is less for the PirateShip on both days.
+Fewer time was spent exploring the worlds on day two in median.
+The control group spends more time median time in the worlds.
+
+**Important Insights:**
+
+* Over all the spread in time is larger for the control group.
 
 
 
