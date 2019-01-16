@@ -33,8 +33,8 @@ For the experiment both groups (with ADHD and the control group) had to attend t
 On the first day, the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see one of the worlds in the image below).
 On the second day the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others. On day three the vocabularies had to be recalled again by the test persons (see the process overview in the image below). Further test persons will perform the experiment in the future and thus enlarge the data set successively.
 
-![optional caption text](images/minecraft_world1.png)
-![optional caption text](images/process.png)
+![optional caption text](../images/minecraft_world1.png)
+![optional caption text](../images/process.png)
 \newpage
 
 # Dataset

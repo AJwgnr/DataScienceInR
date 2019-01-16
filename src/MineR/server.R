@@ -1,9 +1,9 @@
 # Source the librarys to include
-source("include.R")
+source("../functions/include.R")
 
 # Source the functions for data preprocessing
-source("../functions/data/dataloading.R")
-source("../functions/transformation/traj2graph.R")
+source("../functions/dataloading.R")
+source("../functions/traj2graph.R")
 
 shinyServer(function(input, output, session) {
   ##########################

@@ -1,5 +1,33 @@
 # Datascience_R
 
-Datascience with R see https://kmd.cs.ovgu.de/teaching/DataSciR/index.html
+Semester project (winter semester 2018/2019) of the course Data Science in R at the computer science faculty of the universtity of Magdeburg (https://kmd.cs.ovgu.de/teaching/DataSciR/index.html).
 
-Wichtige infos und Erklärungen zum Repo ergänzen
+# Members
+
+Johannes Dambacher
+Alexander Wagner
+
+# Instructions
+
+## Structure
+
+----datascience_r			
+	----documentation
+		----images
+		----markdown
+		----proposal
+	----res
+		----
+		----
+	----src
+		----functions
+			----include.R
+			----dataloading.R
+			----traj2graph.R
+		----MineR
+			----www
+			----server.R
+			----ui.R
+
+			
+

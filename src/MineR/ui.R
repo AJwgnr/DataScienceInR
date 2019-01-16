@@ -1,7 +1,7 @@
 # Source the librarys to include
-source("include.R")
+source("../functions/include.R")
 # Source the functions for loading the data
-source("../functions/data/dataloading.R")
+source("../functions/dataloading.R")
 
 
 
