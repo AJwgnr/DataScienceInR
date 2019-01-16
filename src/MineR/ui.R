@@ -131,7 +131,7 @@ ds_body = dashboardBody(tabItems(
       tags$video(
         id = "video2",
         type = "video/mp4",
-        src = "VR1.0.mp4",
+        src = "screencast.mp4",
         controls = "controls",
         width = '920',
         height = '540',
