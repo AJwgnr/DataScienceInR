@@ -11,23 +11,28 @@ Alexander Wagner
 
 ## Structure
 
-.
-+-- documentation
-|   +-- images
-|   +-- markdown
-|   +-- proposal
-+-- res
-|   +-- person_data
-|   +-- position_data
-|   +-- precomputed_data
-+-- src
-|   +-- functions
-|   |   +-- include.R
-|   |   +-- dataloading.R
-|   |   +-- traj2graph.R
-|   +-- MineR
-|   |   +-- www
-|   |   +-- server.R
-|   |   +-- ui.R
-+-- _layouts
+
+```
+├── documentation
+|   ├── images
+|   ├── markdown
+|   └── proposal
+├── res
+|   ├── person_data
+|   ├── position_data
+|   └── precomputed_data
+├── src
+|   └── functions
+|       ├── include.R
+|       ├── dataloading.R
+|       └── traj2graph.R
+|   └── MineR
+|       ├── www
+|       ├── server.R
+|       └── ui.R
+```
+
+
+
+
 
