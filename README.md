@@ -11,23 +11,23 @@ Alexander Wagner
 
 ## Structure
 
-----datascience_r			
-	----documentation
-		----images
-		----markdown
-		----proposal
-	----res
-		----
-		----
-	----src
-		----functions
-			----include.R
-			----dataloading.R
-			----traj2graph.R
-		----MineR
-			----www
-			----server.R
-			----ui.R
-
-			
+.
++-- documentation
+|   +-- images
+|   +-- markdown
+|   +-- proposal
++-- res
+|   +-- person_data
+|   +-- position_data
+|   +-- precomputed_data
++-- src
+|   +-- functions
+|   |   +-- include.R
+|   |   +-- dataloading.R
+|   |   +-- traj2graph.R
+|   +-- MineR
+|   |   +-- www
+|   |   +-- server.R
+|   |   +-- ui.R
++-- _layouts
 
