@@ -30,7 +30,7 @@ Make sure that your process notebook is a standalone document that fully describ
 # 1. Introduction
 
 ## 1.1 Overview
-This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke University Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as a detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the University of Magdeburg. Further information regarding the process of how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website (https://ajwgnr.shinyapps.io/miner/). The whole code for this project is stored in a public GitLab Repository.
+This markdown document is part of the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke University Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as a detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the University of Magdeburg. Further information regarding the process of how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website (https://ajwgnr.shinyapps.io/miner/). The whole code for this project is stored in a public GitLab Repository.
 
 ## 1.2 Repository
 GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
@@ -39,23 +39,19 @@ GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
 The data was recorded during a study on the impact of exploring novelty onto the learning success of children. The study group consisted of children having different types of ADHD and a control group.
 For the experiment, both groups (with ADHD and the control group) had to attend the study on three different days.
 On the first day, the test persons got familiarized with the virtual world by spending between 10 and 20 minutes exploring one of the two worlds (see one of the worlds in the image below).
-On the second day, the test persons had to learn 20 new vocabularies and recall them afterward. After the recalling, the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others. On day three the vocabularies had to be recalled again by the test persons (see the process overview in the image below). Further test persons will perform the experiment in the future and thus enlarge the data set successively.
+On the second day, the test persons had to learn 20 new vocabularies and recall them afterwards. After the recalling, the test persons had again the task to explore a virtual world for 10 to 20 minutes. The virtual world on day one and day two were the same for some test persons and different for others. On day three the vocabularies had to be recalled again by the test persons (see the process overview in the image below). Further test persons will perform the experiment in the future and thus enlarge the data set successively.
 ![optional caption text](../images/minecraft_world1.png)
 
 ## 1.4 Dataset
-The overall recorded data set consists of the trajectory data of 66 test persons in the virtual world as well as several other variables such as sex, age, and others. The data set is divided into trajectory data and information of the test persons in separate CSV files.
+The overall recorded data set consists of the trajectory data of 66 test persons in the virtual worlds as well as several other variables such as sex, age, and others. The data set is divided into trajectory data and information of the test persons in separate CSV files.
 The trajectory data was retrieved by tracking the test person movement within a 3D virtual Minecraft world. The sample rate was set to a tenth of a second. The data contains a timestamp and the x,y and z coordinate of the test persons avatar in the virtual world at a given time. Due to the software-based digital tracking within a virtual world the sample points contain an exact time stamp and neither noise nor outlier nor ambiguities or other measurement based bias.
 The time spent in the virtual world should range from 10 to 20 minutes where the test persons could freely stop exploring the world after 10 minutes.
-The data set of the test persons contains variables such as sex, age, and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used datasets is listed below.
+The data set of the test persons contains variables such as sex, age, and others as well as the number of words remembered correctly/wrongly on the first/second day, the virtual world id for day one/two and several scores obtained using a questionnaire related to immersion, exploration behavior and similar. The full list of attributes of the used data sets is listed below.
 
 **Summary:**
 
 * one CSV file containing the information of the test persons (66 persons)
-* 130 CSV files containing the trajectory information (for each person two trajectory files exist)
-* **Attributes** and **features** refer to different things
-* Attributes describe the test person values such as age, sex and the scores determined using questionnaires
-* Features describe the scalar representation of the trajectories computed from the trajectories using descriptor functions
-
+* 128 CSV files containing the trajectory information (for each person one trajectory file per day)
 
 ### 1.4.1 Test person table
 
@@ -95,9 +91,9 @@ The data set of the test persons contains variables such as sex, age, and others
 
 ### 1.4.2 Trajectory Table
 
-There should be two trajectory files for each person. One for each day of exploration. The worlds explored can be the same or different between both days.
-The logging step size was 10 fps the resulting trajectory files contain around 7000 entries. The cartesian coordinates are given in double precision.
-Following the data structure of the trajectory files provided.
+There should be two trajectory files for each person. One for each day of exploration. The worlds explored can be the same or differ between days.
+The logging step size was 10 fps the resulting trajectory files contain between roughly 4k and 15k entries. The cartesian coordinates are given in double precision.
+Following the data structure of the trajectory files provided:
 
 | Attribute | Description |
 |:-----------:|---------|
@@ -111,11 +107,11 @@ Following the data structure of the trajectory files provided.
 
 # 2. Concept
 
-The following chapter contains the summarized general project plan that was written down in the project proposal at the beginning of the project. The description of the real implementation and the result can be found in section 3.
+The following chapter contains the summarized general project plan that was written down in the project proposal at the beginning of the project. The description of the R implementation and the results can be found in section 3.
 
 ## 2.1 Objectives
 
-We are trying to explore and answer the following questions:
+We are exploring and trying to answer the following questions:
 
 * Which features can be created from the trajectory data?
 * Can test persons not having ADHD memorize words better than persons having ADHD?
@@ -129,13 +125,14 @@ We are trying to explore and answer the following questions:
 * https://pdfs.semanticscholar.org/f73d/a038fe121e56fca15cadceea35398ba95063.pdf
 * https://arxiv.org/pdf/1303.1585.pdf
 * http://crpit.com/confpapers/CRPITV137Wang.pdf
+* https://cran.rstudio.com/web/packages/trajr/vignettes/trajr-vignette.html
 
 
 ## 2.3 Possible problems
 * Only a small data set yet (can be hard to prove statistical significance)
 * Some trajectory data sets cannot be used completely because there was an error in the recording process or the test person stopped exploring the world earlier than expected
-* Little comparable work on the feature extraction from trajectories
-* Little comparable work on the comparison of trajectories
+* Little comparable work on the feature extraction from trajectories (especially on 3d data)
+* Little comparable work on the comparison of trajectories (especially on 3d data)
 
 
 ## 2.4 Design overview
@@ -154,7 +151,7 @@ An important role is the extraction of features from the trajectory data. Since 
 * Steadiness vs roughness of motion
 * Spectral features derived using fast Fourier transform
 
-For the feature description, the trajectory data (given in euclidian coordinates) has to be converted to a graph like representation that is listing the order and time spent in the rooms of the virtual world.
+For the feature description, the trajectory data (given in cartesian coordinates) has to be converted to a graph like representation that is listing the order and time spent in the rooms of the virtual world.
 After the derivation of the trajectory features those will be used to predict or correlate to the test person attributes retrieved by questionnaires. This task makes particular use of clustering algorithms.
 
 The goal of the visual design is the interactive visualization of the data set itself and the analysis results of the data set.
@@ -191,22 +188,22 @@ We use the following R packages for the implementation:
 
 The packages are listed in the order they are loaded.
 We won´t go into detail about every package since there is a lot of information available on all of them online.
-To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuilt data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and subsetting data.tabels.
-We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we preferred it over ggplot2 which we used only in special cases.
-Probably the most unknown important package in this list is trajr. It is originally designed to analyze 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved useful in feature computation.
-The packages not mentioned here are used for minor computations throughout the program and could be replaced with similar packages in most cases.
+To mention are shiny and the various extensions used to create the interactive environment. The data.table package is an extension to the inbuilt data.frame but can handle large data sets faster, reads data faster and provides an easier way of indexing and sub setting data.tabels.
+We highlighted the plotly package not only because it provides an easy way to create interactive plots but also we preferred it over ggplot2 which we used only in rare cases.
+Probably the most unknown important package in this list is trajr. It is originally designed to analyze 2d animal trajectories. Although our data contains 3d trajectory data the trajr package has proved useful in feature computation and can be most likely far more exploited.
+The packages not highlighted here are used for minor computations throughout the program and could be replaced with similar packages in many cases.
 
 ## 3.2 Data
-As already written in the concept section, the data set consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore, it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discusses how we load and store the data while section 3.1.2 describes how we deal with the missing values.
+As already written in the concept section, the data set consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore, it has a column which indicates that the corresponding trajectory file is maybe not complete or otherwise disfigured. The section 3.1.1 discusses how we load and store the data while section 3.1.2 describes how we deal with the missing values.
 One general remark is that we separated the analysis from the underlying data. The data is loaded through a .R script that searches for data in defined paths. By doing this new data and even attributes can be added easily.
 
 ### 3.2.1 Data preprocessing
 
 The data preprocessing could be done manually for the person's data table introduced in 1.4.1 and consisted mainly of the removal of faulty entries and filling in of empty data where possible.
-The reason that test person entries had to be excluded was the lack of trajectory data for those entries. This only applied to two entries. The calculation of missing entries could be done for columns like "VE_Day2" in cases where the missing value was redundant and computable by looking at "firstVR" and "Novelty" columns.
+The reason that test person entries had to be excluded was the lack of trajectory data for those entries. This only applied to two entries. The calculation of missing entries could be done for columns like "VE_Day2" in cases where the missing value was redundant and compute-able by looking at the "firstVR" and "Novelty" columns.
 Another preprocessing step was the renaming and unifying of the trajectory filenames and the removal of trajectory files of test persons not listed in the person's data table.
 For several of the reaming test persons the column Exclusion_Position_Data contains 777 or 999 entries. These refer to problems during the world exploration task such as broke down during logging or insubordinate behavior. Others were able to glitch out of the in-world borders, thus breaking the logging.
-Since there were only few test persons from begin on we decided not to remove those prior to the analysis. We suggest implementing a global filter option to exclude this test persons from analysis but would require several changes to the code foundation.
+Since there were only few test persons from begin on we decided not to remove those prior to the analysis. We suggest implementing a global filter option to exclude this test persons from analysis but requires several changes to the code foundation and is thus postponed.
 
 The most crucial and lager preprocessing step was to manually retrieve the room coordinates of the two virtual world geometries. This includes the exploration of the Minecraft worlds, cutting the world geometry into rectangular patches and noting the coordinates and id of the patches into a .csv file.
 
@@ -216,10 +213,10 @@ The test person data table described in 1.4.1 is loaded into a data.table object
 
 The second dataset contains the trajectory files stored in CSV format. Since the trajectory files contain a different number of rows each and are based on different virtual Minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons "VP" attribute. There is no separation made between the different virtual worlds at this step. The trajectories themselves are stored as data.table using fread to gain a significant speedup compared to the inbuilt loading function and storage into a data.frame.
 
-The last data that is loaded from the filesystem are two files containing the geometry of the virtual worlds. There are three worlds but only two differ geometrically. World one and world three only differ in color and appearance of the buildings in the world.
-The current version of the worlds geometry contains minor errors in the room coordinates. Especially the second world (PirateShip) is not working properly throughout all levels due to the complex geometry containing lots of round geometry.
+The last data that is loaded from the file system are two files containing the geometry of the virtual worlds. There are three worlds but only two differ geometrically. World one and world three only differ in color and appearance of the buildings in the world.
+The current version of the worlds geometry contains minor errors in the room coordinates. Especially the second world (PirateShip) is not working properly throughout all z levels due to the complex geometry containing lots of round features and slopes.
 We figured the time not worth fixing every single room manually right now.
-The files still work and produce reasonable results but nevertheless need fixing.
+The files still work and produce reasonable results but nevertheless needs fixing in future.
 We took this malfunction into account while analyzing the data.
 The files contain the following attributes:
 
@@ -237,8 +234,8 @@ The files contain the following attributes:
 |RoomType   |room type: inside/closed, outside/open, stairway/level change (integer,[0,1,2])|
 
 Since the geometry of world one and three is equal the number of rooms in this world is equal as well. For the worlds one and two, this assumption does not hold.
-The geometry only allows for rectangular rooms consisting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1 &lt;derp> x2 and y1 &lt;derp< y2. This is checked and corrected within the loading function. The rooms contain only the lower z coordinate which is sufficient for both plotting of the rooms and converting the trajectory data to a room based graph. The rooms must be sorted by increasing z externally to work correctly. This cannot be done at loading time to allow the description of complex geometry such as round stairways with the simple model of rectangles.
-The id and name of the room both identify the room but can occur multiple time in the geometry file to form nonrectangular rooms. The id counts all the rooms from zero to the number of rooms and contains minus one as a special id reserved as an entry for trajectory coordinates outside all room coordinates.
+The geometry only allows for rectangular rooms consisting of the lower vertex (x1,y1) and the upper vertex (x2,y2) spanning the rectangle and holding x1 &lt; x2 and y1 &lt; y2. This is checked and corrected within the loading function. The rooms contain only the lower z coordinate which is sufficient for both plotting of the rooms and converting the trajectory data to a room based graph. The rooms must be sorted by increasing z externally to work correctly. This cannot be done at loading time to allow the description of complex geometry such as round stairways with the simple model of rectangles.
+The id and name of the room both identify the room but can occur multiple time in the geometry file to form non rectangular rooms. The id counts all the rooms from zero to the total number of rooms and contains minus one as a special id reserved as an entry for trajectory coordinates outside all room coordinates.
 The room type specifies the appearance of the room within the world. For outside regions such as gardens, it is difficult to divide the area into regions similar to rooms. The borders are rather soft and the entry or leaving of one region is not comparable to entering a room through a door. Another special case are stairways which are not always rooms on their own but also probably noteworthy. To allow the analysis in respect to the various room types this column has been added but not found much use in the current program due to a lack of time to implement the necessary filters.
 
 With all the external data loaded further crucial data can be derived.
@@ -316,6 +313,7 @@ Furthermore, 3D-plots of the trajectories are used to not only get an impression
 
 ## 3.4 Tests
 We tested the functionality of our application manually. We checked the visualizations of the trajectory plots of every test person on every day. Furthermore, we also checked all the other charts on a Linux and on Windows systems using different browsers.
+However we take no responsibility or give warranty of any kind.
 With respect to the usability, we found that some parts of our Shiny web application are not responsive in every browser. But this is only limited to some layout problems.
 Having a look at the performance of our app we can see that there are possibilities for improvement. The first time loading the webpage and preprocessing of the data takes around one minute. Using the precomputed data we can get the loading time below 15 seconds.
 
@@ -325,15 +323,15 @@ Having a look at the performance of our app we can see that there are possibilit
 
 The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (https://ajwgnr.shinyapps.io/miner/). The following plots are screenshots captured from the webpage.
 
-The webpage is divided into six parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here. The other tabs cover a detailed view of the raw dataset, an analysis of the memorizing experiment results, the calculation of trajectory features and the clustering of the data.
+The webpage is divided into six pages. The first two pages provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here. The other pages cover a detailed view of the raw data set, an analysis of the memorizing experiment results, the calculation of trajectory features and the clustering of the data.
 
 ## 4.1 The Dataset
-The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the data table containing the data of the test persons (See the image below).
+The data set tab on the website covers the basic interaction and visualization with the raw data set. It is showing the basic statistics of the data set and allows the exploration of the data table containing the data of the test persons (See the image below).
 
 ![Raw view on the dataset](../images/Rawdata table.png)
 
 
-There are different possibilities for the user to analyze the dataset. The data can be viewed as displayed in the image above and the correlation tab allows to choose any two variables from the data and to plot the may existing linear relationship (See the image below).
+There are different possibilities for the user to analyze the data set. The data can be viewed as displayed in the image above and the correlation tab allows to choose any two variables from the data and to plot the may existing linear relationship (See the image below).
 
 
 ![Linear correlation of attributes](../images/regression.png)
@@ -348,18 +346,18 @@ It is the task of the user to choose meaningful attributes. Nevertheless, we hav
 * blah
 * blah
 
-Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can disturb the analysis when many features are used.
+Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplotmatrix of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can disturb the analysis when many features are used.
 
 ![Scatterplot matrix of person data attributes](../images/scatterplotmatrix.png)
 
 
-When an entry from the raw dataset tab is chosen by the user the two available trajectory files are plotted using a 3D plot in the trajectory tab (image below). Furthermore, there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-interval is being plotted (e.g. to plot only the first floor of the buildings in the virtual world).
+When an entry from the raw data set tab is chosen by the user the two available trajectory files are plotted using a 3D plot in the trajectory tab (image below). Furthermore, there is a blue slider input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-interval is being plotted (e.g. to plot only the first floor of the buildings in the virtual world).
 
 
 ![Trajectorie visualization](../images/trajectoryand roomdata.png)
 
 
-Besides the raw trajectory data, the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the test persons spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
+Besides the raw trajectory data, the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the test persons spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional data set that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
 
 ![Time spent per room and number of entrances per room](../images/rooms.png)
 
@@ -377,7 +375,7 @@ The data of the time each person has spend in the rooms of the world can be furt
 * Test persons spent less time in rooms of the pirate ship virtual world
 
 ## 4.2 Memorizing Experiment
-The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
+The following charts are dealing with the analysis of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
 
 * Test persons had to recall 20 vocabularies
 * Average direct recall was: 11.5 words
@@ -413,9 +411,9 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 **Important Insights:**
 
 * Non ADHD persons can memorize words better
-* there are no ADHD persons in the partial new world set yet
-* Persons in the control group can memorize words better than ADHD test persons (doesn´t depend on the group they have been)
-* The TP_delayed recall is more closer to the TP_direct recall in the partial new group (compared to the two other groups)
+* There are no ADHD persons in the partial new world set yet
+* Persons in the control group can memorize words better than ADHD test persons (doesn´t depend on the combination of worlds explored)
+* The difference in TP_delayed_recall and TP_direct_recall in the partial new group is smaller compared to the two other groups
 
 ## 4.3 Trajectory Features
 
@@ -490,8 +488,8 @@ Recapitulating this whole project, we followed the steps of a general data scien
 
 While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By separating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage, we also allow reusing those files independently of the webpage. This allows not only to continue developing the further analysis of the data without a shiny webpage but also to apply our functions to completely new data (like other trajectories).
 
-Since the analysis and computation of the trajectory features, as well as the building of the shiny web application, was quite complicated our project lacks further machine learning methods. We only applied XXXXXX.
-Not only due to time reasons but also because our dataset was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive Bayes.
+Since the analysis and computation of the trajectory features, as well as the building of the shiny web application, was quite complicated our project lacks further machine learning methods. We only applied regression computation and tested clustering but found it unsuited for the data.
+Not only due to time reasons but also because our data set was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive Bayes.
 
 
 # 5.1 R Feedback
@@ -503,14 +501,16 @@ In the following section, we describe our experiences with the R programming lan
 * Allows to prototype very fast
 * Offers many packages that can be used
 * Nice visualizations can be created easily
+* Interactive web based visualization
 
 **Disadvantages**:
 
-* Steep learning curve
+* Steep learning curve (if coming from C++ like languages)
 * Not very clear how to structure bigger R projects or especially Shiny projects (more than 2500 lines of code in our project)
-* Error messages are really bad because they are in the final rendered HTML and not in the real R code
+* Error messages are really bad handled because they appear in the final rendered HTML and not in the real R code for many cases
 * Shiny Dashboard is not responsive in all components in every browser
-* Problems when using different Shiny, R or package versions among developers
+* Different combination of package versions lead to hard to come by errors
+* Causing problems when using different Shiny, R or package versions among developers
 
 
 # 5.2 Final Insights
@@ -520,18 +520,21 @@ In the following section, we describe our experiences with the R programming lan
 
 # 5.3 Future Work
 
-For the further development of this project, we identified the three following tasks:
+For the further development of this project, we identified the following tasks:
 
 * Include more data of test persons
 * Use statistical tests
 * Apply classification techniques to trajectory features to try to separate ADHD and non-ADHD test persons
+* Come up with a robust comparison method for trajectory data
+* Construct meaningful features
 
 
 # 6 Course Feedback
 
-Since it is the first time this course was offered, we thought about several things that can be improved for the next course:
+Since it is the first time this course was offered, we thought about several things that can be improved for the next course.
 
+* Creating a shiny based interactive web application was an misunderstanding demanding much more implementation than expected.
 * Period for the project was far too short (after the proposal review meeting there were only 8 weeks with 2 weeks Christmas holiday in between)
-* No really clear requirements for the final project result (maybe offer an example of how a final project should look like)
+* No really clear requirements for the final project result (may offer an example of how a final project should look like)
 * Setup a fixed appointment after half of the project time (students can get feedback if they are working in the right direction)
-* Screencast of the application doesn´t really make sense
+* Screen cast of the application doesn´t really make sense (for an interactive web app at least)
