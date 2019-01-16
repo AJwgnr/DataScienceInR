@@ -19,8 +19,8 @@ The explanation of the file structure in this repository can be found in the tre
 ```
 ├── documentation			    Documentation what was done in this project
 |   ├── images					All images that are used in the proposal and the final markdown
-|   ├── markdown				Final markdown document descsribing the whole project
-|   └── proposal				Proposal that contains the project plan and objective for this project
+|   ├── markdown				Final markdown document describing the whole project
+|   └── proposal				Proposal that contains the project plan and objectives for this project
 ├── res					    Contains all data resources
 |   ├── person_data				Information about the test persons
 |   ├── position_data			        Trajectorie files of the test persons on the diffrent days
@@ -43,11 +43,11 @@ Our web application can be found on shinyapps.io: https://ajwgnr.shinyapps.io/mi
 
 ## Screencast link
 
-The screencast of our web application can be found here: 
+The screencast of our web application can be found on the "Project Introduction" tab of our website: https://ajwgnr.shinyapps.io/miner/
 
 
 ## Markdown
 
-The final Markdown file describing what we have done in this project is located in the subfolder **markdown** of the documentation folder 
+The final Markdown file describing what we have done in this project is located in the subfolder **markdown** of the documentation folder .
 
 

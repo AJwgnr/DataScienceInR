@@ -359,13 +359,6 @@ Besides the raw trajectory data, the "Time per room" and "Rooms entered" tabs al
 ![Time spent per room and number of entrances per room](../images/rooms.png)
 
 
-
-**Important Insights:**
-
-* blah
-* blah
-
-
 The data of the time each person has spend in the rooms of the world can be further aggregated over the two days with respect to the virtual world´s. By doing that, we can get the boxplot (image below) that shows the average time that was spent per room in each of the worlds. On the webpage, the rooms of the world are displayed when the mouse is hovered over the data points.
 
 
@@ -375,8 +368,8 @@ The data of the time each person has spend in the rooms of the world can be furt
 
 **Important Insights:**
 
-* blah
-* blah
+* Some test persons where really interested in exploring the mansion
+* Test persons spent less time in rooms of the pirate ship virtual world
 
 ## 4.2 Memorizing Experiment
 The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
@@ -398,8 +391,10 @@ Furthermore, the bar charts below those figures show the distribution of the ADH
 
 **Important Insights:**
 
-* Fewer people in the partial new group -> also only control group there
-* less ADHD test persons than persons in the control group
+* Fewer people in the partial new group (only 19%) compared to the other groups
+* No ADHD test person in the partial new world group
+* In general less ADHD test person than persons in the control group
+* The TP_delayed Recall is in average 3 words less than the TP_direct Recall
 
 The following four boxplots show the comparison of the TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group test persons.
 
@@ -412,8 +407,8 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 
 **Important Insights:**
 
-* Non ADHD persons can memorize words better
-* there are ADHD persons in the partial new world yet
+* Persons in the control group can memorize words better than ADHD test persons (doesn´t depend on the group they have been)
+* The TP_delayed recall is more closer to the TP_direct recall in the partial new group (compared to the two other groups)
 
 
 ## 4.3 Trajectory Features
@@ -436,6 +431,8 @@ Three filters that can combined freely:
 **Important Insights:**
 
 * Wuuhuuuu
+
+
 
 
 
