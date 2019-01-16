@@ -421,12 +421,12 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 ## 4.3 Trajectory Features
 
 The trajectory feature tabs shows the various features computed in 3.2.2 as boxplots with the data points jittered as done in previous visualizations.
-On the very top the tab allows for the selection of up to three filters applyable to the data set piror to plotting.
+On the very top the tab allows for the selection of up to three filters applicable to the data set prior to plotting.
 Those are : Day (One or Two), World (Mansion or PirateShip) and Group (Control or ADHD)
 If more then one filter is selected the filters are combined using the built in interaction function.
-The two version of the Mansion are treated as the same since the geometry is identicall.
-The group has been collapsed into Control and ADHD since the ADHD suptypes cause a splitting into unresonable small bins.
-Due to the interactiveness further filters or the selection of an attribute from persons data table for filtering can ben implemented with relative ease.
+The two version of the Mansion are treated as the same since the geometry is identical.
+The group has been collapsed into Control and ADHD since the ADHD sup types cause a splitting into unreasonable small bins.
+Due to the inter activeness further filters or the selection of an attribute from persons data table for filtering can be implemented with relative ease.
 
 All computed trajectory features are plotted into separate tabs but make use of the global filter settings for coloring.
 
@@ -436,13 +436,13 @@ Following an selection of some plots.
 
 The first tab gives an overview of the average time spent per room per person in seconds.
 The plot shown was made using all of the filters creating the maximum of eight bins.
-It is questionable how much information can be gaind by analyzing the time spent per room.
+It is questionable how much information can be gained by analyzing the time spent per room.
 
 ![Percentage of rooms the test person have explored](../images/percentOfRoomsVisited.png)
 
 **Important Insights:**
 
-* With over 50% minimum room coverage on day two this is worth mentioning taking the complex geometry and short amout of exploration time into account
+* With over 50% minimum room coverage on day two this is worth mentioning taking the complex geometry and short amount of exploration time into account
 * On both worlds the median coverage of rooms is higher for the control group (79.6% vs 84.6%) regardless of days
 
 ![Rooms visited multiple times](../images/roomsMultipleTimes.png)
