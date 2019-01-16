@@ -38,7 +38,7 @@ The explanation of the file structure in this repository can be found in the tre
 
 ## Website 
 
-Our web application can be found here:
+Our web application can be found on shinyapps.io: https://ajwgnr.shinyapps.io/miner/
 
 
 ## Screencast link

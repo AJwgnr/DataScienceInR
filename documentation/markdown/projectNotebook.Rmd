@@ -30,7 +30,7 @@ Make sure that your process notebook is a standalone document that fully describ
 # 1. Introduction
 
 ## 1.1 Overview
-This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke University Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as a detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the University of Magdeburg. Further information regarding the process of how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website !!!LINK!!!. The whole code for this project is stored in a public GitLab Repository.
+This markdown document is the result of the semester project of the course Data Science with R held in the winter semester 2018/2019 at the computer science faculty at the Otto-von-Guericke University Magdeburg by M.Sc. Uli Niemann from the KMD Lab. Further details regarding the lecture can be found on the official course website. This project was done as a team consisting of the members Johannes Dambacher and Alexander Wagner. The general project idea as well as a detailed time plan can be found in the project proposal. The basic idea of the course was to choose a dataset and to gain new insights using the language R. We have decided to use a dataset from the Universitätsklinik für Psychiatrie, Psychotherapie und Psychosomatische Medizin des Kindes- und Jugendalters (KKJP) at the medical faculty of the University of Magdeburg. Further information regarding the process of how the dataset was generated can be found in the dataset section. For an interactive visualization please see our Shiny website (https://ajwgnr.shinyapps.io/miner/). The whole code for this project is stored in a public GitLab Repository.
 
 ## 1.2 Repository
 GitLab Repository: https://gitlab.com/vornamenachname/datascience_r.git
@@ -323,7 +323,7 @@ Having a look at the performance of our app we can see that there are possibilit
 
 # 4. Results
 
-The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (INSERT LINK).The following plots are screenshots captured from the webpage.
+The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (https://ajwgnr.shinyapps.io/miner/).The following plots are screenshots captured from the webpage.
 
 The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
 
