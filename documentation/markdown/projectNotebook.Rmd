@@ -418,7 +418,25 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 
 ## 4.3 Trajectory Features
 
+Three filters that can combined freely:
+- Filter by day
+- Filter by world (World ID 1=3)
+- Filter by ADHD-Subtype (ADHD typ 2 omitted)
+
+![Average time spent per room](../images/avgperRoom.png)
+
+![Percentage of rooms the test person have explored](../images/percentOfRoomsVisited.png)
+
+![Rooms visited multiple times](../images/roomsMultipleTimes.png)
+
+![Corrected sinuosity](../images/sinousity.png)
+
+![Overall time spent in the world](../images/overallTimeinWorld.png)
+
 **Important Insights:**
+
+* Wuuhuuuu
+
 
 
 # 5. Conclusions
