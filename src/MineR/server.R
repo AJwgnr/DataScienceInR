@@ -224,32 +224,32 @@ shinyServer(function(input, output, session) {
   ### Clustering  ###
   ###################
   
-  # Use time normalized room coordinates as feature vector
-  clusterMe = personsDataTable[, list(
-    TP_DirectRecall = TP_DirectRecall / 20,
-    TP_DelayedRecall = TP_DelayedRecall / 20,
-    roomCoverageDayOne,
-    roomCoverageDayTwo,
-    avgTimePerVisitDayOne = (1 / (1 + avgTimePerVisitDayOne)),
-    avgTimePerVisitDayTwo = (1 / (1 + avgTimePerVisitDayTwo)),
-    avgEntriesDayOne = (1 / (1 + avgEntriesDayOne)),
-    avgEntriesDayTwo = (1 / (1 + avgEntriesDayTwo)),
-    CorrectedSinousityDayOne = (1 / (1 + CorrectedSinousityDayOne)),
-    CorrectedSinousityDayTwo = (1 / (1 + CorrectedSinousityDayTwo))
-  )]
-  
-  clusterPca = prcomp(clusterMe)
-  
-  fviz_pca_var(clusterPca,
-               col.var = "contrib", # Color by contributions to the PC
-               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-               repel = TRUE     # Avoid text overlapping
-  )
-  
-  clusterRes = kmeans(clusterMe,2)
-  
-  plot_ly(clusterPca["x"],x=~"PC1",y=~"PC2",type="scatter",mode="markers")
-  
+  # # Use time normalized room coordinates as feature vector
+  # clusterMe = personsDataTable[, list(
+  #   TP_DirectRecall = TP_DirectRecall / 20,
+  #   TP_DelayedRecall = TP_DelayedRecall / 20,
+  #   roomCoverageDayOne,
+  #   roomCoverageDayTwo,
+  #   avgTimePerVisitDayOne = (1 / (1 + avgTimePerVisitDayOne)),
+  #   avgTimePerVisitDayTwo = (1 / (1 + avgTimePerVisitDayTwo)),
+  #   avgEntriesDayOne = (1 / (1 + avgEntriesDayOne)),
+  #   avgEntriesDayTwo = (1 / (1 + avgEntriesDayTwo)),
+  #   CorrectedSinousityDayOne = (1 / (1 + CorrectedSinousityDayOne)),
+  #   CorrectedSinousityDayTwo = (1 / (1 + CorrectedSinousityDayTwo))
+  # )]
+  # 
+  # clusterPca = prcomp(clusterMe)
+  # 
+  # fviz_pca_var(clusterPca,
+  #              col.var = "contrib", # Color by contributions to the PC
+  #              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+  #              repel = TRUE     # Avoid text overlapping
+  # )
+  # 
+  # clusterRes = pam(clusterMe,2)
+  # 
+  # plot_ly(data.table(clusterPca["x"][[1]]),x=~PC1,y=~PC2,type="scatter",mode="markers",color=as.factor(personsDataTable$ADHD_Subtype))
+  # 
   ###****************************************************************************************************************************************************************
   ### Page 2: Raw Data Overview; table, scatterplots,
   ###****************************************************************************************************************************************************************

@@ -642,7 +642,7 @@ ds_body = dashboardBody(tabItems(
           checkboxInput("filterByDay", "Filter by day", value = TRUE),
           checkboxInput("filterByWorld1is3", "Filter by world (World ID 1=3)", value = FALSE),
           #checkboxInput("filterByWorld1not3", "Show rooms", value = FALSE),
-          checkboxInput("filterByADHDType","Filter by ADHD-Subtype (ADHD typ 2 omitted)",value=TRUE)
+          checkboxInput("filterByADHDType","Filter by ADHD-Control (ADHD typ omitted)",value=TRUE)
         )
       ),
       box(

@@ -197,14 +197,16 @@ Probably the most unknown important package in this list is trajr. It is origina
 The packages not mentioned here are used for minor computations throughout the program and could be replaced with similar packages in most cases.
 
 ## 3.2 Data
-As already written in the concept section, the dataset consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore, it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discusses how we load and store the data while section 3.1.2 describes how we deal with the missing values.
-One general remark is that we separated the analysis from the underlying data. The data is loaded through a .R script that searches for data in defined paths. By doing this new data and even attributes can be added easily. 
+As already written in the concept section, the data set consists of two kinds of files. The person data and the trajectory data. The person data contains information about the test persons and has several NAN´s or missing values. Furthermore, it has a column which indicates that the corresponding trajectory file is maybe not complete. The section 3.1.1 discusses how we load and store the data while section 3.1.2 describes how we deal with the missing values.
+One general remark is that we separated the analysis from the underlying data. The data is loaded through a .R script that searches for data in defined paths. By doing this new data and even attributes can be added easily.
 
 ### 3.2.1 Data preprocessing
 
 The data preprocessing could be done manually for the person's data table introduced in 1.4.1 and consisted mainly of the removal of faulty entries and filling in of empty data where possible.
 The reason that test person entries had to be excluded was the lack of trajectory data for those entries. This only applied to two entries. The calculation of missing entries could be done for columns like "VE_Day2" in cases where the missing value was redundant and computable by looking at "firstVR" and "Novelty" columns.
 Another preprocessing step was the renaming and unifying of the trajectory filenames and the removal of trajectory files of test persons not listed in the person's data table.
+For several of the reaming test persons the column Exclusion_Position_Data contains 777 or 999 entries. These refer to problems during the world exploration task such as broke down during logging or insubordinate behavior. Others were able to glitch out of the in-world borders, thus breaking the logging.
+Since there were only few test persons from begin on we decided not to remove those prior to the analysis. We suggest implementing a global filter option to exclude this test persons from analysis but would require several changes to the code foundation.
 
 The most crucial and lager preprocessing step was to manually retrieve the room coordinates of the two virtual world geometries. This includes the exploration of the Minecraft worlds, cutting the world geometry into rectangular patches and noting the coordinates and id of the patches into a .csv file.
 
@@ -215,6 +217,10 @@ The test person data table described in 1.4.1 is loaded into a data.table object
 The second dataset contains the trajectory files stored in CSV format. Since the trajectory files contain a different number of rows each and are based on different virtual Minecraft worlds they are loaded and stored into two lists. One for each day indexed by the persons "VP" attribute. There is no separation made between the different virtual worlds at this step. The trajectories themselves are stored as data.table using fread to gain a significant speedup compared to the inbuilt loading function and storage into a data.frame.
 
 The last data that is loaded from the filesystem are two files containing the geometry of the virtual worlds. There are three worlds but only two differ geometrically. World one and world three only differ in color and appearance of the buildings in the world.
+The current version of the worlds geometry contains minor errors in the room coordinates. Especially the second world (PirateShip) is not working properly throughout all levels due to the complex geometry containing lots of round geometry.
+We figured the time not worth fixing every single room manually right now.
+The files still work and produce reasonable results but nevertheless need fixing.
+We took this malfunction into account while analyzing the data.
 The files contain the following attributes:
 
 #### Room geometry data
@@ -262,7 +268,7 @@ The conversion from the cartesian trajectory files to the room graph based descr
 During the conversion, the room geometry file is iterated for each trajectory file and the corresponding room id is stored for each trajectory entry. Since the room geometry is sorted by z only the highest room survives after iterating all rooms.
 The resulting room graph contains a list of all rooms visited in the order of visit. Since rooms can be re-entered multiple times the room graph may contain more entries than there are rooms. Similar to the trajectory files the number of entries most likely differs between different test persons or days of the experiment.
 
-The room history data.table is similar to the room graph data.table but summarizes information in a histogram with respect to each room. Thus the length of the room histogram is equal to the number of rooms in the specific world and the same for different test persons (as long as they visited the same world). 
+The room history data.table is similar to the room graph data.table but summarizes information in a histogram with respect to each room. Thus the length of the room histogram is equal to the number of rooms in the specific world and the same for different test persons (as long as they visited the same world).
 Both the room graph and the room history are stored in two lists (one for each day).
 
 Because the computation, especially the conversion from trajectory to room graph takes a lot of time the files are precomputed and stored in the "precomputed" directory. They are only calculated if the directory is empty. Currently, it does not contain any functionality to detect changes to the data loading or processing and thus the precomputed data must be removed by hand to force the recomputation. This should be fixed in the future to avoid possible errors.
@@ -304,7 +310,7 @@ The features are computed using the above stated data.tables for each day and pe
 
 ## 3.3 Algorithms and Methods
 
-We are applying different machine learning and visualization techniques to gain new insights from the data. Table views are used to allow interactive exploration of the raw dataset. By using scatterplot matrixes and linear regression, linear relationships between attributes can be identified. 
+We are applying different machine learning and visualization techniques to gain new insights from the data. Table views are used to allow interactive exploration of the raw dataset. By using scatterplot matrixes and linear regression, linear relationships between attributes can be identified.
 Furthermore, 3D-plots of the trajectories are used to not only get an impression on how the person moved in the world but also to compare the different movements on either different days or different persons. Several bar charts are used to plot more detailed information about the trajectory files like the average time a person has spent in each room of the world or how often a room was entered. The comparison of the features of the different groups of test persons is done using boxplots. The results of all those algorithms and visualizations can be viewed interactively on our webpage but also in section 4 Results in this markdown document.
 
 - Clustering
@@ -413,19 +419,35 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 **Important Insights:**
 
 * Non ADHD persons can memorize words better
-* there are ADHD persons in the partial new world yet
+* there are no ADHD persons in the partial new world set yet
 
 
 ## 4.3 Trajectory Features
 
-Three filters that can combined freely:
-- Filter by day
-- Filter by world (World ID 1=3)
-- Filter by ADHD-Subtype (ADHD typ 2 omitted)
+The trajectory feature tabs shows the various features computed in 3.2.2 as boxplots with the data points jittered as done in previous visualizations.
+On the very top the tab allows for the selection of up to three filters applyable to the data set piror to plotting.
+Those are : Day (One or Two), World (Mansion or PirateShip) and Group (Control or ADHD)
+If more then one filter is selected the filters are combined using the built in interaction function.
+The two version of the Mansion are treated as the same since the geometry is identicall.
+The group has been collapsed into Control and ADHD since the ADHD suptypes cause a splitting into unresonable small bins.
+Due to the interactiveness further filters or the selection of an attribute from persons data table for filtering can ben implemented with relative ease.
+
+All computed trajectory features are plotted into separate tabs but make use of the global filter settings for coloring.
+
+Following an selection of some plots.
 
 ![Average time spent per room](../images/avgperRoom.png)
 
+The first tab gives an overview of the average time spent per room per person in seconds.
+The plot shown was made using all of the filters creating the maximum of eight bins.
+It is questionable how much information can be gaind by analyzing the time spent per room.
+
 ![Percentage of rooms the test person have explored](../images/percentOfRoomsVisited.png)
+
+**Important Insights:**
+
+* With over 50% minimum room coverage on day two this is worth mentioning taking the complex geometry and short amout of exploration time into account
+* On both worlds the median coverage of rooms is higher for the control group (79.6% vs 84.6%) regardless of days
 
 ![Rooms visited multiple times](../images/roomsMultipleTimes.png)
 
@@ -436,6 +458,8 @@ Three filters that can combined freely:
 **Important Insights:**
 
 * Wuuhuuuu
+* Clustering without resonable features and few data points is crappy
+* percentage
 
 
 
