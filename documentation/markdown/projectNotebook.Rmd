@@ -423,17 +423,17 @@ The following four boxplots show the comparison of the TP_Direct_Recall and the 
 
 # 5. Conclusions
 
-Recapitulating this whole project, we followed the steps of a general data science project. At first we analyzed the data we got, thought about algorithms that can be applied, cleaned and preprocessed the data, calculated features, created visualizations and finally an interactive shiny web application that offers experts the ability to analyze the data.
+Recapitulating this whole project, we followed the steps of a general data science project. At first, we analyzed the data we got, thought about algorithms that can be applied, cleaned and preprocessed the data, calculated features, created visualizations and finally an interactive shiny web application that offers experts the ability to analyze the data.
 
-While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By seperating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage, we also allow to reuse those files independently of the webpage. This allows not only to continue developing the further analysis of the data without a shiny webpage but also to apply our functions to completely new data (like other trajectories).
+While implementing the application, we separated the visualizations from the underlying data such that new data can be added easily and no component in the web application needs to be changed. By separating the loading of the data, preprocessing and feature computation into several .R files that are sourced from the webpage, we also allow reusing those files independently of the webpage. This allows not only to continue developing the further analysis of the data without a shiny webpage but also to apply our functions to completely new data (like other trajectories).
 
-Since the analysis and computation of the trajectury features as well as the building of the shiny webapp was quite complicated our project lacks further machine learning methods. We only applied XXXXXX.
-Not only due to time reasons but also because our dataset was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive bayes.
+Since the analysis and computation of the trajectory features, as well as the building of the shiny web application, was quite complicated our project lacks further machine learning methods. We only applied XXXXXX.
+Not only due to time reasons but also because our dataset was relatively small we haven´t applied any classification techniques like decision trees, SVM´s or naive Bayes.
 
 
 # 5.1 R Feedback
 
-In the following section we describe our experiences with the R programming language and the Shiny package.
+In the following section, we describe our experiences with the R programming language and the Shiny package.
 
 **Advantages**:
 
@@ -445,7 +445,7 @@ In the following section we describe our experiences with the R programming lang
 
 * Steep learning curve
 * Not very clear how to structure bigger R projects or especially Shiny projects (more than 2500 lines of code in our project)
-* Error messages are really bad because they are in the final rendered html and not in the real R code
+* Error messages are really bad because they are in the final rendered HTML and not in the real R code
 * Shiny Dashboard is not responsive in all components in every browser
 * Problems when using different Shiny, R or package versions among developers
 
@@ -461,14 +461,14 @@ For the further development of this project, we identified the three following t
 
 * Include more data of test persons
 * Use statistical tests
-* Apply classification techniqeus to trajectory features to try to separate ADHD and non-ADHD test persons
+* Apply classification techniques to trajectory features to try to separate ADHD and non-ADHD test persons
 
 
 # 6 Course Feedback
 
 Since it is the first time this course was offered, we thought about several things that can be improved for the next course:
 
-* Period for the project was far too short (after the proposal review meeting there were only 8 weeks with 2 weeks christmas holiday in between)
+* Period for the project was far too short (after the proposal review meeting there were only 8 weeks with 2 weeks Christmas holiday in between)
 * No really clear requirements for the final project result (maybe offer an example of how a final project should look like)
 * Setup a fixed appointment after half of the project time (students can get feedback if they are working in the right direction)
 * Screencast of the application doesn´t really make sense
