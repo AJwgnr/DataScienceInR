@@ -318,9 +318,9 @@ Having a look at the performance of our app we can see that there are possibilit
 
 # 4. Results
 
-The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (https://ajwgnr.shinyapps.io/miner/).The following plots are screenshots captured from the webpage.
+The results of our analysis can be viewed in our interactive Shiny web application which is hosted here (https://ajwgnr.shinyapps.io/miner/). The following plots are screenshots captured from the webpage.
 
-The webpage is divided into six (MAYBE C_HANGE THIS) parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here.
+The webpage is divided into six parts. The first two parts provide an introduction to this project and videos showing the different virtual world´s ("Project Introduction" and "The Experiment" tab on the website"). Those topics have already been covered in this markdown file and will not be further discussed here. The other tabs cover a detailed view of the raw dataset, an analysis of the memorizing experiment results, the calculation of trajectory features and the clustering of the data.
 
 ## 4.1 The Dataset
 The dataset tab on the website covers the basic interaction and visualization with the raw dataset. It is showing the basic statistics of the dataset and allows the exploration of the data table containing the data of the test persons (See the image below).
@@ -328,13 +328,13 @@ The dataset tab on the website covers the basic interaction and visualization wi
 ![Raw view on the dataset](../images/Rawdata table.png)
 
 
-There are different possibilities for the user to analyse the dataset. The data can just be viewed as displayed in the image above but the correlation tab allows to choose any two variables from the data and to plot the may existing linear relationship.(image below)
+There are different possibilities for the user to analyze the dataset. The data can be viewed as displayed in the image above and the correlation tab allows to choose any two variables from the data and to plot the may existing linear relationship (See the image below).
 
 
 ![Linear correlation of attributes](../images/regression.png)
 
 
-It is the task of the user to choose meaningful attributes. Nevertheless we found that the following variable combinations yield some linear correlation (see next XX images):
+It is the task of the user to choose meaningful attributes. Nevertheless, we have found that the following variable combinations yield some linear correlation (see next XX images):
 INSERT IMAGES OF CORRELATED VARIABles HERE
 
 
@@ -343,18 +343,18 @@ INSERT IMAGES OF CORRELATED VARIABles HERE
 * blah
 * blah
 
-Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can may disturb the analysis when many features are used.
+Besides the option of plotting only two dependent variables, the webpage also offers the option to create a scatterplot of as many attributes as desired (See the next image). A short drawback is the problem that Shiny is not capable of rendering huge axis labels correctly which can disturb the analysis when many features are used.
 
 ![Scatterplot matrix of person data attributes](../images/scatterplotmatrix.png)
 
 
-When an entry from the raw dataset tab is choosen by the user the two availiable trajectory files are plotted using a 3D plot in the trajectory tab (in the image below). Furthermore there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-intervall is being plotted (e.g. to plot only the first floor of the buildings in the virtual world).
+When an entry from the raw dataset tab is chosen by the user the two available trajectory files are plotted using a 3D plot in the trajectory tab (image below). Furthermore, there is a blue input that can be used to adjust which part of the trajectory is plotted (e.g. only plot the first 50 percent of the time spent in the world). The input also allows to print the "rooms" of the virtual world into the plot and to decide which z-interval is being plotted (e.g. to plot only the first floor of the buildings in the virtual world).
 
 
 ![Trajectorie visualization](../images/trajectoryand roomdata.png)
 
 
-Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the test persons spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
+Besides the raw trajectory data, the "Time per room" and "Rooms entered" tabs allow to view more detailed information about the time the test persons spent in the virtual world. The "Time per room" tab shows the information about how much time in seconds was spent in the rooms in the world. For doing this we created an additional dataset that maps the rooms in the world to the trajectory coordinates. The "Rooms entered" tab visualizes how often a room was entered. Both graphics are plotted using bar charts. We use this information later on to build features for the trajectories.
 
 ![Time spent per room and number of entrances per room](../images/rooms.png)
 
@@ -366,7 +366,7 @@ Besides the raw trajectory data the "Time per room" and "Rooms entered" tabs all
 * blah
 
 
-The data of the time each person has spend in the rooms of the world can be further aggregated over the two days with respect to the virtual world´s. By doing that we can get the boxplot (image below) that shows the average time that was spent per room in each of the worlds. On the webpage the rooms of the world are displayed when the mouse is hovered over the data points.
+The data of the time each person has spend in the rooms of the world can be further aggregated over the two days with respect to the virtual world´s. By doing that, we can get the boxplot (image below) that shows the average time that was spent per room in each of the worlds. On the webpage, the rooms of the world are displayed when the mouse is hovered over the data points.
 
 
 ![Summary of time spent per world for each of the virtual world´s](../images/worlds.png)
@@ -381,23 +381,25 @@ The data of the time each person has spend in the rooms of the world can be furt
 ## 4.2 Memorizing Experiment
 The following charts are dealing with the analyzation of the results of the memorizing experiment. On top of the website tab the most important figures of the experiment are shown:
 
-* Testpersons had to recall 20 vocabularies
+* Test persons had to recall 20 vocabularies
 * Average direct recall was: 11.5 words
 * Average delayed recall was: 8.7 words
+
+Also, the information on the distribution of test person groups is shown there.
 
 * Group 1: Test persons having only seen the same world twice: 39.68  %
 * Group 2: Test persons having seen a new world on the second day: 41.27 %
 * Group 3: Test persons having seen a partial new world on the second day: 19.05 %
 
-Furthermore the bar charts below those figures show the distribution of the ADHD type of the test person with respect to the three different groups.
+Furthermore, the bar charts below those figures show the distribution of the ADHD type of the test person with respect to the three different groups.
 
 
 ![Memorizing experiment group distribution](../images/memorizing.png)
 
 **Important Insights:**
 
-* Less people in partial new group -> also only control group there
-* less ADHD test persons than persons in control group
+* Fewer people in the partial new group -> also only control group there
+* less ADHD test persons than persons in the control group
 
 The following four boxplots show the comparison of the TP_Direct_Recall and the TP_Delayed_Recall with respect to the ADHD and control group test persons.
 
