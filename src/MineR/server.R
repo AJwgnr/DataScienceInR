@@ -188,8 +188,10 @@ shinyServer(function(input, output, session) {
       nrow(currentRoomHistDayTwo)
     
     # Overall Time Spent in World? -> Not really usefull but interesting
-    personsDataTable[VP == vp, "TimeSpentDayOne"] = sum(currentRoomGraphDayOne$TimeSpent)/60
-    personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent)/60
+    personsDataTable[VP == vp, "TimeSpentDayOne"] = sum(currentRoomGraphDayOne$TimeSpent) /
+      60
+    personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent) /
+      60
     
     # Awful lot of trajr features possible (if reduced to 2d traj?!)
     
@@ -219,15 +221,34 @@ shinyServer(function(input, output, session) {
   
   
   ###################
-  ### Clustering? ###
+  ### Clustering  ###
   ###################
   
   # Use time normalized room coordinates as feature vector
+  clusterMe = personsDataTable[, list(
+    TP_DirectRecall = TP_DirectRecall / 20,
+    TP_DelayedRecall = TP_DelayedRecall / 20,
+    roomCoverageDayOne,
+    roomCoverageDayTwo,
+    avgTimePerVisitDayOne = (1 / (1 + avgTimePerVisitDayOne)),
+    avgTimePerVisitDayTwo = (1 / (1 + avgTimePerVisitDayTwo)),
+    avgEntriesDayOne = (1 / (1 + avgEntriesDayOne)),
+    avgEntriesDayTwo = (1 / (1 + avgEntriesDayTwo)),
+    CorrectedSinousityDayOne = (1 / (1 + CorrectedSinousityDayOne)),
+    CorrectedSinousityDayTwo = (1 / (1 + CorrectedSinousityDayTwo))
+  )]
   
-  ###################
-  ### DecisionTree###
-  ###################
+  clusterPca = prcomp(clusterMe)
   
+  fviz_pca_var(clusterPca,
+               col.var = "contrib", # Color by contributions to the PC
+               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+               repel = TRUE     # Avoid text overlapping
+  )
+  
+  clusterRes = kmeans(clusterMe,2)
+  
+  plot_ly(clusterPca["x"],x=~"PC1",y=~"PC2",type="scatter",mode="markers")
   
   ###****************************************************************************************************************************************************************
   ### Page 2: Raw Data Overview; table, scatterplots,
@@ -1087,53 +1108,60 @@ shinyServer(function(input, output, session) {
     
     # filter by world only (treat 1==3)
     if (input$filterByWorld1is3) {
-      filterWorld= c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
-      nameWorld = str_replace(as.character(filterWorld),"TRUE","PirateShip ")
-      nameWorld = str_replace(nameWorld,"FALSE","Mansion ")
+      filterWorld = c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      nameWorld = str_replace(as.character(filterWorld), "TRUE", "PirateShip ")
+      nameWorld = str_replace(nameWorld, "FALSE", "Mansion ")
       filterWorld = nameWorld
-    }else{
+    } else{
       # Compute name regardless of selection
-      filterWorld= c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
-      nameWorld = str_replace(as.character(filterWorld),"TRUE","PirateShip ")
-      nameWorld = str_replace(nameWorld,"FALSE","Mansion ")
+      filterWorld = c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      nameWorld = str_replace(as.character(filterWorld), "TRUE", "PirateShip ")
+      nameWorld = str_replace(nameWorld, "FALSE", "Mansion ")
       # Supress filterign by world
-      filterWorld = character(2*nrow(personsDataTable))
+      filterWorld = character(2 * nrow(personsDataTable))
     }
     
     # filter by day only
     if (input$filterByDay) {
-      nameDay = c(rep("Day One ",nrow(personsDataTable)),rep("Day Two ", nrow(personsDataTable)))
+      nameDay = c(rep("Day One ", nrow(personsDataTable)), rep("Day Two ", nrow(personsDataTable)))
       filterDay = nameDay
-      }else{
-      filterDay= character(2*nrow(personsDataTable))
+    } else{
+      filterDay = character(2 * nrow(personsDataTable))
       # Compute name regardless of selection
-      nameDay = c(rep("Day One ",nrow(personsDataTable)),rep("Day Two ", nrow(personsDataTable)))
+      nameDay = c(rep("Day One ", nrow(personsDataTable)), rep("Day Two ", nrow(personsDataTable)))
     }
     
     # filter by ADHD-subtype only
     if (input$filterByADHDType) {
       filterColumn = c(personsDataTable[, ADHD_Subtype == 0], personsDataTable[, ADHD_Subtype == 0])
-      nameColumn = str_replace(as.character(filterColumn),"FALSE","ADHD ")
-      nameColumn = str_replace(nameColumn,"TRUE","Control ")
+      nameColumn = str_replace(as.character(filterColumn), "FALSE", "ADHD ")
+      nameColumn = str_replace(nameColumn, "TRUE", "Control ")
       filterColumn = nameColumn
-    }else{
+    } else{
       # Compute name regardless of selection
       filterColumn = c(personsDataTable[, ADHD_Subtype != 0], personsDataTable[, ADHD_Subtype != 0])
-      nameColumn = str_replace(as.character(filterColumn),"FALSE","Control ")
-      nameColumn = str_replace(nameColumn,"TRUE","ADHD ")
+      nameColumn = str_replace(as.character(filterColumn), "FALSE", "Control ")
+      nameColumn = str_replace(nameColumn, "TRUE", "ADHD ")
       # Supress filtering by ADHD-subtype
-      filterColumn = character(2*nrow(personsDataTable))
+      filterColumn = character(2 * nrow(personsDataTable))
     }
     # Set values for printing
-    featureFilter(str_replace_all(interaction(filterDay,filterWorld,filterColumn),'\\.',''))
-    featureFitlerNames(str_replace_all(interaction(nameDay,nameWorld,nameColumn),'\\.',''))
+    featureFilter(str_replace_all(
+      interaction(filterDay, filterWorld, filterColumn),
+      '\\.',
+      ''
+    ))
+    featureFitlerNames(str_replace_all(interaction(nameDay, nameWorld, nameColumn), '\\.', ''))
   })
   
   
   
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
-      y =  c(personsDataTable$avgTimePerVisitDayOne,personsDataTable$avgTimePerVisitDayTwo),
+      y =  c(
+        personsDataTable$avgTimePerVisitDayOne,
+        personsDataTable$avgTimePerVisitDayTwo
+      ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
       type = "box",
@@ -1146,7 +1174,10 @@ shinyServer(function(input, output, session) {
   output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  c(personsDataTable$avgEntriesDayOne,personsDataTable$avgEntriesDayTwo),
+      y =  c(
+        personsDataTable$avgEntriesDayOne,
+        personsDataTable$avgEntriesDayTwo
+      ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
       type = "box",
@@ -1159,7 +1190,10 @@ shinyServer(function(input, output, session) {
   output$boxplotRoomCoverage <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  c(personsDataTable$roomCoverageDayOne,personsDataTable$roomCoverageDayTwo),
+      y =  c(
+        personsDataTable$roomCoverageDayOne,
+        personsDataTable$roomCoverageDayTwo
+      ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
       type = "box",
@@ -1172,7 +1206,10 @@ shinyServer(function(input, output, session) {
   output$boxplotCorrectedSinus <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y =  c(personsDataTable$CorrectedSinousityDayOne , personsDataTable$CorrectedSinousityDayTwo),
+      y =  c(
+        personsDataTable$CorrectedSinousityDayOne ,
+        personsDataTable$CorrectedSinousityDayTwo
+      ),
       color = as.factor(featureFilter()),
       text = featureFitlerNames(),
       type = "box",
@@ -1185,14 +1222,18 @@ shinyServer(function(input, output, session) {
   output$boxplotOverallTimeSpent <- renderPlotly({
     plot_ly(
       personsDataTable,
-      y = c(personsDataTable$TimeSpentDayOne,personsDataTable$TimeSpentDayTwo),
+      y = c(
+        personsDataTable$TimeSpentDayOne,
+        personsDataTable$TimeSpentDayTwo
+      ),
       color = as.factor(featureFilter()),
       text = featureFitlerNames(),
       type = "box",
       boxpoints = 'all',
       jitter = 0.3,
       pointpos = -1.8
-    )})
+    )
+  })
   
   
   ###****************************************************************************************************************************************************************
