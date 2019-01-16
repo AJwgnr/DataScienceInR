@@ -49,6 +49,6 @@ The screencast of our web application can be found on the "Project Introduction"
 ## Markdown
 
 The final Markdown file describing what we have done in this project is located in the subfolder **markdown** of the documentation folder .
-PDF-Version: https://drive.google.com/open?id=1orvFSkq6_LvyTB8C1M5F8f6IU3ny8PO6
-HTML-Version: https://drive.google.com/open?id=1GxxRhrP_J52YElVZaADmyBrEDOAoEa3S
+PDF-Version: https://drive.google.com/open?id=1WMw8WQlkgY5c5MEJn9xCRYjYhrRgiJXc  
+HTML-Version: https://drive.google.com/open?id=1_mW9uutjtiEnuBJcIjaMm2IJIG9HoLPP (File needs to be downloaded to be viewed correctly)
 
