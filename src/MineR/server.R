@@ -10,6 +10,11 @@ shinyServer(function(input, output, session) {
   #### Load & Precompute ###
   ##########################
   
+  #TODO: Restucture data loading to allow global filtering of personsDataSet (exclustion_position,novelty, remove room id -1, 0 ..)
+  # Make personsDataTable reactive
+  # Adapt trajectory loadin and room computation to remove selceted rooms from feature computation
+  # Append room id to trajectory -> save it and store it! (makes everything faster)
+  
   # Load all stored person data
   personsDataTable <- loadPersonsDataset()
   
@@ -146,6 +151,16 @@ shinyServer(function(input, output, session) {
   personsDataTable$TimeSpentDayTwo = 0
   personsDataTable$CorrectedSinousityDayOne = 0
   personsDataTable$CorrectedSinousityDayTwo = 0
+  personsDataTable$SumOfDistanceToMeanTrajDayOne = 0
+  personsDataTable$SumOfDistanceToMeanTrajDayTwo = 0
+  
+  # Append differences in features between day one and day two as well
+  personsDataTable$diffAvgTimePerVisit = 0
+  personsDataTable$diffAvgEntries = 0
+  personsDataTable$diffRoomCoverage = 0
+  personsDataTable$diffTimeSpent = 0
+  personsDataTable$diffCorrectedSinousity = 0
+  personsDataTable$diffSumOfDistanceToMean = 0
   
   
   # Compute for day one and two simultanious
@@ -162,12 +177,13 @@ shinyServer(function(input, output, session) {
     # Average time per room visit in [0,1]
     personsDataTable[VP == vp, "avgTimePerVisitDayOne"] = mean(currentRoomGraphDayOne$TimeSpent)
     personsDataTable[VP == vp, "avgTimePerVisitDayTwo"] = mean(currentRoomGraphDayTwo$TimeSpent)
-    
-    # Average entries per room in [0,1]
+   
+      # Average entries per room in [0,1]
     personsDataTable[VP == vp, "avgEntriesDayOne"] = mean(currentRoomHistDayOne$Entries) /
       totalTimeDayOne
     personsDataTable[VP == vp, "avgEntriesDayTwo"] = mean(currentRoomHistDayTwo$Entries) /
       totalTimeDayTwo
+    
     
     # Coverage of rooms explored in [0,1]
     personsDataTable[VP == vp, "roomCoverageDayOne"] = sum(currentRoomHistDayOne[, TimeSpent != 0]) /
@@ -180,9 +196,14 @@ shinyServer(function(input, output, session) {
       60
     personsDataTable[VP == vp, "TimeSpentDayTwo"] = sum(currentRoomGraphDayTwo$TimeSpent) /
       60
-    
+     
     currentTrajCoordinatesDayOne = trajectoryDataDayOne[[vp]]
     currentTrajCoordinatesDayTwo = trajectoryDataDayTwo[[vp]]
+    currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y, z)]
+    currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[, list(x, y, z)]
+    personsDataTable[VP == vp, "SumOfDistanceToMeanTrajDayOne"] = median(currentTrajCoordinatesDayOne[,list(dist=sqrt((x-mean(x))*(x-mean(x))+(y-mean(y))*(y-mean(y))+(z-mean(z))*(z-mean(z))))]$dist)
+    personsDataTable[VP == vp, "SumOfDistanceToMeanTrajDayTwo"] = median(currentTrajCoordinatesDayTwo[,list(dist=sqrt((x-mean(x))*(x-mean(x))+(y-mean(y))*(y-mean(y))+(z-mean(z))*(z-mean(z))))]$dist)
+    
     currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y)]
     currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[, list(x, y)]
     # convert to trajr format
@@ -191,13 +212,22 @@ shinyServer(function(input, output, session) {
     currentTrajCoordinatesDayTwo = TrajFromCoords(currentTrajCoordinatesDayTwo, fps =
                                                     10)
     
-    # Compute various trajr features
-    personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
-    personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
     
-    # Coverage of rooms explored in [0,1]
+    # Compute various trajr features
+    personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
+    personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
+     # Coverage of rooms explored in [0,1]
     
   }
+  personsDataTable$diffAvgTimePerVisit     = personsDataTable$avgTimePerVisitDayTwo         - personsDataTable$avgTimePerVisitDayOne
+  personsDataTable$diffAvgEntries          = personsDataTable$avgEntriesDayTwo              - personsDataTable$avgEntriesDayOne
+  personsDataTable$diffRoomCoverage        = personsDataTable$roomCoverageDayTwo            - personsDataTable$roomCoverageDayOne
+  personsDataTable$diffTimeSpent           = personsDataTable$TimeSpentDayTwo               - personsDataTable$TimeSpentDayOne
+  personsDataTable$diffSumOfDistanceToMean = personsDataTable$SumOfDistanceToMeanTrajDayTwo - personsDataTable$SumOfDistanceToMeanTrajDayOne
+  personsDataTable$diffCorrectedSinousity  = personsDataTable$CorrectedSinousityDayTwo      - personsDataTable$CorrectedSinousityDayOne
+  
+  
+  
   
   
   ###################
