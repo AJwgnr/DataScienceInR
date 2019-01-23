@@ -9,7 +9,7 @@ CSV_TRAJECTORIES_FOLDER_PATH <- "../../res/position_data/"
 
 # Path to the .xlsx with the information about all test persons
 CSV_PERSONS_FOLDER_PATH <-
-  ("../../res/person_data/minecraft_all_subjects.xlsx")
+  ("../../res/person_data/minecraft_all_subjects.csv")
 
 # CSV defining the coordinates of the rooms in world one
 CSV_ROOM_WORLD_ONE_COORDINATE_PATH <-
