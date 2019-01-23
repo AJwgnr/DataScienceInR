@@ -270,50 +270,52 @@ shinyServer(function(input, output, session) {
   ### Global Filtering  ###
   #########################
   
-  filteredPersonsDT <- reactiveVal(personsDataTable)
+  filteredPersonsDT <- reactiveVal(personsDataTable) #reactiveVal(personsDataTable[personsDataTable[,Exclusion_Position_Data==1],])
   
-  observe({
-    print("global filtering")
-    if (input$excludeExcludes)
-    {
-      filteredDT <-
-        personsDataTable[personsDataTable[, Exclusion_Position_Data == 1],]
-    }else{
-      filteredDT <- personsDataTable
-    }
-    switch (input$filterNovelty,
-      "All" = {
-        filteredDT <- filteredDT
-      },
-      "1" = {
-        filteredDT = filteredDT[filteredDT[,Novelty==1],]
-      },
-      "2" = {
-        filteredDT = filteredDT[filteredDT[,Novelty==2],]
-      },
-      "3" = {
-        filteredDT = filteredDT[filteredDT[,Novelty==3],]
-      }
-    )
-    switch(input$filterWorld,
-           "All" = {
-             filteredDT <- filteredDT
-           },
-           "1" = {
-             filteredDT = filteredDT[filteredDT[,(firstVR==1&VE_Day2==1)],]
-           },
-           "2" = {
-             filteredDT = filteredDT[filteredDT[,(firstVR==2&VE_Day2==2)],]
-           },
-           "3" = {
-             filteredDT = filteredDT[filteredDT[,(firstVR==3&VE_Day2==3)],]
-           },
-           "1 and 3" = {
-             filteredDT = filteredDT[filteredDT[,(firstVR!=2&VE_Day2!=2)],]
-           }
-           )
-    filteredPersonsDT(filteredDT)
-  })
+  
+  # Allow dynamic filtering. Not supported due to ui bug
+  # observe({
+  #   print("global filtering")
+  #   if (input$excludeExcludes)
+  #   {
+  #     filteredDT <-
+  #       personsDataTable[personsDataTable[, Exclusion_Position_Data == 1],]
+  #   }else{
+  #     filteredDT <- personsDataTable
+  #   }
+  #   switch (input$filterNovelty,
+  #     "All" = {
+  #       filteredDT <- filteredDT
+  #     },
+  #     "1" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==1],]
+  #     },
+  #     "2" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==2],]
+  #     },
+  #     "3" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==3],]
+  #     }
+  #   )
+  #   switch(input$filterWorld,
+  #          "All" = {
+  #            filteredDT <- filteredDT
+  #          },
+  #          "1" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==1&VE_Day2==1)],]
+  #          },
+  #          "2" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==2&VE_Day2==2)],]
+  #          },
+  #          "3" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==3&VE_Day2==3)],]
+  #          },
+  #          "1 and 3" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR!=2&VE_Day2!=2)],]
+  #          }
+  #          )
+  #   filteredPersonsDT(filteredDT)
+  # })
   
   
   

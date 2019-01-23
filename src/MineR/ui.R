@@ -56,33 +56,31 @@ ds_sidebar = dashboardSidebar(
     ### MenueItem 5: Trajectory feature exploration
     ###**************************
     menuItem(
-      "Trajectory feature exploration",
+      "Trajectory features",
       tabName = "trjFeatures",
       icon = icon("rocket")
     )
-    ,
-    
-    
-    dropdownButton(
-      tags$h3("List of Input"),
-      checkboxInput("excludeExcludes", "Exclude flagged persons", FALSE),
-      #TODO: implement me: checkboxInput("excludeRoomIDs","Exclude room IDs -1 and 0",FALSE),
-      radioButtons(
-        "filterNovelty",
-        "Select global Novelty filter",
-        list("All", "1", "2", "3")
-      ),
-      radioButtons(
-        "filterWorld",
-        "Select VR to include",
-        list("All", "1", "2", "3", "1 and 3")
-      ),
-      circle = TRUE,
-      status = "primary",
-      icon = icon("braille"),
-      width = "300px",
-      tooltip = tooltipOptions(title = "Click to see inputs !")
-    )
+    # ,
+    # dropdownButton(
+    #   tags$h3("List of Input"),
+    #   checkboxInput("excludeExcludes", "Exclude flagged persons", FALSE),
+    #   #TODO: implement me: checkboxInput("excludeRoomIDs","Exclude room IDs -1 and 0",FALSE),
+    #   radioButtons(
+    #     "filterNovelty",
+    #     "Select global Novelty filter",
+    #     list("All", "1", "2", "3")
+    #   ),
+    #   radioButtons(
+    #     "filterWorld",
+    #     "Select VR to include",
+    #     list("All", "1", "2", "3", "1 and 3")
+    #   ),
+    #   circle = TRUE,
+    #   status = "primary",
+    #   icon = icon("braille"),
+    #   width = "300px",
+    #   tooltip = tooltipOptions(title = "Click to see inputs !")
+    # )
   )
 )
 
@@ -599,7 +597,7 @@ ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "trjFeatures",
-    h1("Trajectory feature exploration"),
+    h1("Trajectory features"),
     fluidRow(
       width = 12,
       title = '',
