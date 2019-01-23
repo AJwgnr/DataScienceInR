@@ -162,6 +162,13 @@ shinyServer(function(input, output, session) {
   personsDataTable$diffCorrectedSinousity = 0
   personsDataTable$diffSumOfDistanceToMean = 0
   
+  # Append mean feature from day one and day two as well
+  personsDataTable$avgAvgTimePerVisit = 0
+  personsDataTable$avgAvgEntries = 0
+  personsDataTable$avgRoomCoverage = 0
+  personsDataTable$avgTimeSpent = 0
+  personsDataTable$avgCorrectedSinousity = 0
+  personsDataTable$avgSumOfDistanceToMean = 0
   
   # Compute for day one and two simultanious
   for (vp in personsDataTable$VP) {
@@ -225,14 +232,20 @@ shinyServer(function(input, output, session) {
     # Coverage of rooms explored in [0,1]
     
   }
+  # Append diff of day two-one to personsDataTable
   personsDataTable$diffAvgTimePerVisit     = personsDataTable$avgTimePerVisitDayTwo         - personsDataTable$avgTimePerVisitDayOne
   personsDataTable$diffAvgEntries          = personsDataTable$avgEntriesDayTwo              - personsDataTable$avgEntriesDayOne
   personsDataTable$diffRoomCoverage        = personsDataTable$roomCoverageDayTwo            - personsDataTable$roomCoverageDayOne
   personsDataTable$diffTimeSpent           = personsDataTable$TimeSpentDayTwo               - personsDataTable$TimeSpentDayOne
   personsDataTable$diffSumOfDistanceToMean = personsDataTable$SumOfDistanceToMeanTrajDayTwo - personsDataTable$SumOfDistanceToMeanTrajDayOne
   personsDataTable$diffCorrectedSinousity  = personsDataTable$CorrectedSinousityDayTwo      - personsDataTable$CorrectedSinousityDayOne
-  
-  
+  # Append mean feature from day one and day two as well
+  personsDataTable$avgAvgTimePerVisit      = (personsDataTable$avgTimePerVisitDayTwo         + personsDataTable$avgTimePerVisitDayOne)/2
+  personsDataTable$avgAvgEntries           = (personsDataTable$avgEntriesDayTwo              + personsDataTable$avgEntriesDayOne)/2
+  personsDataTable$avgRoomCoverage         = (personsDataTable$roomCoverageDayTwo            + personsDataTable$roomCoverageDayOne)/2
+  personsDataTable$avgTimeSpent            = (personsDataTable$TimeSpentDayTwo               + personsDataTable$TimeSpentDayOne)/2
+  personsDataTable$avgSumOfDistanceToMean  = (personsDataTable$SumOfDistanceToMeanTrajDayTwo + personsDataTable$SumOfDistanceToMeanTrajDayOne)/2
+  personsDataTable$avgCorrectedSinousity   = (personsDataTable$CorrectedSinousityDayTwo      + personsDataTable$CorrectedSinousityDayOne)/2
   
   
   
