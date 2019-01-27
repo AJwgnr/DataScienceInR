@@ -3,16 +3,6 @@ source("../functions/include.R")
 # Source the functions for loading the data
 source("../functions/dataloading.R")
 
-
-
-################################################################################
-#Load all stored data
-# Loading the attribute names for the dropdown of the select input
-personsDataTable <- loadPersonsDataset()
-columChoicesPersonsTable <- 1:ncol(personsDataTable)
-names(columChoicesPersonsTable) <- names(personsDataTable)
-
-
 ################################################################################
 ### Header:
 ds_header = dashboardHeader(title = "MineR",
@@ -66,10 +56,31 @@ ds_sidebar = dashboardSidebar(
     ### MenueItem 5: Trajectory feature exploration
     ###**************************
     menuItem(
-      "Trajectory feature exploration",
+      "Trajectory features",
       tabName = "trjFeatures",
       icon = icon("rocket")
     )
+    # ,
+    # dropdownButton(
+    #   tags$h3("List of Input"),
+    #   checkboxInput("excludeExcludes", "Exclude flagged persons", FALSE),
+    #   #TODO: implement me: checkboxInput("excludeRoomIDs","Exclude room IDs -1 and 0",FALSE),
+    #   radioButtons(
+    #     "filterNovelty",
+    #     "Select global Novelty filter",
+    #     list("All", "1", "2", "3")
+    #   ),
+    #   radioButtons(
+    #     "filterWorld",
+    #     "Select VR to include",
+    #     list("All", "1", "2", "3", "1 and 3")
+    #   ),
+    #   circle = TRUE,
+    #   status = "primary",
+    #   icon = icon("braille"),
+    #   width = "300px",
+    #   tooltip = tooltipOptions(title = "Click to see inputs !")
+    # )
   )
 )
 
@@ -124,7 +135,7 @@ ds_body = dashboardBody(tabItems(
         tags$br()
       )
     ),
-
+    
     #======================================
     # Page 1: fluidRow 2: Screencast
     #======================================
@@ -261,50 +272,21 @@ ds_body = dashboardBody(tabItems(
         tabPanel(
           "Raw Data",
           width = 12,
-          pickerInput(
-            inputId = "id_pickerInputDTpersonsRaw1",
-            label = "Select columns to display:",
-            choices = columChoicesPersonsTable[-1],
-            options = list(
-              `actions-box` = TRUE,
-              size = 10,
-              `selected-text-format` = "count > 3"
-            ),
-            multiple = TRUE,
-            selected = columChoicesPersonsTable[2:7]
-          ),
+          uiOutput("colSelectTable"),
           DT::dataTableOutput("gx_DT_personsDataTable")
         ),
         tabPanel(
           "Scatterplot matrix",
           h2(width = 12, "Test persons data as scatterplot matrix"),
           width = 12,
-          pickerInput(
-            inputId = "id_pickerInputDTpersonsRaw2",
-            label = "Select columns to display:",
-            choices = columChoicesPersonsTable[-1],
-            options = list(
-              `actions-box` = TRUE,
-              size = 10,
-              `selected-text-format` = "count > 3"
-            ),
-            multiple = TRUE,
-            selected = columChoicesPersonsTable[2:7]
-          ),
+          uiOutput("colSelectScatter"),
           plotlyOutput("gx_splom_personsDataTable")
         ),
         tabPanel(
           "Correlation",
           h2(width = 12, "Correlation of attributes"),
           width = 12,
-          pickerInput(
-            inputId = "id_pickerInputRegression",
-            label = "Select columns to display:",
-            choices = columChoicesPersonsTable[-1],
-            multiple = TRUE,
-            options = pickerOptions(maxOptions = 2),
-            selected = columChoicesPersonsTable[2:3]
-          ),
+          uiOutput("colSelectRegression"),
           plotlyOutput("gx_regression")
         )
       )
@@ -616,7 +598,7 @@ ds_body = dashboardBody(tabItems(
   ###****************************************************************************************************************************************************************
   tabItem(
     tabName = "trjFeatures",
-    h1("Trajectory feature exploration"),
+    h1("Trajectory features"),
     fluidRow(
       width = 12,
       title = '',
@@ -635,7 +617,11 @@ ds_body = dashboardBody(tabItems(
           checkboxInput("filterByDay", "Filter by day", value = TRUE),
           checkboxInput("filterByWorld1is3", "Filter by world (World ID 1=3)", value = FALSE),
           #checkboxInput("filterByWorld1not3", "Show rooms", value = FALSE),
-          checkboxInput("filterByADHDType","Filter by ADHD-Control (ADHD typ omitted)",value=TRUE)
+          checkboxInput(
+            "filterByADHDType",
+            "Filter by ADHD-Control (ADHD typ omitted)",
+            value = TRUE
+          )
         )
       ),
       box(

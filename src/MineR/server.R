@@ -10,6 +10,11 @@ shinyServer(function(input, output, session) {
   #### Load & Precompute ###
   ##########################
   
+  #TODO: Restucture data loading to allow global filtering of personsDataSet (exclustion_position,novelty, remove room id -1, 0 ..)
+  # Make personsDataTable reactive
+  # Adapt trajectory loadin and room computation to remove selceted rooms from feature computation
+  # Append room id to trajectory -> save it and store it! (makes everything faster)
+  
   # Load all stored person data
   personsDataTable <- loadPersonsDataset()
   
@@ -146,7 +151,24 @@ shinyServer(function(input, output, session) {
   personsDataTable$TimeSpentDayTwo = 0
   personsDataTable$CorrectedSinousityDayOne = 0
   personsDataTable$CorrectedSinousityDayTwo = 0
+  personsDataTable$SumOfDistanceToMeanTrajDayOne = 0
+  personsDataTable$SumOfDistanceToMeanTrajDayTwo = 0
   
+  # Append differences in features between day one and day two as well
+  personsDataTable$diffAvgTimePerVisit = 0
+  personsDataTable$diffAvgEntries = 0
+  personsDataTable$diffRoomCoverage = 0
+  personsDataTable$diffTimeSpent = 0
+  personsDataTable$diffCorrectedSinousity = 0
+  personsDataTable$diffSumOfDistanceToMean = 0
+  
+  # Append mean feature from day one and day two as well
+  personsDataTable$avgAvgTimePerVisit = 0
+  personsDataTable$avgAvgEntries = 0
+  personsDataTable$avgRoomCoverage = 0
+  personsDataTable$avgTimeSpent = 0
+  personsDataTable$avgCorrectedSinousity = 0
+  personsDataTable$avgSumOfDistanceToMean = 0
   
   # Compute for day one and two simultanious
   for (vp in personsDataTable$VP) {
@@ -169,6 +191,7 @@ shinyServer(function(input, output, session) {
     personsDataTable[VP == vp, "avgEntriesDayTwo"] = mean(currentRoomHistDayTwo$Entries) /
       totalTimeDayTwo
     
+    
     # Coverage of rooms explored in [0,1]
     personsDataTable[VP == vp, "roomCoverageDayOne"] = sum(currentRoomHistDayOne[, TimeSpent != 0]) /
       nrow(currentRoomHistDayOne)
@@ -183,6 +206,17 @@ shinyServer(function(input, output, session) {
     
     currentTrajCoordinatesDayOne = trajectoryDataDayOne[[vp]]
     currentTrajCoordinatesDayTwo = trajectoryDataDayTwo[[vp]]
+    currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y, z)]
+    currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[, list(x, y, z)]
+    personsDataTable[VP == vp, "SumOfDistanceToMeanTrajDayOne"] = median(currentTrajCoordinatesDayOne[, list(dist =
+                                                                                                               sqrt((x - mean(x)) * (x - mean(x)) + (y - mean(y)) * (y - mean(y)) + (z -
+                                                                                                                                                                                       mean(z)) * (z - mean(z))
+                                                                                                               ))]$dist)
+    personsDataTable[VP == vp, "SumOfDistanceToMeanTrajDayTwo"] = median(currentTrajCoordinatesDayTwo[, list(dist =
+                                                                                                               sqrt((x - mean(x)) * (x - mean(x)) + (y - mean(y)) * (y - mean(y)) + (z -
+                                                                                                                                                                                       mean(z)) * (z - mean(z))
+                                                                                                               ))]$dist)
+    
     currentTrajCoordinatesDayOne = currentTrajCoordinatesDayOne[, list(x, y)]
     currentTrajCoordinatesDayTwo = currentTrajCoordinatesDayTwo[, list(x, y)]
     # convert to trajr format
@@ -191,13 +225,28 @@ shinyServer(function(input, output, session) {
     currentTrajCoordinatesDayTwo = TrajFromCoords(currentTrajCoordinatesDayTwo, fps =
                                                     10)
     
-    # Compute various trajr features
-    personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
-    personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
     
+    # Compute various trajr features
+    personsDataTable[VP == vp, "CorrectedSinousityDayOne"] = TrajSinuosity2(currentTrajCoordinatesDayOne)
+    personsDataTable[VP == vp, "CorrectedSinousityDayTwo"] = TrajSinuosity2(currentTrajCoordinatesDayTwo)
     # Coverage of rooms explored in [0,1]
     
   }
+  # Append diff of day two-one to personsDataTable
+  personsDataTable$diffAvgTimePerVisit     = personsDataTable$avgTimePerVisitDayTwo         - personsDataTable$avgTimePerVisitDayOne
+  personsDataTable$diffAvgEntries          = personsDataTable$avgEntriesDayTwo              - personsDataTable$avgEntriesDayOne
+  personsDataTable$diffRoomCoverage        = personsDataTable$roomCoverageDayTwo            - personsDataTable$roomCoverageDayOne
+  personsDataTable$diffTimeSpent           = personsDataTable$TimeSpentDayTwo               - personsDataTable$TimeSpentDayOne
+  personsDataTable$diffSumOfDistanceToMean = personsDataTable$SumOfDistanceToMeanTrajDayTwo - personsDataTable$SumOfDistanceToMeanTrajDayOne
+  personsDataTable$diffCorrectedSinousity  = personsDataTable$CorrectedSinousityDayTwo      - personsDataTable$CorrectedSinousityDayOne
+  # Append mean feature from day one and day two as well
+  personsDataTable$avgAvgTimePerVisit      = (personsDataTable$avgTimePerVisitDayTwo         + personsDataTable$avgTimePerVisitDayOne)/2
+  personsDataTable$avgAvgEntries           = (personsDataTable$avgEntriesDayTwo              + personsDataTable$avgEntriesDayOne)/2
+  personsDataTable$avgRoomCoverage         = (personsDataTable$roomCoverageDayTwo            + personsDataTable$roomCoverageDayOne)/2
+  personsDataTable$avgTimeSpent            = (personsDataTable$TimeSpentDayTwo               + personsDataTable$TimeSpentDayOne)/2
+  personsDataTable$avgSumOfDistanceToMean  = (personsDataTable$SumOfDistanceToMeanTrajDayTwo + personsDataTable$SumOfDistanceToMeanTrajDayOne)/2
+  personsDataTable$avgCorrectedSinousity   = (personsDataTable$CorrectedSinousityDayTwo      + personsDataTable$CorrectedSinousityDayOne)/2
+  
   
   
   ###################
@@ -217,19 +266,70 @@ shinyServer(function(input, output, session) {
   #   CorrectedSinousityDayOne = (1 / (1 + CorrectedSinousityDayOne)),
   #   CorrectedSinousityDayTwo = (1 / (1 + CorrectedSinousityDayTwo))
   # )]
-  # 
+  #
   # clusterPca = prcomp(clusterMe)
-  # 
+  #
   # fviz_pca_var(clusterPca,
   #              col.var = "contrib", # Color by contributions to the PC
   #              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
   #              repel = TRUE     # Avoid text overlapping
   # )
-  # 
+  #
   # clusterRes = pam(clusterMe,2)
-  # 
+  #
   # plot_ly(data.table(clusterPca["x"][[1]]),x=~PC1,y=~PC2,type="scatter",mode="markers",color=as.factor(personsDataTable$ADHD_Subtype))
-
+  
+  #########################
+  ### Global Filtering  ###
+  #########################
+  
+  filteredPersonsDT <- reactiveVal(personsDataTable) #reactiveVal(personsDataTable[personsDataTable[,Exclusion_Position_Data==1],])
+  
+  
+  # Allow dynamic filtering. Not supported due to ui bug
+  # observe({
+  #   print("global filtering")
+  #   if (input$excludeExcludes)
+  #   {
+  #     filteredDT <-
+  #       personsDataTable[personsDataTable[, Exclusion_Position_Data == 1],]
+  #   }else{
+  #     filteredDT <- personsDataTable
+  #   }
+  #   switch (input$filterNovelty,
+  #     "All" = {
+  #       filteredDT <- filteredDT
+  #     },
+  #     "1" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==1],]
+  #     },
+  #     "2" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==2],]
+  #     },
+  #     "3" = {
+  #       filteredDT = filteredDT[filteredDT[,Novelty==3],]
+  #     }
+  #   )
+  #   switch(input$filterWorld,
+  #          "All" = {
+  #            filteredDT <- filteredDT
+  #          },
+  #          "1" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==1&VE_Day2==1)],]
+  #          },
+  #          "2" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==2&VE_Day2==2)],]
+  #          },
+  #          "3" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR==3&VE_Day2==3)],]
+  #          },
+  #          "1 and 3" = {
+  #            filteredDT = filteredDT[filteredDT[,(firstVR!=2&VE_Day2!=2)],]
+  #          }
+  #          )
+  #   filteredPersonsDT(filteredDT)
+  # })
+  
   
   
   
@@ -248,7 +348,7 @@ shinyServer(function(input, output, session) {
   })
   output$personAttributes <- renderValueBox({
     valueBox(
-      ncol(personsDataTable),
+      ncol(filteredPersonsDT()),
       "Attributes",
       icon = icon("columns"),
       color = 'blue'
@@ -256,7 +356,7 @@ shinyServer(function(input, output, session) {
   })
   output$personInstances <- renderValueBox({
     valueBox(
-      nrow(personsDataTable),
+      nrow(filteredPersonsDT()),
       "Instances",
       icon = icon("table"),
       color = 'blue'
@@ -287,9 +387,26 @@ shinyServer(function(input, output, session) {
   #Person Data table Visualizations
   ######################################################################################
   
+  columChoicesPersonsTable = names(personsDataTable)
+  
+  output$colSelectTable = renderUI({
+    pickerInput(
+      inputId = "id_pickerInputDTpersonsRaw1",
+      label = "Select columns to display:",
+      choices = columChoicesPersonsTable[-1],
+      options = list(
+        `actions-box` = TRUE,
+        size = 10,
+        `selected-text-format` = "count > 3"
+      ),
+      multiple = TRUE,
+      selected = columChoicesPersonsTable[2:7]
+    )
+  })
+  
   output$gx_DT_personsDataTable <-
     DT::renderDataTable(
-      personsDataTable[, c(1, as.integer(input$id_pickerInputDTpersonsRaw1)), with = FALSE],
+      filteredPersonsDT()[, c("VP", input$id_pickerInputDTpersonsRaw1), with = FALSE],
       # with = FALSE need for DT version <= 1.96
       options = list(
         scrollX = TRUE,
@@ -300,20 +417,61 @@ shinyServer(function(input, output, session) {
     )
   
   ######################################################################################
+  # SPLOM
+  ######################################################################################
+  
+  output$colSelectScatter = renderUI({
+    pickerInput(
+      inputId = "id_pickerInputDTpersonsRaw2",
+      label = "Select columns to display:",
+      choices = columChoicesPersonsTable[-1],
+      options = list(
+        `actions-box` = TRUE,
+        size = 10,
+        `selected-text-format` = "count > 3"
+      ),
+      multiple = TRUE,
+      selected = columChoicesPersonsTable[2:7]
+    )
+  })
+  
+  
+  output$gx_splom_personsDataTable <- renderPlotly({
+    d <-
+      SharedData$new(filteredPersonsDT()[, input$id_pickerInputDTpersonsRaw1, with = FALSE])
+    p <-
+      GGally::ggpairs(d) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+      theme(axis.text.y = element_text(angle = 0, vjust = 1))
+    p <- ggplotly(p)
+    highlight(p, on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
+  })
+  
+  ######################################################################################
   # Regression
   ######################################################################################
+  
+  output$colSelectRegression = renderUI({
+    pickerInput(
+      inputId = "id_pickerInputRegression",
+      label = "Select columns to display:",
+      choices = columChoicesPersonsTable[-1],
+      multiple = TRUE,
+      options = pickerOptions(maxOptions = 2),
+      selected = columChoicesPersonsTable[2:3]
+    )
+  })
   
   output$gx_regression <- renderPlotly({
     # Problem: input is char
     p <- plot_ly()
     if (length(input$id_pickerInputRegression) == 2) {
-      firstAttribute = as.integer(input$id_pickerInputRegression[1])
-      secondAttribute = as.integer(input$id_pickerInputRegression[2])
-      d = personsDataTable[, c(..firstAttribute, ..secondAttribute)]
+      firstAttribute = input$id_pickerInputRegression[1]
+      secondAttribute = input$id_pickerInputRegression[2]
+      d = filteredPersonsDT()[, c(..firstAttribute, ..secondAttribute)]
       names(d) = c("first", "second")
       d = na.omit(d)
       fit = lm(d)
-      colNames = colnames(personsDataTable)
+      colNames = colnames(filteredPersonsDT())
       p <-
         p %>% add_markers(
           data = d,
@@ -328,19 +486,6 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  ######################################################################################
-  # SPLOM
-  ######################################################################################
-  output$gx_splom_personsDataTable <- renderPlotly({
-    d <-
-      SharedData$new(personsDataTable[, as.integer(input$id_pickerInputDTpersonsRaw1), with = FALSE])
-    p <-
-      GGally::ggpairs(d) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-      theme(axis.text.y = element_text(angle = 0, vjust = 1))
-    p <- ggplotly(p)
-    highlight(p, on = "plotly_selected") # plotly function highlighting using ggplotly to convert ggplot_plot to plotly_plot
-  })
-  
   
   ######################################################################################
   # Trajectory Plots
@@ -350,12 +495,12 @@ shinyServer(function(input, output, session) {
     lower_z_filter = input$z_level[1]
     upper_z_filter = input$z_level[2]
     # get world id
-    vr = personsDataTable[selectedPersons, firstVR]
+    vr = filteredPersonsDT()[selectedPersons, firstVR]
     trjPlotDayOne = NULL
     if (length(selectedPersons)) {
       trjPlotDayOne <- plot_ly()
       # adapt for z sliding
-      z_filtered_traj = trajectoryDataDayOne[[personsDataTable[selectedPersons, VP]]]
+      z_filtered_traj = trajectoryDataDayOne[[filteredPersonsDT()[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
                                                              z < upper_z_filter)], ]
       # create colorscale
@@ -504,12 +649,12 @@ shinyServer(function(input, output, session) {
     lower_z_filter = input$z_level[1]
     upper_z_filter = input$z_level[2]
     # get world id
-    vr = personsDataTable[selectedPersons, VE_Day2]
+    vr = filteredPersonsDT()[selectedPersons, VE_Day2]
     trjPlotDayTwo = NULL
     if (length(selectedPersons)) {
       trjPlotDayTwo <- plot_ly()
       # adapt for z sliding
-      z_filtered_traj = trajectoryDataDayTwo[[personsDataTable[selectedPersons, VP]]]
+      z_filtered_traj = trajectoryDataDayTwo[[filteredPersonsDT()[selectedPersons, VP]]]
       z_filtered_traj = z_filtered_traj[z_filtered_traj[, (z > lower_z_filter &
                                                              z < upper_z_filter)], ]
       # create colorscale
@@ -663,7 +808,7 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
+          data = roomHistDayOne[[filteredPersonsDT()[selectedPersons, VP]]],
           x = ~ Entries,
           y = ~ Name,
           name = "Entries per room",
@@ -679,7 +824,7 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayTwo[[personsDataTable[selectedPersons, VP]]],
+          data = roomHistDayTwo[[filteredPersonsDT()[selectedPersons, VP]]],
           x = ~ Entries,
           y = ~ Name,
           name = "Entries per room",
@@ -698,7 +843,7 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayOne[[personsDataTable[selectedPersons, VP]]],
+          data = roomHistDayOne[[filteredPersonsDT()[selectedPersons, VP]]],
           x = ~ TimeSpent,
           y = ~ Name,
           name = "Time spent per room",
@@ -714,7 +859,7 @@ shinyServer(function(input, output, session) {
     if (length(selectedPersons)) {
       p <- p %>%
         add_trace(
-          data = roomHistDayTwo[[personsDataTable[selectedPersons, VP]]],
+          data = roomHistDayTwo[[filteredPersonsDT()[selectedPersons, VP]]],
           x = ~ TimeSpent,
           y = ~ Name,
           name = "Time spent per room",
@@ -770,21 +915,21 @@ shinyServer(function(input, output, session) {
   })
   output$avgDirectRecallBox <- renderValueBox({
     valueBox(
-      round(mean(personsDataTable[['TP_DirectRecall']]), 1),
+      round(mean(filteredPersonsDT()[['TP_DirectRecall']]), 1),
       "Average Direct Recall (Words correctly memorized)",
       icon = icon("brain")
     )
   })
   output$avgDelayedRecallBox <- renderValueBox({
     valueBox(
-      round(mean(personsDataTable[['TP_DelayedRecall']]), 1),
+      round(mean(filteredPersonsDT()[['TP_DelayedRecall']]), 1),
       "Average Delayed Recall (Words correctly memorized)",
       icon = icon("brain")
     )
   })
   output$sameWorldBox <- renderValueBox({
     valueBox(paste(round((
-      nrow(sameWorld) / nrow(personsDataTable)
+      nrow(sameWorld) / nrow(filteredPersonsDT())
     ) * 100, 2), '%'),
     "Same world",
     icon = icon("percent"),
@@ -792,7 +937,7 @@ shinyServer(function(input, output, session) {
   })
   output$newWorldBox <- renderValueBox({
     valueBox(paste(round((
-      nrow(newWorld) / nrow(personsDataTable)
+      nrow(newWorld) / nrow(filteredPersonsDT())
     ) * 100, 2), ' %'),
     "New world",
     icon = icon("percent"),
@@ -801,7 +946,7 @@ shinyServer(function(input, output, session) {
   output$partialNewWorldBox <- renderValueBox({
     valueBox(
       paste(round((
-        nrow(partialNewWorld) / nrow(personsDataTable)
+        nrow(partialNewWorld) / nrow(filteredPersonsDT())
       ) * 100, 2), '%'),
       "Partial new world",
       icon = icon("percent"),
@@ -1091,42 +1236,42 @@ shinyServer(function(input, output, session) {
     
     # filter by world only (treat 1==3)
     if (input$filterByWorld1is3) {
-      filterWorld = c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      filterWorld = c(filteredPersonsDT()[, firstVR == 2], filteredPersonsDT()[, VE_Day2 == 2])
       nameWorld = str_replace(as.character(filterWorld), "TRUE", "PirateShip ")
       nameWorld = str_replace(nameWorld, "FALSE", "Mansion ")
       filterWorld = nameWorld
     } else{
       # Compute name regardless of selection
-      filterWorld = c(personsDataTable[, firstVR == 2], personsDataTable[, VE_Day2 == 2])
+      filterWorld = c(filteredPersonsDT()[, firstVR == 2], filteredPersonsDT()[, VE_Day2 == 2])
       nameWorld = str_replace(as.character(filterWorld), "TRUE", "PirateShip ")
       nameWorld = str_replace(nameWorld, "FALSE", "Mansion ")
       # Supress filterign by world
-      filterWorld = character(2 * nrow(personsDataTable))
+      filterWorld = character(2 * nrow(filteredPersonsDT()))
     }
     
     # filter by day only
     if (input$filterByDay) {
-      nameDay = c(rep("Day One ", nrow(personsDataTable)), rep("Day Two ", nrow(personsDataTable)))
+      nameDay = c(rep("Day One ", nrow(filteredPersonsDT())), rep("Day Two ", nrow(filteredPersonsDT())))
       filterDay = nameDay
     } else{
-      filterDay = character(2 * nrow(personsDataTable))
+      filterDay = character(2 * nrow(filteredPersonsDT()))
       # Compute name regardless of selection
-      nameDay = c(rep("Day One ", nrow(personsDataTable)), rep("Day Two ", nrow(personsDataTable)))
+      nameDay = c(rep("Day One ", nrow(filteredPersonsDT())), rep("Day Two ", nrow(filteredPersonsDT())))
     }
     
     # filter by ADHD-subtype only
     if (input$filterByADHDType) {
-      filterColumn = c(personsDataTable[, ADHD_Subtype == 0], personsDataTable[, ADHD_Subtype == 0])
+      filterColumn = c(filteredPersonsDT()[, ADHD_Subtype == 0], filteredPersonsDT()[, ADHD_Subtype == 0])
       nameColumn = str_replace(as.character(filterColumn), "FALSE", "ADHD ")
       nameColumn = str_replace(nameColumn, "TRUE", "Control ")
       filterColumn = nameColumn
     } else{
       # Compute name regardless of selection
-      filterColumn = c(personsDataTable[, ADHD_Subtype != 0], personsDataTable[, ADHD_Subtype != 0])
+      filterColumn = c(filteredPersonsDT()[, ADHD_Subtype != 0], filteredPersonsDT()[, ADHD_Subtype != 0])
       nameColumn = str_replace(as.character(filterColumn), "FALSE", "Control ")
       nameColumn = str_replace(nameColumn, "TRUE", "ADHD ")
       # Supress filtering by ADHD-subtype
-      filterColumn = character(2 * nrow(personsDataTable))
+      filterColumn = character(2 * nrow(filteredPersonsDT()))
     }
     # Set values for printing
     featureFilter(str_replace_all(
@@ -1142,8 +1287,8 @@ shinyServer(function(input, output, session) {
   output$boxplotAvgTimePerRoomDayOne <- renderPlotly({
     plot_ly(
       y =  c(
-        personsDataTable$avgTimePerVisitDayOne,
-        personsDataTable$avgTimePerVisitDayTwo
+        filteredPersonsDT()$avgTimePerVisitDayOne,
+        filteredPersonsDT()$avgTimePerVisitDayTwo
       ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
@@ -1156,10 +1301,10 @@ shinyServer(function(input, output, session) {
   
   output$boxplotAvgEntriesPerRoomDayOne <- renderPlotly({
     plot_ly(
-      personsDataTable,
+      filteredPersonsDT(),
       y =  c(
-        personsDataTable$avgEntriesDayOne,
-        personsDataTable$avgEntriesDayTwo
+        filteredPersonsDT()$avgEntriesDayOne,
+        filteredPersonsDT()$avgEntriesDayTwo
       ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
@@ -1172,10 +1317,10 @@ shinyServer(function(input, output, session) {
   
   output$boxplotRoomCoverage <- renderPlotly({
     plot_ly(
-      personsDataTable,
+      filteredPersonsDT(),
       y =  c(
-        personsDataTable$roomCoverageDayOne,
-        personsDataTable$roomCoverageDayTwo
+        filteredPersonsDT()$roomCoverageDayOne,
+        filteredPersonsDT()$roomCoverageDayTwo
       ),
       color =  as.factor(featureFilter()),
       text = featureFitlerNames(),
@@ -1188,10 +1333,10 @@ shinyServer(function(input, output, session) {
   
   output$boxplotCorrectedSinus <- renderPlotly({
     plot_ly(
-      personsDataTable,
+      filteredPersonsDT(),
       y =  c(
-        personsDataTable$CorrectedSinousityDayOne ,
-        personsDataTable$CorrectedSinousityDayTwo
+        filteredPersonsDT()$CorrectedSinousityDayOne ,
+        filteredPersonsDT()$CorrectedSinousityDayTwo
       ),
       color = as.factor(featureFilter()),
       text = featureFitlerNames(),
@@ -1204,10 +1349,10 @@ shinyServer(function(input, output, session) {
   
   output$boxplotOverallTimeSpent <- renderPlotly({
     plot_ly(
-      personsDataTable,
+      filteredPersonsDT(),
       y = c(
-        personsDataTable$TimeSpentDayOne,
-        personsDataTable$TimeSpentDayTwo
+        filteredPersonsDT()$TimeSpentDayOne,
+        filteredPersonsDT()$TimeSpentDayTwo
       ),
       color = as.factor(featureFilter()),
       text = featureFitlerNames(),
@@ -1233,7 +1378,6 @@ shinyServer(function(input, output, session) {
     y <- input$id_pickerInputDTpersonsRaw2
     updatePickerInput(session, "id_pickerInputDTpersonsRaw1", selected = y)
   })
-  
   
   ###****************************************************************************************************************************************************************
   ### Debug Stuff:
@@ -1262,8 +1406,8 @@ shinyServer(function(input, output, session) {
     selectedPersons = input$gx_DT_personsDataTable_rows_selected
     # Only day one beeing checked
     if (length(selectedPersons)) {
-      vp = personsDataTable[selectedPersons, VP]
-      vr = personsDataTable[selectedPersons, firstVR]
+      vp = filteredPersonsDT()[selectedPersons, VP]
+      vr = filteredPersonsDT()[selectedPersons, firstVR]
       trj = trajectoryDataDayOne[[vp]]
       graph = roomGraphDataDayOne[[vp]]
       hist = roomHistDayOne[[vp]]

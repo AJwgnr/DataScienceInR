@@ -505,7 +505,7 @@ For the further development of this project, we identified the following tasks:
 * Use statistical tests
 * Apply classification techniques to trajectory features to try to separate ADHD and non-ADHD test persons
 * Come up with a robust comparison method for trajectory data
-* Construct meaningful features like roughness, steadiness, periodicity, size
+* Construct meaningful features like roughness, steadiness, periodicity, exploration size, convex hull measure ...
 
 
 # 6 Course Feedback
